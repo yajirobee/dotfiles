@@ -1,0 +1,36 @@
+defencoding utf-8
+startup_message off
+
+# The scroll buffer
+markkeys h=^B:l=^F:$=^E:^U=^Z:^D=^V
+scrollback 3000
+
+#key binds
+escape ^z^z
+zombie ^[
+bind w windowlist -b
+bind ^] paste [.]
+bind ^u eval "encoding UTF-8"
+bind ^e eval "encoding eucJP"
+bind ^s eval "encoding SJIS"
+bind ^j eval "encoding jis"
+bind j layout next
+bind t layout new
+bind o focus
+bind -c REGION 0 remove
+bind -c REGION 1 only
+bind -c REGION 2 split
+bind -c REGION 3 split -v
+bind -c REGION \^ resize +2
+bind -c REGION } resize +2
+bind -c REGION { resize -2
+bind ^x command -c REGION
+bind x command -c REGION
+setenv LANG ja_JP.UTF-8
+
+#hardstatus alwayslastline "%w"
+hardstatus alwayslastline "%?%h%:%t (screen #%n on %H)%F%-019=%Y/%m/%d %c:%s%:%=%?"
+caption always "%{=r dd}%-Lw%40L>%?%F%{=b dR}%:[%? %n%f %t %?%F%{-}%:]%?%+Lw %?"
+
+layout new default
+layout autosave on
