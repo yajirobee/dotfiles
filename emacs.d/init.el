@@ -1,3 +1,7 @@
+;;;
+;;; system設定
+;;;
+
 ;;; ロードパスの追加
 (setq load-path (append '("~/.emacs.d") load-path))
 
@@ -13,7 +17,7 @@
 	(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
 	    (normal-top-level-add-subdirs-to-load-path))))))
 
-(add-to-load-path "conf" "packages" "elisp")
+(add-to-load-path "conf" "elisp")
 
 ;;; auto-install
 (when (require 'auto-install nil t)
@@ -48,11 +52,6 @@
   (define-key ac-menu-map (kbd "C-n") 'ac-next)
   (define-key ac-menu-map (kbd "C-p") 'ac-previous))
 
-;;; col-highlight
-;(when (require 'col-highlight nil t)
-;  (column-highlight-mode 1)
-;  (custom-set-faces '(col-highlight ((t (:background "gray50"))))))
-
 ;;; Localeに合わせた環境の設定
 (set-locale-environment nil)
 
@@ -70,6 +69,10 @@
 (cond (window-system
        (setq x-select-enable-clipboard t)))
 
+;;; ファイルが#!から始まる場合、+xを付けて保存する
+(add-hook 'after-save-hook
+	  'executable-make-buffer-file-executable-if-script-p)
+
 ;;; オートセーブファイルの作成場所を/tmpに変更する
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
@@ -77,6 +80,28 @@
 ;;; バックアップファイルの作成場所を/tmpに変更する
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
+
+;;; カーソルの場所を保存する
+(require 'saveplace)
+(setq-default save-place t)
+
+;;; 関数定義へジャンプする
+(find-function-setup-keys)
+
+;;; 履歴数を大きくする
+(setq history-length 10000)
+
+;;; 最近開いたファイルを保存する数を増やす
+(setq recentf-max-saved-items 10000)
+
+;;; gzファイルも編集できるようにする
+(auto-compression-mode t)
+
+;;; ediffを1ウィンドウで実行
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;;; diffのオプション
+(setq diff-switches '("-u" "-p" "-N"))
 
 ;;; 再帰的にgrep
 (require 'grep)
@@ -128,21 +153,19 @@
 (setq hl-line-face 'my-hl-line-face)
 (global-hl-line-mode t)
 
+;;; col-highlight
+;(when (require 'col-highlight nil t)
+;  (column-highlight-mode 1)
+;  (custom-set-faces '(col-highlight ((t (:background "gray50"))))))
+
 ;;; カーソルの位置が何文字目かを表示する
 (column-number-mode t)
 
 ;;; カーソルの位置が何行目かを表示する
 (line-number-mode t)
 
-;;; カーソルの場所を保存する
-(require 'saveplace)
-(setq-default save-place t)
-
 ;;; 最終行に必ず一行挿入する
 (setq require-final-newline t)
-
-;;; 関数定義へジャンプする
-(find-function-setup-keys)
 
 ;;; バッファの最後でnewlineで新規行を追加するのを禁止する
 (setq next-line-add-newlines nil)
@@ -150,21 +173,6 @@
 ;;; 補完時に大文字小文字を区別しない
 (setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
-
-;;; 履歴数を大きくする
-(setq history-length 10000)
-
-;;; 最近開いたファイルを保存する数を増やす
-(setq recentf-max-saved-items 10000)
-
-;;; gzファイルも編集できるようにする
-(auto-compression-mode t)
-
-;;; ediffを1ウィンドウで実行
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;;; diffのオプション
-(setq diff-switches '("-u" "-p" "-N"))
 
 ;;; diredを便利にする
 (require 'dired-x)
@@ -177,15 +185,11 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;;; ファイルが#!から始まる場合、+xを付けて保存する
-(add-hook 'after-save-hook
-	  'executable-make-buffer-file-executable-if-script-p)
-
 ;;; 新規フレームのデフォルト設定
 (setq default-frame-alist
       (append
        '((width               . 85)	; フレーム幅(文字数)
-	 (height              . 47))	; フレーム高(文字数)
+         (height              . 47))	; フレーム高(文字数)
        default-frame-alist))
 
 ;;; スクロールを一行ずつにする
@@ -200,7 +204,7 @@
 ;; フォント設定
 (set-face-attribute 'default nil
                     :family "inconsolata"
-		    :height 120)
+                    :height 120)
 
 (set-fontset-font "fontset-default"
                   'japanese-jisx0208
@@ -210,8 +214,14 @@
                   'katakana-jisx0201
                   '("TakaoExゴシック*" . "jisx0201.*"))
 
+;;; Flymake
+(require 'init-flymake)
+
 ;;; Yatex
 (require 'init-yatex)
 
 ;;; Ocaml
 (require 'init-ocaml)
+
+;;; Anything
+(require 'init-anything)
