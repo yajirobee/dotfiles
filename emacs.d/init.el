@@ -40,7 +40,7 @@
 (when (require 'auto-complete-config nil t)
   (add-to-list 'ac-dictionary-directories
                "~/.emacs.d/elisp/ac-dict")
-  (define-key ac-mode-map (kbd "C-c l") 'auto-complete)
+  (define-key ac-mode-map (kbd "C-\]") 'auto-complete)
   (ac-config-default)
   (setq ac-auto-start nil)
   (setq ac-use-menu-map t)
@@ -140,6 +140,9 @@
 
 ;;; 最終行に必ず一行挿入する
 (setq require-final-newline t)
+
+;;; 関数定義へジャンプする
+(find-function-setup-keys)
 
 ;;; バッファの最後でnewlineで新規行を追加するのを禁止する
 (setq next-line-add-newlines nil)
