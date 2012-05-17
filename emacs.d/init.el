@@ -225,3 +225,6 @@
 
 ;;; Anything
 (require 'init-anything)
+
+;;; Python
+(require 'epy-init)
