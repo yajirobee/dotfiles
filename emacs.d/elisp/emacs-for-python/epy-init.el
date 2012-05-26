@@ -15,6 +15,6 @@
 (require 'epy-editing)
 (require 'epy-bindings)
 
-(epy-setup-checker "pyflakes %f")
+;(epy-setup-checker "pyflakes %f")
 
 (provide 'epy-init)
