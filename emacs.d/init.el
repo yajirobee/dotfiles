@@ -214,6 +214,43 @@
                   'katakana-jisx0201
                   '("TakaoExゴシック*" . "jisx0201.*"))
 
+;;;
+;;; auto-insert
+;;;
+(require 'autoinsert)
+
+;; テンプレートのディレクトリ
+(setq auto-insert-directory "~/.emacs.d/template/")
+
+;; 各ファイルによってテンプレートを切り替える
+(setq auto-insert-alist
+      (nconc '(
+               ("\\.c" . ["template.c" ctemplate-replace])
+               ("\\.cpp$" . ["template.c" ctemplate-replace])
+               ("\\.h$" . ["template.h" ctemplate-replace])
+               ("\\.py" . "template.py")
+               ("[Mm]akefile" . "Makefile")
+               ("\\.tex" . "template.tex")
+               ) auto-insert-alist))
+(require 'cl)
+
+(defvar template-replacements-alists
+  '(("%file%"             . (lambda () (file-name-nondirectory (buffer-file-name))))
+    ("%file-without-ext%" . (lambda () (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
+    ("%include-guard%"    . (lambda () (format "__SCHEME_%s__" (upcase (file-name-sans-extension (file-name-nondirectory buffer-file-name))))))))
+
+(defun ctemplate-replace ()
+  (time-stamp)
+  (mapc #'(lambda(c)
+        (progn
+          (goto-char (point-min))
+          (replace-string (car c) (funcall (cdr c)) nil)))
+    template-replacements-alists)
+  (goto-char (point-max))
+  (message "done."))
+
+(add-hook 'find-file-not-found-hooks 'auto-insert)
+
 ;;; Flymake
 (require 'init-flymake)
 
