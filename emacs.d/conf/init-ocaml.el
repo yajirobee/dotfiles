@@ -1,5 +1,5 @@
 ;;; Ocaml
-(provide 'init-ocaml)
+
 (setq auto-mode-alist (cons '("\.ml\w?" . tuareg-mode) auto-mode-alist))
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
@@ -9,3 +9,4 @@
         (if (not (and (boundp 'mule-x-win-initted) mule-x-win-initted))
             (require 'sym-lock))
         (require 'font-lock)))
+(provide 'init-ocaml)

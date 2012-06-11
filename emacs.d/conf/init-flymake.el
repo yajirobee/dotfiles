@@ -1,5 +1,5 @@
 ;;; Flymake
-(provide 'init-flymake)
+
 (require 'flymake)
 
 ;; Makefileの種類を定義
@@ -62,3 +62,4 @@ Use CREATE-TEMP-F for creating temp copy."
 (add-to-list 'flymake-allowed-file-name-masks
              '("\\.\\(?:c\\(?:pp\\|xx\\|\\+\\+\\)?\\|CC\\)\\'"
                flymake-simple-make-gcc-init))
+(provide 'init-flymake)

@@ -142,7 +142,6 @@
 (global-set-key "[" 'skeleton-pair-insert-maybe)
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
-(global-set-key "\"" 'skeleton-pair-insert-maybe)
 
 ;;; 対応する括弧を光らせる。
 (show-paren-mode t)
@@ -155,6 +154,9 @@
 
 ;;; インデントにTab文字を使用しない
 (setq-default indent-tabs-mode nil)
+
+;;; highlight-indentaion
+(when (require 'highlight-indentation nil t))
 
 ;;; 行末の空白を表示
 (setq-default show-trailing-whitespace t)
@@ -283,4 +285,4 @@
 (require 'init-anything)
 
 ;;; Python
-;(require 'epy-init)
+(require 'init-python)

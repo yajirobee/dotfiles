@@ -1,5 +1,5 @@
 ;;; Yatex
-(provide 'init-yatex)
+
 (setq auto-mode-alist
       (append '(("\\.tex$" . yatex-mode)) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
@@ -29,3 +29,4 @@
                        )))))
 ; dviからpdfを作成する%sはファイル名
 (setq dviprint-command-format "dvipdfmx %s")
+(provide 'init-yatex)

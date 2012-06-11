@@ -1,5 +1,5 @@
 ;;; anything
-(provide 'init-anything)
+
 (when (require 'anything nil t)
   (setq
    ;; 候補を表示するまでの時間
@@ -45,3 +45,4 @@
   (when (require 'descbinds-anything nil t)
     ;; describe-bindingsをAnythingに置き換える
     (descbinds-anything-install)))
+(provide 'init-anything)
