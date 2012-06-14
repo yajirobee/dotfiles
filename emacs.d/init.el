@@ -64,6 +64,17 @@
 (define-key global-map (kbd "C-o") 'toggle-input-method)  ; 日本語入力切替
 (define-key global-map (kbd "M-C-g") 'grep)               ; grep
 (define-key global-map (kbd "C-[ M-C-g") 'goto-line)      ; 指定行へ移動
+(define-key global-map (kbd "C-m") 'newline-and-indent)   ; RETと対応
+(define-key global-map (kbd "C-j") 'newline)
+
+;;C-mode, sh-modeではインデントして改行してインデントする
+(add-hook 'c-mode-common-hook
+          '(lambda ()
+             (local-set-key (kbd "C-m") 'reindent-then-newline-and-indent)))
+
+(add-hook 'sh-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "C-m") 'reindent-then-newline-and-indent)))
 
 ;;; clipboardの使用
 (cond (window-system
@@ -124,6 +135,14 @@
 ;;;
 ;;; 表示関係
 ;;;
+
+;;; Pairing parentheses
+(setq skeleton-pair t)
+(global-set-key "(" 'skeleton-pair-insert-maybe)
+(global-set-key "[" 'skeleton-pair-insert-maybe)
+(global-set-key "{" 'skeleton-pair-insert-maybe)
+(global-set-key "\"" 'skeleton-pair-insert-maybe)
+(global-set-key "\"" 'skeleton-pair-insert-maybe)
 
 ;;; 対応する括弧を光らせる。
 (show-paren-mode t)
@@ -264,4 +283,4 @@
 (require 'init-anything)
 
 ;;; Python
-(require 'epy-init)
+;(require 'epy-init)
