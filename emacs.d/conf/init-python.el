@@ -2,7 +2,7 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (define-key python-mode-map "\'" 'electric-pair)))
+            (define-key python-mode-map "\'" 'skeleton-pair-insert-maybe)))
 
 (when (require 'highlight-indentation nil t)
   (setq py-indent-offset 4)
