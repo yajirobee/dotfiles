@@ -16,7 +16,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31
 #
 # set LANG
 #
-export LANG=ja_JP.UTF-8
+#export LANG=ja_JP.UTF-8
+export LANG=C
 
 #
 # set prompt
