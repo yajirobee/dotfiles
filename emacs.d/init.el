@@ -168,7 +168,7 @@
      (:background "NavyBlue" t))
     ;; 背景がlightならば背景色を緑に
     (((class color) (background light))
-     (:background "LightGoldenrodYellow" t))
+     (:background "mediumspringgreen" t))
     (t (:bold t)))
   "hl-line's my face")
 (setq hl-line-face 'my-hl-line-face)
