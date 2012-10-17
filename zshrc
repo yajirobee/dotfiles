@@ -1,8 +1,9 @@
 #
 # set complete
 #
+
 autoload -U compinit
-compinit 
+compinit
 
 setopt list_packed
 setopt auto_pushd
@@ -13,15 +14,18 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 eval `dircolors`
 zstyle ':completion:*:default' list-colors ${LS_COLORS}
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
+
 #
 # set LANG
 #
+
 #export LANG=ja_JP.UTF-8
 export LANG=C
 
 #
 # set prompt
 #
+
 if [[ $ZSH_VERSION == (<5->|4.<4->|4.3.<10->)* ]]; then
     autoload -Uz vcs_info
     precmd() {
@@ -41,31 +45,28 @@ SPROMPT="%r is correct? [n,y,a,e]: "
 #
 # set history
 #
+
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt hist_ignore_all_dups
 setopt hist_ignore_dups     # ignore duplication command history list
-setopt share_history        # share command history data 
+setopt share_history        # share command history data
 setopt hist_reduce_blanks
 
 #
 # set alias
 #
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias rm='~/bin/rm'
