@@ -14,6 +14,7 @@
    anything-enable-shortcuts 'alphabet)
   ;; キーバインド
   (define-key global-map (kbd "C-x b") 'anything)
+  (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
 
   (when (require 'anything-config nil t)
     ;; root権限でアクションを実行するときのコマンド
