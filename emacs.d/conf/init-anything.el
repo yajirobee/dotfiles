@@ -46,6 +46,7 @@
   (when (require 'descbinds-anything nil t)
     ;; describe-bindingsをAnythingに置き換える
     (descbinds-anything-install))
+
   (when (require 'color-moccur)
     (when (require 'anything-c-moccur nil t)
       (setq
@@ -59,6 +60,23 @@
        anything-c-moccur-enable-initial-pattern t)
       ;; keybind
       (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur)
-      (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur))))
+      (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur)))
+
+  (when (require 'anything-exuberant-ctags nil t)
+    ;; anything-for-tags用のソースを定義
+    (setq anything-for-tags
+          (list anything-c-source-imenu
+                ;; etagsを利用する場合
+                ;;anything-c-source-etags-select
+                anything-c-source-exuberant-ctags-select))
+    ;; anything-for-tagsコマンドを作成
+    (defun anything-for-tags ()
+      "Preconfigured 'anythig' for anything-for-tags."
+      (interactive)
+      (anything anything-for-tags
+                (thing-at-point 'symbol)
+                nil nil nil "*anything for tags*"))
+    ;; keybind
+    (define-key global-map (kbd "M-t") 'anything-for-tags)))
 
 (provide 'init-anything)

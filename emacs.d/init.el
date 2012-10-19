@@ -148,6 +148,14 @@
     (setq moccur-use-migemo t))
   (require 'moccur-edit nil t))
 
+;; ctags
+(when (require 'ctags nil t)
+  (setq tags-revert-without-query t)
+  ;; ctagsの呼び出しに用いるコマンドライン
+  ;; (setq ctags-command "ctags -e -R")
+  ;; keybind
+  (define-key global-map (kbd "M-u") 'ctags-create-or-update-tags-table))
+
 ;;;
 ;;; 表示関係
 ;;;
