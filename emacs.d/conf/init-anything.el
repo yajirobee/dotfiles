@@ -63,6 +63,7 @@
       (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur)))
 
   (when (require 'anything-exuberant-ctags nil t)
+    (setq ctags-command "ctags -R --fields=\"+afikKlmnsSZt\" ")
     ;; anything-for-tags用のソースを定義
     (setq anything-for-tags
           (list anything-c-source-imenu
@@ -77,6 +78,6 @@
                 (thing-at-point 'symbol)
                 nil nil nil "*anything for tags*"))
     ;; keybind
-    (define-key global-map (kbd "M-t") 'anything-for-tags)))
+    (define-key global-map (kbd "M-.") 'anything-for-tags)))
 
 (provide 'init-anything)
