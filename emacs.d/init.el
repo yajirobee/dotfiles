@@ -132,6 +132,22 @@
 (setq grep-command (cons (concat grep-command-before-query " .")
                          (+ (length grep-command-before-query) 1)))
 
+;; color-moccur
+(when (require 'color-moccur nil t)
+  ;; keybind
+  (define-key global-map (kbd "M-o") 'occur-by-moccur) ;バッファ内
+  (define-key global-map (kbd "C-M-o") 'dmoccur) ;directory
+  ;; space区切りでAND検索
+  (setq moccur-split-word t)
+  ;; directory searchのとき除外するファイル
+  (add-to-list 'dmoccur-exclusion-mask "\\.DS_Store")
+  (add-to-list 'dmoccur-exclusion-mask "^#.+#$")
+  ;; Migemoを利用できる環境であればMigemoを使う
+  (when (and (executable-find "cmigemo")
+             (require 'migemo nil t))
+    (setq moccur-use-migemo t))
+  (require 'moccur-edit nil t))
+
 ;;;
 ;;; 表示関係
 ;;;

@@ -45,5 +45,20 @@
 
   (when (require 'descbinds-anything nil t)
     ;; describe-bindingsをAnythingに置き換える
-    (descbinds-anything-install)))
+    (descbinds-anything-install))
+  (when (require 'color-moccur)
+    (when (require 'anything-c-moccur nil t)
+      (setq
+       ;; anything-c-moccur用 'anything-idle-delay'
+       anything-c-moccur-anything-idle-delay 0.1
+       ;; bufferの情報をハイライトする
+       lanything-c-moccur-highlight-info-line-flag t
+       ;; 選択中の候補の位置を他のwindowに表示する
+       anything-c-moccur-enable-auto-look-flag t
+       ;; 起動時にポイントの位置の単語を初期パターンにする
+       anything-c-moccur-enable-initial-pattern t)
+      ;; keybind
+      (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur)
+      (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur))))
+
 (provide 'init-anything)
