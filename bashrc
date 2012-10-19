@@ -74,6 +74,7 @@ if [ -f "$HOME/.bashrc_local" ]; then
     source "$HOME/.bash_local"
 fi
 
+export PYTHONPATH=~/comm:$PYTHONPATH
 export PYTHONSTARTUP=~/.pythonstartup.py
 
 # if zsh is available use that
