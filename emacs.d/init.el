@@ -313,3 +313,6 @@
 
 ;;; Python
 (require 'init-python)
+
+;;; org-mode
+(require 'init-org)
