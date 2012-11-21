@@ -1,11 +1,13 @@
 #! /bin/sh
 trash=$HOME/trash
+date=`date '+%Y%m%d%H%M%S'`
 
 if [ ! -d $trash ]
 then
 mkdir -p $trash
 fi
+
 for i
 do
-mv $i $trash
+mv $i $trash/$i.$date
 done 
