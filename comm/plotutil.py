@@ -54,3 +54,40 @@ def query2data(db, query, xcol = 0, ycol = 1, *items, **keyw):
     if isinstance(db, str):
         conn.close()
     return gdlist
+
+def ceiltop(val):
+    tmp = float(val)
+    count = 0
+    if tmp == 0.0:
+        return tmp
+    elif tmp >= 1.0:
+        while tmp >= 1.0:
+            tmp *= 0.1
+            count += 1
+        tmp *= 10
+        count -= 1
+    else:
+        while tmp < 1.0:
+            tmp *= 10
+            count -= 1
+    if tmp - int(tmp) == 0.0:
+        return int(tmp) * (10. ** count)
+    else:
+        return (int(tmp) + 1) * (10. ** count)
+
+def floortop(val):
+    tmp = float(val)
+    count = 0
+    if tmp == 0.0:
+        return tmp
+    elif val >= 1.0:
+        while tmp >= 1.0:
+            tmp *= 0.1
+            count += 1
+        tmp *= 10
+        count -= 1
+    else:
+        while tmp < 1.0:
+            tmp *= 10
+            count -= 1
+    return int(tmp) * (10. ** count)

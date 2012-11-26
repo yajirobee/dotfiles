@@ -9,5 +9,5 @@ fi
 
 for i
 do
-mv $i $trash/$i.$date
-done 
+mv $i $trash/`basename $i`.$date
+done
