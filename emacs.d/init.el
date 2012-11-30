@@ -316,3 +316,6 @@
 
 ;;; org-mode
 (require 'init-org)
+
+;;; dot-mode
+(require 'graphviz-dot-mode-autoloads nil t)
