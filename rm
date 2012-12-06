@@ -1,16 +1,33 @@
-#! /bin/sh
+#! /bin/bash
 trash=$HOME/trash
 date=`date '+%Y%m%d%H%M%S'`
+option=()
 
 if [ ! -d $trash ]
 then
     mkdir -p $trash
 fi
 
+set -x
+for i
+do
+    case $i in
+        --interactive|--force|--verbose)
+            option+=("$i")
+            ;;
+        --*) ;;
+        -*)
+            opt=`echo $i | sed -e s/[^-fiv]//g`
+            option+=("$opt")
+            ;;
+        *) ;;
+    esac
+done
+
 for i
 do
     case $i in
         -*) ;;
-        *) mv $i $trash/`basename $i`.$date ;;
+        *) mv ${option[@]} $i $trash/`basename $i`.$date ;;
     esac
 done
