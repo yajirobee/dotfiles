@@ -8,7 +8,6 @@ then
     mkdir -p $trash
 fi
 
-set -x
 for i
 do
     case $i in
