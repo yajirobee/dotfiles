@@ -1,4 +1,5 @@
 #! /bin/bash
+
 trash=$HOME/trash
 date=`date '+%Y%m%d%H%M%S'`
 option=()
@@ -27,6 +28,11 @@ for i
 do
     case $i in
         -*) ;;
-        *) mv ${option[@]} $i $trash/`basename $i`.$date ;;
+        *)
+            if [ -e $i ]
+            then
+                mv ${option[@]} $i $trash/`basename $i`.$date
+            fi
+            ;;
     esac
 done
