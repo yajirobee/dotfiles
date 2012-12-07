@@ -40,18 +40,6 @@
   ;; インストールしたパッケージにロードパスを通して読み込む
   (package-initialize))
 
-;; auto-complete
-(when (require 'auto-complete-config nil t)
-  (add-to-list 'ac-dictionary-directories
-               "~/.emacs.d/elisp/ac-dict")
-  (define-key ac-mode-map (kbd "C-\]") 'auto-complete)
-  (ac-config-default)
-  (setq ac-auto-start nil)
-  (setq ac-use-menu-map t)
-  ;; デフォルトで設定済み
-  (define-key ac-menu-map (kbd "C-n") 'ac-next)
-  (define-key ac-menu-map (kbd "C-p") 'ac-previous))
-
 ;;; Localeに合わせた環境の設定
 (set-locale-environment nil)
 
@@ -262,6 +250,10 @@
                   'katakana-jisx0201
                   '("TakaoExゴシック*" . "jisx0201.*"))
 
+;;; yasnippet
+(when (require 'yasnippet nil t)
+  (yas-global-mode 1))
+
 ;;;
 ;;; auto-insert
 ;;;
@@ -298,6 +290,9 @@
   (message "done."))
 
 (add-hook 'find-file-not-found-hooks 'auto-insert)
+
+;;; auto-complete
+(require 'init-auto-complete)
 
 ;;; Flymake
 (require 'init-flymake)
