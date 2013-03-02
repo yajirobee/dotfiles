@@ -20,6 +20,7 @@
                     base-dir
                     (concat "CHK_SOURCES=" source)
                     "SYNTAX_CHECK_MODE=1"
+                    "LC_MESSAGES=C"
                     "check-syntax"))
       (list (if (string= (file-name-extension source) "c") "gcc" "g++")
             (list "-o"
@@ -62,4 +63,9 @@ Use CREATE-TEMP-F for creating temp copy."
 (add-to-list 'flymake-allowed-file-name-masks
              '("\\.\\(?:c\\(?:pp\\|xx\\|\\+\\+\\)?\\|CC\\)\\'"
                flymake-simple-make-gcc-init))
+
+;; keybind
+(smartrep-define-key
+    global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
+                       ("M-p" . 'flymake-goto-prev-error)))
 (provide 'init-flymake)

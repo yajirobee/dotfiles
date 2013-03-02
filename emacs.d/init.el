@@ -54,6 +54,7 @@
 (define-key global-map (kbd "C-[ M-C-g") 'goto-line)      ; 指定行へ移動
 (define-key global-map (kbd "C-m") 'newline-and-indent)   ; RETと対応
 (define-key global-map (kbd "C-j") 'newline)
+(require 'smartrep nil t)
 
 ;;C-mode, sh-modeではインデントして改行してインデントする
 (add-hook 'c-mode-common-hook
@@ -65,20 +66,16 @@
              (local-set-key (kbd "C-m") 'reindent-then-newline-and-indent)))
 
 ;;; clipboardの使用
-(cond (window-system
-       (setq x-select-enable-clipboard t)))
+(cond (window-system (setq x-select-enable-clipboard t)))
 
 ;;; ファイルが#!から始まる場合、+xを付けて保存する
-(add-hook 'after-save-hook
-	  'executable-make-buffer-file-executable-if-script-p)
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;;; オートセーブファイルの作成場所を/tmpに変更する
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;;; バックアップファイルの作成場所を/tmpに変更する
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 
 ;;; カーソルの場所を保存する
 (require 'saveplace)
