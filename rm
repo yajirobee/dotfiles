@@ -31,7 +31,7 @@ do
         *)
             if [ -e $i ]
             then
-                mv ${option[@]} $i $trash/`basename $i`.$date
+                mv ${option[@]} $i $trash/$date_`basename $i`
             fi
             ;;
     esac
