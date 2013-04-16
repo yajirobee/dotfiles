@@ -70,6 +70,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias du1='du -h --max-depth=1'
 
 # load local zsh setup
 if [ -f "$HOME/.zshrc_local" ]; then
