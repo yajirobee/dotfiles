@@ -31,12 +31,12 @@ chmod 0755, "$bin_dir/rm"
     or die "Cannot change permission $bin_dir/rm: $!";
 
 # setup my common directory
-$comm_dir = "$home/comm";
+$comm_dir = "$home/common";
 if ( -d "$comm_dir/"){
     print "$comm_dir/ already exists\n";
 }
 else{
-    symlink "$base/comm/", "$comm_dir";
+    symlink "$base/common/", "$comm_dir";
 }
 
 # setup emacs config
