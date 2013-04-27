@@ -221,7 +221,7 @@
 ;;; 新規フレームのデフォルト設定
 (setq default-frame-alist
       (append
-       '((width               . 85)	; フレーム幅(文字数)
+       '((width               . 105)	; フレーム幅(文字数)
          (height              . 47))	; フレーム高(文字数)
        default-frame-alist))
 

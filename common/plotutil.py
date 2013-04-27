@@ -14,6 +14,7 @@ def gpinit(termtype = None):
         gp(settermcmd)
     else:
         sys.stdout.write("wrong terminal type\n")
+        sys.exit(1)
     return gp
 
 def query2data(db, query, xcol = 0, ycol = 1, *items, **keyw):

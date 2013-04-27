@@ -14,6 +14,7 @@
 ;(setq YaTeX-hilit-sectioning-face '(white/snow3 snow1/snow3))
 (add-hook 'yatex-mode-hook
           '(lambda ()
+             (setq auto-fill-function nil) // disable auto new line
              (when (require 'font-latex nil t)
                (font-latex-setup)
                (progn
