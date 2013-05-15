@@ -28,6 +28,6 @@
                                "section\\|subsection\\|subsubsection\\|paragraph\\)"
                                "\\*?[ \t]*[[{]")
                        )))))
-; dviからpdfを作成する%sはファイル名
+; generate pdf from dvi (%s is file name)
 (setq dviprint-command-format "dvipdfmx %s")
 (provide 'init-yatex)

@@ -1,13 +1,21 @@
 # ~/.bashrc: executed by bash for non-login shells.
 
+function addpath()
+{
+for i in $@
+do
+    if ! (echo $PATH | grep "$i" > /dev/null) && [ -d $i ]
+    then
+        export PATH=$i:"$PATH"
+    fi
+done
+}
+
 #
 # set enviromental variables
 #
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-   export PATH="$HOME/bin:$PATH"
-fi
+addpath "$HOME/bin"
 
 # load local environment setup
 if [ -f "$HOME/.localenvs" ]; then
@@ -80,6 +88,7 @@ export PYTHONPATH=~/common:$PYTHONPATH
 export PYTHONSTARTUP=~/.pythonstartup.py
 
 # if zsh is available use that
-if which zsh > /dev/null; then
-    zsh
+if which zsh 1> /dev/null 2> /dev/null; then
+   export SHELL=`which zsh`
+   exec $(which zsh)
 fi

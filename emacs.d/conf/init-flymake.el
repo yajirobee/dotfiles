@@ -2,12 +2,12 @@
 
 (require 'flymake)
 
-;; Makefileの種類を定義
+;; define Makefile types
 (defvar flymake-makefile-filenames
   '("Makefile" "makefile" "GNUmakefile")
   "File names for make.")
 
-;; Makefileがなければコマンドを直接利用するコマンドラインを作成
+;; make command line which used when there is no Makefile
 (defun flymake-get-make-gcc-cmdline (source base-dir)
   (let (found)
     (dolist (makefile flymake-makefile-filenames)
@@ -29,7 +29,7 @@
                   "-Wall"
                   source)))))
 
-;; Flymakeの初期化関数の生成
+;; generate init function for Flymake
 (defun flymake-simple-make-gcc-init-impl
   (create-temp-f use-relative-base-dir
                  use-relative-source build-file-name get-cmdline-f)
@@ -50,7 +50,7 @@ Use CREATE-TEMP-F for creating temp copy."
                  get-cmdline-f))))
     args))
 
-;; 初期化関数を定義
+;; define init function
 (defun flymake-simple-make-gcc-init ()
   (message "%s" (flymake-simple-make-gcc-init-impl
                  'flymake-create-temp-inplace t t "Makefile"

@@ -1,8 +1,8 @@
 ;;;
-;;; system設定
+;;; system configuration
 ;;;
 
-;;; ロードパスの追加
+;;; load path configuration
 (setq load-path (append '("~/.emacs.d") load-path))
 
 (when (> emacs-major-version 23)
@@ -21,42 +21,42 @@
 
 ;;; auto-install
 (when (require 'auto-install nil t)
-  ;; インストールディレクトリの設定
+  ;; install directory
   (setq auto-install-directory "~/.emacs.d/elisp/")
-  ;; EmacsWikiに登録されているelispの名前を取得する
+  ;; get elisp names registered in EmacsWiki
   (auto-install-update-emacswiki-package-name t)
-  ;; 必要であればプロキシの設定を行う
+  ;; if necessary, setting proxy
   ;; (setq url-proxy-service '(("http" . "localhost:8339")))
-  ;; install-elispの関数を利用可能にする
+  ;; enable functions of install-elisp
   (auto-install-compatibility-setup))
 
 ;;; package.el
 (when (require 'package nil t)
-  ;; パッケージレポジトリにMarmaladeと開発者運営のELPAを追加
+  ;; Add package repository Marmalade and ELPA which is managed by creater
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives
                '("ELPA" . "http://tromey.com/elpa/"))
-  ;; インストールしたパッケージにロードパスを通して読み込む
+  ;; setting load path and loading installed packages
   (package-initialize))
 
-;;; Localeに合わせた環境の設定
+;;; settings depends on Locale
 (set-locale-environment nil)
 
-;;; キーバインド
-(define-key global-map (kbd "C-h") 'delete-backward-char) ; 削除
-(define-key global-map (kbd "M-?") 'help-for-help)        ; ヘルプ
-(define-key global-map (kbd "C-c i") 'indent-region)      ; インデント
-(define-key global-map (kbd "C-c C-i") 'hippie-expand)    ; 補完
-(define-key global-map (kbd "C-o") 'toggle-input-method)  ; インプットメソッド切り替え
-(define-key global-map (kbd "C-c ;") 'comment-dwim)       ; コメントアウト
+;;; keybind
+(define-key global-map (kbd "C-h") 'delete-backward-char) ; backward delete
+(define-key global-map (kbd "M-?") 'help-for-help)        ; help
+(define-key global-map (kbd "C-c i") 'indent-region)      ; indent
+(define-key global-map (kbd "C-c C-i") 'hippie-expand)    ; auto complete
+(define-key global-map (kbd "C-o") 'toggle-input-method)  ; change input method
+(define-key global-map (kbd "C-c ;") 'comment-dwim)       ; comment out
 (define-key global-map (kbd "M-C-g") 'grep)               ; grep
-(define-key global-map (kbd "C-[ M-C-g") 'goto-line)      ; 指定行へ移動
-(define-key global-map (kbd "C-m") 'newline-and-indent)   ; RETと対応
+(define-key global-map (kbd "C-[ M-C-g") 'goto-line)      ; go to specified line
+(define-key global-map (kbd "C-m") 'newline-and-indent)   ; Retern
 (define-key global-map (kbd "C-j") 'newline)
 (require 'smartrep nil t)
 
-;;C-mode, sh-modeではインデントして改行してインデントする
+;; in C-mode and sh-mode, indent before and after newline
 (add-hook 'c-mode-common-hook
           '(lambda ()
              (local-set-key (kbd "C-m") 'reindent-then-newline-and-indent)))
@@ -65,41 +65,41 @@
           '(lambda ()
              (local-set-key (kbd "C-m") 'reindent-then-newline-and-indent)))
 
-;;; clipboardの使用
+;;; using clipboard in emacs gui mode
 (cond (window-system (setq x-select-enable-clipboard t)))
 
-;;; ファイルが#!から始まる場合、+xを付けて保存する
+;;; if file starts by "#!", change permission to +x
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-;;; オートセーブファイルの作成場所を/tmpに変更する
+;;; change auto save file directory to /tmp
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-;;; バックアップファイルの作成場所を/tmpに変更する
+;;; change back up file directory to /tmp
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 
-;;; カーソルの場所を保存する
+;;; save place of cursor
 (require 'saveplace)
 (setq-default save-place t)
 
-;;; 関数定義へジャンプする
+;;; jumping to function definition
 (find-function-setup-keys)
 
-;;; 履歴数を大きくする
+;;; expanding history length
 (setq history-length 10000)
 
-;;; 最近開いたファイルを保存する数を増やす
+;;; increase number of recently used file
 (setq recentf-max-saved-items 10000)
 
-;;; gzファイルも編集できるようにする
+;;; enable editing gz file
 (auto-compression-mode t)
 
-;;; ediffを1ウィンドウで実行
+;;; complete ediff on 1 window
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-;;; diffのオプション
+;;; diff option
 (setq diff-switches '("-u" "-p" "-N"))
 
-;;; 再帰的にgrep
+;;; grep recursively
 (require 'grep)
 (setq grep-command-before-query "grep -nH -r -e ")
 (defun grep-default-command ()
@@ -122,12 +122,12 @@
   ;; keybind
   (define-key global-map (kbd "M-o") 'occur-by-moccur) ;バッファ内
   (define-key global-map (kbd "C-M-o") 'dmoccur) ;directory
-  ;; space区切りでAND検索
+  ;; AND search by space delimiter
   (setq moccur-split-word t)
-  ;; directory searchのとき除外するファイル
+  ;; excluding files for directory search
   (add-to-list 'dmoccur-exclusion-mask "\\.DS_Store")
   (add-to-list 'dmoccur-exclusion-mask "^#.+#$")
-  ;; Migemoを利用できる環境であればMigemoを使う
+  ;; using Migemo if available
   (when (and (executable-find "cmigemo")
              (require 'migemo nil t))
     (setq moccur-use-migemo t))
@@ -136,13 +136,13 @@
 ;; ctags
 (when (require 'ctags nil t)
   (setq tags-revert-without-query t)
-  ;; ctagsの呼び出しに用いるコマンドライン
+  ;; command line for ctags
   ;; (setq ctags-command "ctags -e -R")
   ;; keybind
   (define-key global-map (kbd "M-u") 'ctags-create-or-update-tags-table))
 
 ;;;
-;;; 表示関係
+;;; display configuration
 ;;;
 
 ;;; Pairing parentheses
@@ -152,30 +152,31 @@
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
 
-;;; 対応する括弧を光らせる。
+;;; highlight correesponding parentheses
 (show-paren-mode t)
 
-;;; ウィンドウ内に収まらないときだけ括弧内も光らせる。
+;;; highlight contents in parenthesis if the correspoinding parenthesis
 (setq show-paren-style 'mixed)
 
-;;; Tab文字の表示幅
+;;; Tab width
 (setq-default tab-width 4)
 
-;;; インデントにTab文字を使用しない
+;;; disable indentation by Tab character
 (setq-default indent-tabs-mode nil)
 
 ;;; highlight-indentaion
 (when (require 'highlight-indentation nil t))
 
-;;; 行末の空白を表示
+;;; show tail whitespace
 (setq-default show-trailing-whitespace t)
 
-;;; 現在行を目立たせる
+;;; highlight current line
 (defface my-hl-line-face
-  ;; 背景がdarkならば背景色を紺に
+  ;; setting background color
+  ;; NavyBlue if background is dark
   '((((class color) (background dark))
      (:background "NavyBlue" t))
-    ;; 背景がlightならば背景色を緑に
+    ;; mediumspringgreen if background is light
     (((class color) (background light))
      (:background "mediumspringgreen" t))
     (t (:bold t)))
@@ -188,53 +189,53 @@
 ;  (column-highlight-mode 1)
 ;  (custom-set-faces '(col-highlight ((t (:background "gray50"))))))
 
-;;; カーソルの位置が何文字目かを表示する
+;;; display current column
 (column-number-mode t)
 
-;;; カーソルの位置が何行目かを表示する
+;;; display current row
 (line-number-mode t)
 
-;;; 最終行に必ず一行挿入する
+;;; insert final newline
 (setq require-final-newline t)
 
-;;; バッファの最後でnewlineで新規行を追加するのを禁止する
+;;; prohibiting add newline on the tail of buffer
 (setq next-line-add-newlines nil)
 
-;;; 補完時に大文字小文字を区別しない
+;;; ignore case in completion
 (setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
 ;;; flymake-cursor
 (eval-after-load 'flymake '(require 'flymake-cursor))
 
-;;; diredを便利にする
+;;; using dired-x
 (require 'dired-x)
 
-;;; diredから"r"でファイル名をインライン編集する
+;;; start inline edit of file name from dired
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
-;;; ファイル名が重複していたらディレクトリ名を追加する。
+;;; if the same file names exist in buffer, adding directory names to display file names
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;;; 新規フレームのデフォルト設定
+;;; default frame size
 (setq default-frame-alist
       (append
-       '((width               . 105)	; フレーム幅(文字数)
-         (height              . 47))	; フレーム高(文字数)
+       '((width               . 105)	; frame width (number of characters)
+         (height              . 47))	; frame height (number of characters)
        default-frame-alist))
 
-;;; スクロールを一行ずつにする
+;;; set scroll step
 (setq scroll-step 1)
 
-;;; スクロールバーを右側に表示する
+;;; display scroll bar right side
 (set-scroll-bar-mode 'right)
 
-;;; ツールバーを消す
+;;; erase tool bar
 (tool-bar-mode nil)
 
-;; フォント設定
+;; font
 (set-face-attribute 'default nil
                     :family "inconsolata"
                     :height 120)
@@ -256,10 +257,10 @@
 ;;;
 (require 'autoinsert)
 
-;; テンプレートのディレクトリ
+;; template directory
 (setq auto-insert-directory "~/.emacs.d/template/")
 
-;; 各ファイルによってテンプレートを切り替える
+;; change templates corresponding to extension of files
 (setq auto-insert-alist
       (nconc '(
                ("\\.c" . ["template.c" ctemplate-replace])

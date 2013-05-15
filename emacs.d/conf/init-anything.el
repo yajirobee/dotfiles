@@ -2,22 +2,22 @@
 
 (when (require 'anything nil t)
   (setq
-   ;; 候補を表示するまでの時間
+   ;; delay time to display candidates
    anything-idel-delay 0.3
-   ;; タイプして再描画するまでの時間
+   ;;delay time to refresh from input change
    anything-input-idle-delay 0.2
-   ;; 候補の最大表示数
+   ;; candidate limitation
    anything-candidate-number-limit 100
-   ;; 候補が多い時に体感速度を速くする
+   ;; quick update if there are many candidates
    anything-quick-update t
-   ;; 候補選択ショートカットをアルファベットに
+   ;; using alphabet for shortcut of selection
    anything-enable-shortcuts 'alphabet)
-  ;; キーバインド
+  ;; keybind
   (define-key global-map (kbd "C-x b") 'anything)
   (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
 
   (when (require 'anything-config nil t)
-    ;; root権限でアクションを実行するときのコマンド
+    ;; command for root
     (setq anything-su-or-sudo "sudo")
     (setq anything-sources
           '(anything-c-source-buffers+
@@ -35,7 +35,7 @@
     (require 'anything-migemo nil t))
 
   (when (require 'anything-complete nil t)
-    ;; lispシンボルの補完候補の再検索時間
+    ;; search time limit for lisp symbol complete candidates
     (anything-lisp-complete-symbol-set-timer 150))
 
   (require 'anything-show-completion nil t)
@@ -44,19 +44,19 @@
     (require 'anything-auto-install nil t))
 
   (when (require 'descbinds-anything nil t)
-    ;; describe-bindingsをAnythingに置き換える
+    ;; replace describe-bindings to Anything
     (descbinds-anything-install))
 
   (when (require 'color-moccur)
     (when (require 'anything-c-moccur nil t)
       (setq
-       ;; anything-c-moccur用 'anything-idle-delay'
+       ;; 'anything-idle-delay' for anything-c-moccur
        anything-c-moccur-anything-idle-delay 0.1
-       ;; bufferの情報をハイライトする
+       ;; highlight buffer information
        lanything-c-moccur-highlight-info-line-flag t
-       ;; 選択中の候補の位置を他のwindowに表示する
+       ;; display selected candidate position to other window
        anything-c-moccur-enable-auto-look-flag t
-       ;; 起動時にポイントの位置の単語を初期パターンにする
+       ;; initiate word position for initial pattern
        anything-c-moccur-enable-initial-pattern t)
       ;; keybind
       (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur)
@@ -64,13 +64,13 @@
 
   (when (require 'anything-exuberant-ctags nil t)
     (setq ctags-command "ctags -R --fields=\"+afikKlmnsSZt\" ")
-    ;; anything-for-tags用のソースを定義
+    ;; define sources for anything-for-tags
     (setq anything-for-tags
           (list anything-c-source-imenu
-                ;; etagsを利用する場合
+                ;; configuration for etags
                 ;;anything-c-source-etags-select
                 anything-c-source-exuberant-ctags-select))
-    ;; anything-for-tagsコマンドを作成
+    ;; command for anything-for-tags
     (defun anything-for-tags ()
       "Preconfigured 'anythig' for anything-for-tags."
       (interactive)
