@@ -360,6 +360,8 @@ And switch buffer and jump tag position.."
           finally (return (nreverse list)))))
 
 (defun anything-exuberant-ctags-goto-location (candidate)
+  (when (require 'jumplist nil t) ;; added by keisuke
+    (push-current-place))
   (anything-exuberant-ctags-find-tag candidate)
   (when (and anything-in-persistent-action
              (fboundp 'anything-match-line-color-current-line))

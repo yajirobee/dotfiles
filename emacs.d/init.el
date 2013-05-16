@@ -54,6 +54,10 @@
 (define-key global-map (kbd "C-[ M-C-g") 'goto-line)      ; go to specified line
 (define-key global-map (kbd "C-m") 'newline-and-indent)   ; Retern
 (define-key global-map (kbd "C-j") 'newline)
+(when (require 'jumplist nil t)
+  (define-key global-map (kbd "M-P") 'push-current-place)
+  (define-key global-map (kbd "M-p") 'backward-jump)
+  (define-key global-map (kbd "M-n") 'forward-jump))
 (require 'smartrep nil t)
 
 ;; in C-mode and sh-mode, indent before and after newline
@@ -78,8 +82,8 @@
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 
 ;;; save place of cursor
-(require 'saveplace)
-(setq-default save-place t)
+(when (require 'saveplace nil t)
+  (setq-default save-place t))
 
 ;;; jumping to function definition
 (find-function-setup-keys)
