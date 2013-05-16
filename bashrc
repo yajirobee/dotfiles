@@ -84,8 +84,14 @@ if [ -f "$HOME/.bashrc_local" ]; then
     source "$HOME/.bash_local"
 fi
 
-export PYTHONPATH=~/common:$PYTHONPATH
-export PYTHONSTARTUP=~/.pythonstartup.py
+if [ -d "$HOME/common" ]; then
+   export PYTHONPATH="$HOME/common${PYTHONPATH:+:}${PYTHONPATH}"
+fi
+
+PYTHONSTARTUP=~/.pythonstartup.py
+if [ -f $PYTHONSTARTUP ]; then
+   export PYTHONSTARTUP
+fi
 
 # if zsh is available use that
 if which zsh 1> /dev/null 2> /dev/null; then

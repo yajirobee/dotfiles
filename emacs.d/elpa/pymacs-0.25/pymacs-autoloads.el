@@ -4,7 +4,8 @@
 
 
 ;;;### (autoloads (pymacs-apply pymacs-call pymacs-exec pymacs-eval
-;;;;;;  pymacs-load) "pymacs" "pymacs.el" (20405 17481))
+;;;;;;  pymacs-autoload pymacs-load) "pymacs" "pymacs.el" (20884
+;;;;;;  44674))
 ;;; Generated autoloads from pymacs.el
 
 (autoload 'pymacs-load "pymacs" "\
@@ -16,6 +17,17 @@ not given, it defaults to MODULE followed by a dash.
 If NOERROR is not nil, do not raise error when the module is not found.
 
 \(fn MODULE &optional PREFIX NOERROR)" t nil)
+
+(autoload 'pymacs-autoload "pymacs" "\
+Pymacs's equivalent of the standard emacs facility `autoload'.
+Define FUNCTION to autoload from Python MODULE using PREFIX.
+If PREFIX is not given, it defaults to MODULE followed by a dash.
+Optional DOCSTRING documents FUNCTION until it gets loaded.
+INTERACTIVE is normally the argument to the function `interactive',
+t means `interactive' without arguments, nil means not interactive,
+which is the default.
+
+\(fn FUNCTION MODULE &optional PREFIX DOCSTRING INTERACTIVE)" nil nil)
 
 (autoload 'pymacs-eval "pymacs" "\
 Compile TEXT as a Python expression, and return its value.
@@ -46,7 +58,7 @@ equivalents, other structures are converted into Lisp handles.
 
 ;;;***
 
-;;;### (autoloads nil nil ("pymacs-pkg.el") (20405 17481 338176))
+;;;### (autoloads nil nil ("pymacs-pkg.el") (20884 44674 497759))
 
 ;;;***
 

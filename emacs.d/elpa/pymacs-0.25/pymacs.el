@@ -1,14 +1,13 @@
 ;;; pymacs.el --- Interface between Emacs Lisp and Python
-;;
-;; Copyright (C) 2001, 2002, 2003 Progiciels Bourbeau-Pinard inc.
-;; 
+
+;; Copyright © 2001, 2002, 2003, 2012 Progiciels Bourbeau-Pinard inc.
+
 ;; Author: François Pinard <pinard@iro.umontreal.ca>
-;; Version: 0.24
-;; Keywords: interface, python, elisp
-;; URL: https://github.com/pinard/Pymacs
-;;
-;; This file is NOT part of GNU Emacs.
-;;
+;; Maintainer: François Pinard <pinard@iro.umontreal.ca>
+;; Created: 2001
+;; Version: 0.25
+;; Keywords: Python interface protocol
+
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 2, or (at your option)
@@ -24,62 +23,19 @@
 ;; Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.  */
 
 ;;; Commentary:
-;;
-;; =================================
-;;
-;; Install system wide package for Pymacs 
-;;
-;; # git clone https://github.com/pinard/Pymacs.git
-;;
-;; # cd Pymacs && make && make install
-;;
-;; Now install pymacs.el
-;;
-;;  =================================
-;;
-;; Portability stunts.
-;; 
+
 ;; Pymacs is a powerful tool which, once started from Emacs, allows
 ;; both-way communication between Emacs Lisp and Python.  Pymacs aims
 ;; Python as an extension language for Emacs rather than the other way
-;; around, and this asymmetry is reflected in some design choices.  Within
-;; Emacs Lisp code, one may load and use Python modules.  Python functions
-;; may themselves use Emacs services, and handle Emacs Lisp objects kept in
-;; Emacs Lisp space.
-
-;; The Pymacs manual (either in `HTML format` or `PDF format` for the
-;; latest version) has installation instructions, a full description of the
-;; API, pointers to documented examples, to resources, and to other Pymacs
-;; sites or projects.  The distribution also includes the Poor's Python
-;; Pre-Processor (**pppp**) and its manual (either in `HTML format` or `PDF
-;; format` for the latest version).
-
-;; http://pymacs.progiciels-bpi.ca/pymacs.html
-
-;; http://pymacs.progiciels-bpi.ca/pymacs.pdf
-
-;; http://pymacs.progiciels-bpi.ca/pppp.html
-
-;; http://pymacs.progiciels-bpi.ca/pppp.pdf
-
-;; Source files and various distributions (either latest, pretest, or
-;; archive) are available through:
-
-;; https://github.com/pinard/Pymacs/
-
-;;; Change Log:
-;;
-;; 2010-11-14 (0.24 beta2)
-;; Notes for 0.24 beta2
-;;
-;; 2008-02-28 (0.24 beta1)
-;; Notes for 0.24 beta1
-;;
-;; 2008-02-15 (0.23)
-;; Notes for 0.23
-;;
+;; around.  Visit http://pymacs.progiciels-bpi.ca to read its manual,
+;; which also contains installation instructions.
 
 ;;; Code:
+
+;; The code is organized into pages, grouping declarations by topic.
+;; Such pages are introduced by a form feed and a topic description.
+
+;;; Portability stunts.
 
 (defvar pymacs-use-hash-tables
   (and (fboundp 'make-hash-table) (fboundp 'gethash) (fboundp 'puthash))
@@ -112,7 +68,7 @@
            "Tell XEmacs if STRING should be handled as multibyte."
            (not (member (find-charset-string string) '(nil (ascii))))))
         (t
-         ; Tell XEmacs that STRING is unibyte, when Mule is not around!
+         ;; Tell XEmacs that STRING is unibyte, when Mule is not around!
          (defalias 'pymacs-multibyte-string-p 'ignore)))
 
   ;; pymacs-report-error
@@ -128,7 +84,7 @@
   ;; pymacs-timerp
   (defalias 'pymacs-timerp
     (cond ((fboundp 'timerp) 'timerp)
-         ; XEmacs case - yet having post-gc-hook, this is unused.
+          ;; XEmacs case - yet having post-gc-hook, this is unused.
           ((fboundp 'itimerp) 'itimerp)
           (t 'ignore)))
 
@@ -182,6 +138,8 @@ Possible values are nil, t or ask.")
   "If zombies should trigger hard errors, whenever they get called.
 If `nil', calling a zombie will merely produce a diagnostic message.")
 
+(defvar pymacs-load-history nil "Pymacs loading history.")
+
 ;;;###autoload
 (defun pymacs-load (module &optional prefix noerror)
   "Import the Python module named MODULE into Emacs.
@@ -197,17 +155,47 @@ If NOERROR is not nil, do not raise error when the module is not found."
                                nil nil default)))
      (list module prefix)))
   (message "Pymacs loading %s..." module)
-  (let ((lisp-code (pymacs-call "pymacs_load_helper" module prefix)))
+  (let ((lisp-code (pymacs-call "pymacs_load_helper" module prefix noerror)))
     (cond (lisp-code (let ((result (eval lisp-code)))
+                       (add-to-list 'pymacs-load-history
+                                    (list module prefix noerror)
+                                    ;; append so that order is kept
+                                    'append)
                        (message "Pymacs loading %s...done" module)
                        result))
-          (noerror (message "Pymacs loading %s...failed" module) nil)
-          (t (pymacs-report-error "Pymacs loading %s...failed" module)))))
+          (noerror (message "Pymacs loading %s...failed" module) nil))))
+
+;;;###autoload
+(defun pymacs-autoload (function module &optional prefix docstring interactive)
+  "Pymacs's equivalent of the standard emacs facility `autoload'.
+Define FUNCTION to autoload from Python MODULE using PREFIX.
+If PREFIX is not given, it defaults to MODULE followed by a dash.
+Optional DOCSTRING documents FUNCTION until it gets loaded.
+INTERACTIVE is normally the argument to the function `interactive',
+t means `interactive' without arguments, nil means not interactive,
+which is the default."
+  (unless (symbolp function)
+    (error "`%s' should be a symbol" function))
+  (unless (stringp module)
+    (error "`%s' should be a string" module))
+  (unless (pymacs-python-reference function)
+
+    (defalias function
+      `(lambda (&rest args)
+         ,(or docstring
+              (format "Function `%s' to be loaded from Python module `%s'"
+                      function module))
+         ,(cond ((eq interactive t) '(interactive))
+                (interactive `(interactive ,interactive)))
+         (pymacs-load ,module ,prefix)
+         (unless (pymacs-python-reference ',function)
+           (error "Pymacs autoload failed to define function %s" ',function))
+         (apply ',function args)))))
 
 ;;;###autoload
 (defun pymacs-eval (text)
   "Compile TEXT as a Python expression, and return its value."
-  (interactive "sPython expression? ")
+  (interactive "sPython expression: ")
   (let ((value (pymacs-serve-until-reply "eval" `(princ ,text))))
     (when (interactive-p)
       (message "%S" value))
@@ -217,7 +205,7 @@ If NOERROR is not nil, do not raise error when the module is not found."
 (defun pymacs-exec (text)
   "Compile and execute TEXT as a sequence of Python statements.
 This functionality is experimental, and does not appear to be useful."
-  (interactive "sPython statements? ")
+  (interactive "sPython statements: ")
   (let ((value (pymacs-serve-until-reply "exec" `(princ ,text))))
     (when (interactive-p)
       (message "%S" value))
@@ -268,34 +256,34 @@ equivalents, other structures are converted into Lisp handles."
                  "It interfaces to a Python function.\n\n"
                  (when python-doc
                    (if raw python-doc (substitute-command-keys python-doc)))))
-        ad-do-it)))
+        ad-do-it))))
 
-  (defun pymacs-python-reference (object)
-    ;; Return the text reference of a Python object if possible, else nil.
-    (when (functionp object)
-      (let* ((definition (indirect-function object))
-             (body (and (pymacs-proper-list-p definition)
-                        (> (length definition) 2)
-                        (eq (car definition) 'lambda)
-                        (cddr definition))))
-        (when (and body (listp (car body)) (eq (caar body) 'interactive))
-          ;; Skip the interactive specification of a function.
-          (setq body (cdr body)))
-        (when (and body
-                   ;; Advised functions start with a string.
-                   (not (stringp (car body)))
-                   ;; Python trampolines hold exactly one expression.
-                   (= (length body) 1))
-          (let ((expression (car body)))
-            ;; EXPRESSION might now hold something like:
-            ;;    (pymacs-apply (quote (pymacs-python . N)) ARGUMENT-LIST)
-            (when (and (pymacs-proper-list-p expression)
-                       (= (length expression) 3)
-                       (eq (car expression) 'pymacs-apply)
-                       (eq (car (cadr expression)) 'quote))
-              (setq object (cadr (cadr expression))))))))
-    (when (eq (car-safe object) 'pymacs-python)
-      (format "python[%d]" (cdr object)))))
+(defun pymacs-python-reference (object)
+  ;; Return the text reference of a Python object if possible, else nil.
+  (when (functionp object)
+    (let* ((definition (indirect-function object))
+           (body (and (pymacs-proper-list-p definition)
+                      (> (length definition) 2)
+                      (eq (car definition) 'lambda)
+                      (cddr definition))))
+      (when (and body (listp (car body)) (eq (caar body) 'interactive))
+        ;; Skip the interactive specification of a function.
+        (setq body (cdr body)))
+      (when (and body
+                 ;; Advised functions start with a string.
+                 (not (stringp (car body)))
+                 ;; Python trampolines hold exactly one expression.
+                 (= (length body) 1))
+        (let ((expression (car body)))
+          ;; EXPRESSION might now hold something like:
+          ;;    (pymacs-apply (quote (pymacs-python . N)) ARGUMENT-LIST)
+          (when (and (pymacs-proper-list-p expression)
+                     (= (length expression) 3)
+                     (eq (car expression) 'pymacs-apply)
+                     (eq (car (cadr expression)) 'quote))
+            (setq object (cadr (cadr expression))))))))
+  (when (eq (car-safe object) 'pymacs-python)
+    (format "python[%d]" (cdr object))))
 
 ;; The following functions are experimental -- they are not satisfactory yet.
 
@@ -342,7 +330,7 @@ equivalents, other structures are converted into Lisp handles."
         (inhibit-file-name-operation operation))
     (apply operation arguments)))
 
-;(add-to-list 'file-name-handler-alist '("\\.el\\'" . pymacs-file-handler))
+;;(add-to-list 'file-name-handler-alist '("\\.el\\'" . pymacs-file-handler))
 
 ;;; Gargabe collection of Python IDs.
 
@@ -392,7 +380,8 @@ The timer is used only if `post-gc-hook' is not available.")
       (setq pymacs-used-ids used-ids
             pymacs-gc-wanted nil)
       (when unused-ids
-        (pymacs-apply "free_python" unused-ids)))))
+        (let ((pymacs-forget-mutability t))
+          (pymacs-call "free_python" unused-ids))))))
 
 (defun pymacs-defuns (arguments)
   ;; Take one argument, a list holding a number of items divisible by 3.  The
@@ -522,7 +511,7 @@ The timer is used only if `post-gc-hook' is not available.")
                                  (split-string (prin1-to-string text) "\n")
                                  "\\n"))
                (when multibyte
-                 (princ ".encode('ISO-8859-1').decode('UTF-8')")))
+                 (princ ".decode('UTF-8')")))
              (setq done t)))
           ((symbolp expression)
            (let ((name (symbol-name expression)))
@@ -617,7 +606,7 @@ The timer is used only if `post-gc-hook' is not available.")
                             pymacs-python-command
                           python))
                       "-c" (concat "import sys;"
-                                   " from Pymacs.pymacs import main;"
+                                   " from Pymacs import main;"
                                    " main(*sys.argv[1:])")
                       (append
                        (and (>= emacs-major-version 24) '("-f"))
@@ -630,7 +619,7 @@ The timer is used only if `post-gc-hook' is not available.")
             (unless (accept-process-output process pymacs-timeout-at-start)
               (pymacs-report-error
                "Pymacs helper did not start within %d seconds"
-                     pymacs-timeout-at-start)))
+               pymacs-timeout-at-start)))
           (let ((marker (process-mark process))
                 (limit-position (+ (match-end 0)
                                    (string-to-number (match-string 1)))))
@@ -644,9 +633,9 @@ The timer is used only if `post-gc-hook' is not available.")
           (if (and (pymacs-proper-list-p reply)
                    (= (length reply) 2)
                    (eq (car reply) 'version))
-              (unless (string-equal (cadr reply) "0.24-beta2")
+              (unless (string-equal (cadr reply) "0.25")
                 (pymacs-report-error
-                 "Pymacs Lisp version is 0.24-beta2, Python is %s"
+                 "Pymacs Lisp version is 0.25, Python is %s"
                  (cadr reply)))
             (pymacs-report-error "Pymacs got an invalid initial reply")))))
     (if (not pymacs-use-hash-tables)
@@ -659,14 +648,24 @@ The timer is used only if `post-gc-hook' is not available.")
         (let ((pymacs-transit-buffer buffer)
               (pymacs-forget-mutability t)
               (pymacs-gc-inhibit t))
-          (pymacs-apply "zombie_python" pymacs-used-ids))
+          (pymacs-call "zombie_python" pymacs-used-ids))
         (setq pymacs-used-ids nil))
       (setq pymacs-weak-hash (make-hash-table :weakness 'value))
       (if (boundp 'post-gc-hook)
           (add-hook 'post-gc-hook 'pymacs-schedule-gc)
         (setq pymacs-gc-timer (run-at-time 20 20 'pymacs-schedule-gc))))
     ;; If nothing failed, only then declare that Pymacs has started!
-    (setq pymacs-transit-buffer buffer)))
+    (setq pymacs-transit-buffer buffer)
+    (let ((modules pymacs-load-history))
+      (setq pymacs-load-history nil)
+      (when (and modules (yes-or-no-p "Reload modules in previous session? "))
+        (mapc (lambda (args)
+                ;; Be defensive in case sys.path differs
+                (condition-case err
+                    (apply 'pymacs-load args)
+                  (error
+                   (message "%s: %s" (car err) (error-message-string err)))))
+              modules)))))
 
 (defun pymacs-terminate-services ()
   ;; This function is mainly provided for documentation purposes.
@@ -697,7 +696,7 @@ Killing the Pymacs helper might create zombie objects.  Kill? "))
   (unless (and pymacs-transit-buffer
                (buffer-name pymacs-transit-buffer)
                (get-buffer-process pymacs-transit-buffer))
-    (when pymacs-weak-hash 
+    (when pymacs-weak-hash
       (unless (or (eq pymacs-auto-restart t)
                   (and (eq pymacs-auto-restart 'ask)
                        (yes-or-no-p "The Pymacs helper died.  Restart it? ")))
@@ -826,5 +825,4 @@ Killing the Pymacs helper might create zombie objects.  Kill? "))
         ((consp expression) (not (cdr (last expression))))))
 
 (provide 'pymacs)
-
 ;;; pymacs.el ends here

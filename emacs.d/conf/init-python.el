@@ -9,5 +9,7 @@
   ;(add-hook 'python-mode-hook 'highlight-indentation-current-column-mode)
   )
 
+(when (require 'pymacs-autoloads nil t))
+
 (provide 'init-python)
 ;;; init-python.el ends here

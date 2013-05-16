@@ -7,9 +7,12 @@
   (add-to-list 'ac-dictionary-directories
                "~/.emacs.d/ac-dict")
   ;; source files for each major modes
-  (add-hook 'sh-mode-hook (lambda () (add-to-list 'ac-sources 'ac-source-files-in-current-dir)))
-  (add-hook 'c-mode-common-hook (lambda () (add-to-list 'ac-sources 'ac-source-semantic)))
-  (add-hook 'c++-mode (lambda () (add-to-list 'ac-sources 'ac-source-semantic)))
+  (add-hook 'sh-mode-hook (lambda () (add-to-list 'ac-sources
+                                                  'ac-source-files-in-current-dir)))
+  (add-hook 'c-mode-common-hook (lambda () (add-to-list 'ac-sources
+                                                        'ac-source-semantic)))
+  (add-hook 'c++-mode (lambda () (add-to-list 'ac-sources
+                                              'ac-source-semantic)))
   ;; manually start auto complete
   (setq ac-auto-start nil)
   ;; keybind
