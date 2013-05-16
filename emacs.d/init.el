@@ -44,6 +44,8 @@
 (set-locale-environment nil)
 
 ;;; keybind
+(setq windmove-wrap-around t)
+(windmove-default-keybindings)
 (define-key global-map (kbd "C-h") 'delete-backward-char) ; backward delete
 (define-key global-map (kbd "M-?") 'help-for-help)        ; help
 (define-key global-map (kbd "C-c i") 'indent-region)      ; indent
@@ -58,7 +60,14 @@
   (define-key global-map (kbd "M-P") 'push-current-place)
   (define-key global-map (kbd "M-p") 'backward-jump)
   (define-key global-map (kbd "M-n") 'forward-jump))
-(require 'smartrep nil t)
+(when (require 'smartrep nil t)
+  (defvar ctl-q-map (make-keymap))
+  (define-key global-map (kbd "C-q") ctl-q-map)
+  (smartrep-define-key global-map (kbd "C-x") '(("o" . 'other-window)))
+  (smartrep-define-key global-map (kbd "C-q") '(("l" . 'windmove-right)
+                                                ("h" . 'windmove-left)
+                                                ("j" . 'windmove-down)
+                                                ("k" . 'windmove-up))))
 
 ;; in C-mode and sh-mode, indent before and after newline
 (add-hook 'c-mode-common-hook
