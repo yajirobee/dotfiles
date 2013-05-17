@@ -133,7 +133,7 @@
 ;; color-moccur
 (when (require 'color-moccur nil t)
   ;; keybind
-  (define-key global-map (kbd "M-o") 'occur-by-moccur) ;バッファ内
+  (define-key global-map (kbd "M-o") 'occur-by-moccur) ;in buffer
   (define-key global-map (kbd "C-M-o") 'dmoccur) ;directory
   ;; AND search by space delimiter
   (setq moccur-split-word t)
@@ -233,11 +233,21 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ;;; default frame size
-(setq default-frame-alist
-      (append
-       '((width               . 105)	; frame width (number of characters)
-         (height              . 47))	; frame height (number of characters)
-       default-frame-alist))
+(cond (window-system
+       (progn
+         ;; use 120 char wide window for largeish displays
+         ;; and smaller 80 column windows for smaller displays
+         ;; pick whatever numbers make sense for you
+         (if (> (x-display-pixel-width) 1280)
+             (add-to-list 'default-frame-alist (cons 'width 120))
+           (add-to-list 'default-frame-alist (cons 'width 80)))
+         ;; for the height, subtract a couple hundred pixels
+         ;; from the screen height (for panels, menubars and
+         ;; whatnot), then divide by the height of a char to
+         ;; get the height we want
+         (add-to-list 'default-frame-alist
+                      (cons 'height (/ (- (x-display-pixel-height) 100)
+                                       (frame-char-height)))))))
 
 ;;; set scroll step
 (setq scroll-step 1)
