@@ -22,8 +22,10 @@
                     "SYNTAX_CHECK_MODE=1"
                     "LC_MESSAGES=C"
                     "check-syntax"))
-      (list (if (string= (file-name-extension source) "c") "gcc" "g++")
-            (list "-o"
+      (list "env"
+            (list "LC_MESSAGES=C"
+                  (if (string= (file-name-extension source) "c") "gcc" "g++")
+                  "-o"
                   "/dev/null"
                   "-fsyntax-only"
                   "-Wall"
