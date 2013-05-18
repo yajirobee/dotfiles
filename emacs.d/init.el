@@ -331,7 +331,7 @@
 (require 'init-python)
 
 ;;; org-mode
-(require 'init-org)
+(require 'init-org nil t)
 
 ;;; dot-mode
 (require 'graphviz-dot-mode-autoloads nil t)
