@@ -6,7 +6,7 @@ import sys, os
 try:
     import readline
 except ImportError:
-    print "Module readline not available."
+    sys.stdout.write("Module readline not available.\n")
 else:
     import rlcompleter
     readline.parse_and_bind("tab: complete")
