@@ -17,8 +17,11 @@ do
             ;;
         --*) ;;
         -*)
-            opt=`echo $i | sed -e s/[^-fiv]//g`
-            option+=("$opt")
+            opt=`echo $i | sed -e "s/[^fiv]//g"`
+            if [ $opt ]
+            then
+                option+=("-${opt}")
+            fi
             ;;
         *) ;;
     esac
