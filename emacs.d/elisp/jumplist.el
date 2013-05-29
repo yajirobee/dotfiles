@@ -27,17 +27,29 @@
 (defvar backward-jump-list nil)
 (defvar forward-jump-list nil)
 
+(defun get-current-line ()
+  "get the current line number (in the buffer) of point."
+  (interactive)
+  (save-restriction
+    (widen)
+    (save-excursion
+      (beginning-of-line)
+      (1+ (count-lines 1 (point))))))
+
 (defmacro push-place-uniq (place jump-list)
   ;; if the place is already at the head of jump-list, ignore it
   ;; otherwise add it at the head of jump-list
-  (list 'if
-        (list 'equal place (list 'car jump-list))
-        t
-        (list 'push place jump-list)))
+  (list 'cond
+        (list (list 'equal place (list 'car jump-list)))
+        (list t
+              (list 'cond
+                    (list (list '>= (list 'length jump-list) 100)
+                          (list 'nbutlast jump-list 1)))
+              (list 'push place jump-list))))
 
 (defun get-current-place ()
   "Return (current-buffer current-point)"
-  (cons (current-buffer) (point)))
+  (cons (current-buffer) (get-current-line)))
 
 (defun push-current-place ()
   "Push current-place to backward-jump-list and clear forward-jump-list"
@@ -55,10 +67,8 @@
     (setq next-place (pop backward-jump-list))
     (cond ((equal next-place (get-current-place))
            (setq next-place (pop backward-jump-list))))
-    (setq current-buffer (car next-place))
-    (setq current-point (cdr next-place))
-    (switch-to-buffer current-buffer)
-    (goto-char current-point)
+    (switch-to-buffer (car next-place))
+    (goto-line (cdr next-place))
     (push-place-uniq next-place forward-jump-list))
    (t
     (message "no more backward history"))))
@@ -73,10 +83,8 @@
     (setq next-place (pop forward-jump-list))
     (cond ((equal next-place (get-current-place))
            (setq next-place (pop forward-jump-list))))
-    (setq current-buffer (car next-place))
-    (setq current-point (cdr next-place))
-    (switch-to-buffer current-buffer)
-    (goto-char current-point)
+    (switch-to-buffer (car next-place))
+    (goto-line (cdr next-place))
     (push-place-uniq next-place backward-jump-list))
    (t
     (message "no more forward history"))))
