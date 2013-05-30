@@ -2,7 +2,6 @@
 
 (defun my-python-mode ()
   (define-key python-mode-map "\'" 'skeleton-pair-insert-maybe)
-  (c-set-style "python")
   (when (require 'highlight-indentation nil t)
 	(setq py-indent-offset 4)
 	;(add-hook 'python-mode-hook 'highlight-indentation-current-column-mode)
