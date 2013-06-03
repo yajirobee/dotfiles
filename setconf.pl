@@ -10,38 +10,49 @@ $home = $ENV{"HOME"};
 
 # setup scripts
 @files = ("bashrc", "zshrc", "vimrc", "screenrc", "pythonstartup.py");
-for (@files){
+for (@files) {
     $conffile = "$home/.$_";
-    if ( -f $conffile){
-	print "$conffile already exists\n";
-    }
-    else{
-	symlink "$base/$_", $conffile;
+    if (-f $conffile) {
+        print "$conffile already exists\n";
+    } else {
+        symlink "$base/$_", $conffile;
     }
 }
 
 # setup my bin directory
 $bin_dir = "$home/bin";
-unless (-d $bin_dir){
+unless (-d $bin_dir) {
     mkdir $bin_dir, 0777;
 }
-copy "$base/rm", "$bin_dir/rm"
-    or die "Can't copy \"$base/rm\" to \"$bin_dir/rm\": $!";
-chmod 0755, "$bin_dir/rm"
-    or die "Cannot change permission $bin_dir/rm: $!";
+@files = ("rm");
+for (@files) {
+    $binfile = "$bin_dir/$_";
+    if (-f $binfile) {
+        print "$binfile already exists\n";
+    } else {
+        symlink "$base/$_", $binfile;
+        chmod 0755, $binfile or die "Cannot change permission $binfile: $!";
+    }
+}
 
 # setup my common directory
 $comm_dir = "$home/common";
-if ( -d "$comm_dir/"){
-    print "$comm_dir/ already exists\n";
+unless (-d $comm_dir) {
+    mkdir $comm_dir, 0777;
 }
-else{
-    symlink "$base/common/", "$comm_dir";
+@files = ("plotutil.py");
+for (@files) {
+    $commfile = "$comm_dir/$_";
+    if (-f $commfile) {
+        print "$commfile already exists\n";
+    } else {
+        symlink "$base/common/$_", $commfile;
+    }
 }
 
 # setup emacs config
 $emacs_dir = "$home/.emacs.d";
-if ( -d "$emacs_dir/"){
+if (-d "$emacs_dir/"){
     print "$emacs_dir/ already exists\n";
 }
 else{
