@@ -40,7 +40,7 @@ $comm_dir = "$home/common";
 unless (-d $comm_dir) {
     mkdir $comm_dir, 0777;
 }
-@files = ("plotutil.py");
+@files = ("plotutil.py", "monotonic.py");
 for (@files) {
     $commfile = "$comm_dir/$_";
     if (-f $commfile) {
