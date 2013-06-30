@@ -17,43 +17,57 @@ def gpinit(termtype = None):
         sys.exit(1)
     return gp
 
-def query2data(db, query, xcol = 0, ycol = 1, *items, **keyw):
-    if isinstance(db, str):
-        conn = sqlite3.connect(db)
-    else:
-        conn = db
+def query2data(db, query):
+    if isinstance(db, str): conn = sqlite3.connect(db)
+    else: conn = db
+    rows = conn.execute(query)
+    r = rows.fetchone()
+    datalist = [[val] for val in r]
+    for r in rows:
+        for val, arr in zip(r, datalist): arr.append(val)
+    return datalist
+
+def query2gds(db, query, *items, **keyw):
+    if isinstance(db, str): conn = sqlite3.connect(db)
+    else: conn = db
     vardict = {}
     for var in re.findall(r'\{\w+\}', query):
         var = var.strip('{}')
         if var not in keyw:
-            sys.stdout.write('No keyword argument : {0}\n'.format(var))
-            sys.exit(1)
+            sys.stderr.write('No keyword argument : {0}\n'.format(var))
+            return None
         vardict[var] = keyw.pop(var)
+    if 'title' in keyw: title = keyw.pop('title')
+    else: title = ' '.join(['{0}={{{0}}}'.format(var) for var in vardict])
+
     gdlist = []
     if vardict:
-        if 'title' in keyw:
-            title = keyw.pop('title')
-        else:
-            title = ' '.join(['{0}={{{0}}}'.format(var) for var in vardict])
         for vallist in itertools.product(*vardict.values()):
-            valdict = {}
-            for key, value in zip(vardict, vallist):
-                valdict[key] = value
-            x, y = [], []
-            for r in conn.execute(query.format(**valdict)):
-                x.append(r[xcol])
-                y.append(r[ycol])
-            gdlist.append(Gnuplot.Data(x, y,
-                                       title = title.format(**valdict),
-                                       *items, **keyw))
+            valdict = dict(zip(vardict, vallist))
+            datalist = query2data(conn, query.format(**valdict))
+            if len(datalist) == 2:
+                gdlist.append(Gnuplot.Data(datalist[0], datalist[1],
+                                           title = title.format(**valdict),
+                                           *items, **keyw))
+            elif len(datalist) == 3:
+                gdlist.append(Gnuplot.Data(datalist[0], datalist[1], datalist[2],
+                                           title = title.format(**valdict),
+                                           *item, **keyw))
+            else:
+                sys.stderr.write('Number of output column is not valid\n')
+                return None
     else:
-        x, y = [], []
-        for r in conn.execute(query):
-            x.append(r[xcol])
-            y.append(r[ycol])
-        gdlist.append(Gnuplot.Data(x, y, *items, **keyw))
-    if isinstance(db, str):
-        conn.close()
+        datalist = query2data(conn, query)
+        if len(datalist) == 2:
+            gdlist.append(Gnuplot.Data(datalist[0], datalist[1],
+                                       title = title, *items, **keyw))
+        elif len(datalist) == 3:
+            gdlist.append(Gnuplot.Data(datalist[0], datalist[1], datalist[2],
+                                       title = title, *items, **keyw))
+        else:
+            sys.stderr.write('Number of output column is not valid\n')
+            return None
+    if isinstance(db, str): conn.close()
     return gdlist
 
 def ceiltop(val):
