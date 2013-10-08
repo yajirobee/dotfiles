@@ -15,11 +15,9 @@ done
 # set enviromental variables
 #
 
-addpath "$HOME/bin"
-
 # load local environment setup
-if [ -f "$HOME/.localenvs" ]; then
-    source "$HOME/.localenvs"
+if [ -f "$HOME/.localenvs.$(hostname -s)" ]; then
+    source "$HOME/.localenvs.$(hostname -s)"
 fi
 
 # If not running interactively, don't do anything
@@ -79,9 +77,11 @@ alias du1='du -h --max-depth=1'
 # Add an "alert" alias for long running commands
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+addpath "$HOME/bin"
+
 # load local bash setup
-if [ -f "$HOME/.bashrc_local" ]; then
-    source "$HOME/.bash_local"
+if [ -f "$HOME/.bashrc.$(hostname -s)" ]; then
+    source "$HOME/.bash.$(hostname -s)"
 fi
 
 if [ -d "$HOME/common" ]; then
