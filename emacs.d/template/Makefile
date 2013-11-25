@@ -15,3 +15,8 @@ clean:
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
+
+.PHONY: check-syntax
+
+check-syntax:
+	$(CC) -Wall -fsyntax-only $(CHK_SOURCES)
