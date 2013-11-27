@@ -9,7 +9,7 @@ $base = dirname(File::Spec->rel2abs($0));
 $home = $ENV{"HOME"};
 
 # setup scripts
-@files = ("bashrc", "zshrc", "vimrc", "screenrc", "pythonstartup.py");
+@files = ("bashrc", "zshrc", "vimrc", "screenrc", "pythonstartup.py", "sqliterc");
 for (@files) {
     $conffile = "$home/.$_";
     if (-f $conffile) {
