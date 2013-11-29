@@ -7,7 +7,8 @@ def gpinit(termtype = None):
     if not termtype:
         pass
     elif termtype == "eps":
-        settermcmd = 'set terminal postscript eps enhanced color "Times-Roman,26"'
+        #settermcmd = 'set terminal postscript eps enhanced color "Times-Roman,26"'
+        settermcmd = 'set terminal postscript eps color "Times-Roman,24"'
         gp(settermcmd)
     elif termtype == "png":
         settermcmd = "set terminal png size 800, 600"
