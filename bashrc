@@ -39,7 +39,7 @@ shopt -s histappend  # append to the history file, don't overwrite it
 #
 
 export LANG=C
-export LC_MESSAGE=C
+export LC_MESSAGES=C
 # check the window size (update the values of LINES and COLUMNS)
 shopt -s checkwinsize
 
