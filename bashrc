@@ -10,6 +10,7 @@ do
     fi
 done
 }
+export -f addpath
 
 #
 # set enviromental variables
