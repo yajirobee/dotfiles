@@ -3,6 +3,8 @@
 ;;; Code:
 (when (require 'auto-complete-config nil t)
   (ac-config-default)
+  (setq ac-modes
+        (append '(yatex-mode makefile-gmake-mode) ac-modes))
   ;; dictionary directories
   (add-to-list 'ac-dictionary-directories
                "~/.emacs.d/ac-dict")
