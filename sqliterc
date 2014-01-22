@@ -1,2 +1,3 @@
 .header on
 .mode column
+select load_extension('/home/keisuke/common/libsqlitefunctions.so');
