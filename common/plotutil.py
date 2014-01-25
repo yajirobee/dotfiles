@@ -8,7 +8,10 @@ def gpinit(termtype = None):
         pass
     elif termtype == "eps":
         #settermcmd = 'set terminal postscript eps enhanced color "Times-Roman,26"'
-        settermcmd = 'set terminal postscript eps color "Times-Roman,24"'
+        settermcmd = 'set terminal postscript eps color "Times-Roman,26"'
+        gp(settermcmd)
+    elif termtype == "epslatex":
+        settermcmd = 'set terminal epslatex color 12'
         gp(settermcmd)
     elif termtype == "png":
         settermcmd = "set terminal png size 800, 600"
@@ -53,7 +56,7 @@ def query2gds(db, query, *items, **keyw):
             elif len(datalist) == 3:
                 gdlist.append(Gnuplot.Data(datalist[0], datalist[1], datalist[2],
                                            title = title.format(**valdict),
-                                           *item, **keyw))
+                                           *items, **keyw))
             else:
                 sys.stderr.write('Number of output column is not valid\n')
                 return None
