@@ -235,7 +235,7 @@
 (set-scroll-bar-mode 'right)
 
 ;;; erase tool bar
-(tool-bar-mode nil)
+(tool-bar-mode 0)
 
 ;; font
 (set-face-attribute 'default nil
