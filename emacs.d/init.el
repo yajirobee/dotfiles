@@ -19,9 +19,6 @@
 
 (add-to-load-path "conf" "elisp")
 
-;;; erase tool bar
-(tool-bar-mode nil)
-
 ;;; settings depends on Locale
 (set-locale-environment nil)
 
@@ -237,6 +234,9 @@
 ;;; display scroll bar right side
 (set-scroll-bar-mode 'right)
 
+;;; erase tool bar
+(tool-bar-mode nil)
+
 ;; font
 (set-face-attribute 'default nil
                     :family "inconsolata"
@@ -343,3 +343,7 @@
 
 ;; configure for postgresql code
 (require 'pg-config nil t)
+
+;; configure for windows
+(if (eq system-type 'windows-nt)
+    (require 'init-windows))
