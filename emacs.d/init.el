@@ -19,26 +19,8 @@
 
 (add-to-load-path "conf" "elisp")
 
-;;; auto-install
-(when (require 'auto-install nil t)
-  ;; install directory
-  (setq auto-install-directory "~/.emacs.d/elisp/")
-  ;; get elisp names registered in EmacsWiki
-  (auto-install-update-emacswiki-package-name t)
-  ;; if necessary, setting proxy
-  ;; (setq url-proxy-service '(("http" . "localhost:8339")))
-  ;; enable functions of install-elisp
-  (auto-install-compatibility-setup))
-
-;;; package.el
-(when (require 'package nil t)
-  ;; Add package repository Marmalade and ELPA which is managed by creater
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives
-               '("ELPA" . "http://tromey.com/elpa/"))
-  ;; setting load path and loading installed packages
-  (package-initialize))
+;;; erase tool bar
+(tool-bar-mode nil)
 
 ;;; settings depends on Locale
 (set-locale-environment nil)
@@ -255,9 +237,6 @@
 ;;; display scroll bar right side
 (set-scroll-bar-mode 'right)
 
-;;; erase tool bar
-(tool-bar-mode nil)
-
 ;; font
 (set-face-attribute 'default nil
                     :family "inconsolata"
@@ -316,6 +295,27 @@
   (message "done."))
 
 (add-hook 'find-file-not-found-hooks 'auto-insert)
+
+;;; auto-install
+(when (require 'auto-install nil t)
+  ;; install directory
+  (setq auto-install-directory "~/.emacs.d/elisp/")
+  ;; get elisp names registered in EmacsWiki
+  (auto-install-update-emacswiki-package-name t)
+  ;; if necessary, setting proxy
+  ;; (setq url-proxy-service '(("http" . "localhost:8339")))
+  ;; enable functions of install-elisp
+  (auto-install-compatibility-setup))
+
+;;; package.el
+(when (require 'package nil t)
+  ;; Add package repository Marmalade and ELPA which is managed by creater
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives
+               '("ELPA" . "http://tromey.com/elpa/"))
+  ;; setting load path and loading installed packages
+  (package-initialize))
 
 ;;; auto-complete
 (require 'init-auto-complete)
