@@ -70,4 +70,21 @@ Use CREATE-TEMP-F for creating temp copy."
 (smartrep-define-key
     global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
                        ("M-p" . 'flymake-goto-prev-error)))
+
+(defun flymake-pyflakes-init ()
+;; Make sure it's not a remote buffer or flymake would not work
+  (when (if (fboundp 'tramp-list-remote-buffers)
+            (not (subsetp
+                  (list (current-buffer))
+                  (tramp-list-remote-buffers)))
+          t)
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "pyflakes" (list local-file)))))
+(add-to-list 'flymake-allowed-file-name-masks
+             '("\\.py\\'" flymake-pyflakes-init))
+
 (provide 'init-flymake)
