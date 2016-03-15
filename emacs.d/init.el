@@ -3,7 +3,8 @@
 ;;;
 
 ;;; load path configuration
-(setq load-path (append '("~/.emacs.d") load-path))
+(when (< emacs-major-version 24)
+  (setq load-path (append '("~/.emacs.d") load-path)))
 
 (when (> emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
@@ -57,6 +58,10 @@
           '(lambda ()
              (local-set-key (kbd "C-m") 'reindent-then-newline-and-indent)))
 
+;;; cua mode
+(cua-mode t)
+(setq cua-enable-cua-keys nil)
+
 ;;; using clipboard in emacs gui mode
 (cond (window-system (setq x-select-enable-clipboard t)))
 
@@ -108,6 +113,11 @@
     (car grep-command)))
 (setq grep-command (cons (concat grep-command-before-query " .")
                          (+ (length grep-command-before-query) 1)))
+
+;;; wgrep
+(when (require 'wgrep nil t)
+  (setf wgrep-enable-key "e")
+  (setq wgrep-auto-save-buffer t))
 
 ;; color-moccur
 (when (require 'color-moccur nil t)
