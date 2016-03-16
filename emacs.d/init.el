@@ -1,3 +1,6 @@
+;; byte-compile elisps
+(byte-recompile-directory "~/.emacs.d" 0)
+
 ;;;
 ;;; system configuration
 ;;;
