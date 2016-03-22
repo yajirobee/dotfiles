@@ -67,7 +67,8 @@ Use CREATE-TEMP-F for creating temp copy."
                flymake-simple-make-gcc-init))
 
 ;; keybind
-(smartrep-define-key
-    global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
-                       ("M-p" . 'flymake-goto-prev-error)))
+(when (require 'smartrep nil t)
+  (smartrep-define-key global-map "M-g"
+                       '(("M-n" . 'flymake-goto-next-error)
+                         ("M-p" . 'flymake-goto-prev-error))))
 (provide 'init-flymake)

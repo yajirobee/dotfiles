@@ -351,9 +351,6 @@
 ;;; org-mode
 (require 'init-org nil t)
 
-;;; dot-mode
-(require 'graphviz-dot-mode-autoloads nil t)
-
 ;; configure for postgresql code
 (require 'pg-config nil t)
 
