@@ -333,6 +333,12 @@
 ;;; auto-complete
 (require 'init-auto-complete)
 
+;;; Anything
+;(require 'init-anything)
+
+;;; helm
+(require 'init-helm)
+
 ;;; Flymake
 (require 'init-flymake)
 
@@ -341,9 +347,6 @@
 
 ;;; Ocaml
 (require 'init-ocaml)
-
-;;; Anything
-(require 'init-anything)
 
 ;;; Python
 (require 'init-python)
