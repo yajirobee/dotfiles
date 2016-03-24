@@ -8,8 +8,8 @@
   ))
 
 (add-hook 'python-mode-hook 'my-python-mode)
-
-(when (require 'pymacs-autoloads nil t))
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
 (provide 'init-python)
 ;;; init-python.el ends here

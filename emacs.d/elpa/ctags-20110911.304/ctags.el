@@ -3,6 +3,7 @@
 ;; Copyright  (C)  2011 Free Software Foundation, Inc.
 
 ;; Version: 1.1.1
+;; Package-Version: 20110911.304
 ;; Keywords: tags ctags etags
 ;; Author: Guilherme M. Gondim <semente@taurinus.org>
 ;; Maintainer: Guilherme M. Gondim <semente@taurinus.org>
@@ -28,9 +29,9 @@
 ;; Configuration example:
 
 ;; (setq tags-revert-without-query t)
-;; (global-set-key (kbd "<f5>") 'ctags-create-or-update-tags-table)
+;; (global-set-key (kbd "<f7>") 'ctags-create-or-update-tags-table)
 
-;; Then just press <f5> to update or create your TAGS file. That function look
+;; Then just press <f7> to update or create your TAGS file. That function look
 ;; for a file TAGS in the current and its parent directories, if a TAG file is
 ;; not found it ask you where create a new one.
 
@@ -49,6 +50,8 @@
 
 ;; (add-to-list 'load-path "/folder/containing/file")
 ;; (require 'ctags)
+
+;; Alternatively, you can install it using the Marmalade ELPA repository.
 
 ;;; Code:
 

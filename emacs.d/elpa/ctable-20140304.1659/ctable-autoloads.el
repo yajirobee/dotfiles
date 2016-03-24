@@ -1,9 +1,9 @@
-;;; ctags-autoloads.el --- automatically extracted autoloads
+;;; ctable-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil nil ("ctags.el") (22257 22713 513297 150000))
+;;;### (autoloads nil nil ("ctable.el") (22260 867 993680 400000))
 
 ;;;***
 
@@ -12,4 +12,4 @@
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
 ;; End:
-;;; ctags-autoloads.el ends here
+;;; ctable-autoloads.el ends here
