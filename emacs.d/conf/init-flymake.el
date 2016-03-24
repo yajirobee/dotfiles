@@ -71,4 +71,8 @@ Use CREATE-TEMP-F for creating temp copy."
   (smartrep-define-key global-map "M-g"
                        '(("M-n" . 'flymake-goto-next-error)
                          ("M-p" . 'flymake-goto-prev-error))))
+
+;;; flymake-cursor
+(eval-after-load 'flymake '(require 'flymake-cursor))
+
 (provide 'init-flymake)

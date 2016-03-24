@@ -210,9 +210,6 @@
 (setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
-;;; flymake-cursor
-(eval-after-load 'flymake '(require 'flymake-cursor))
-
 ;;; using dired-x
 (require 'dired-x)
 
