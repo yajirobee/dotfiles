@@ -1,9 +1,13 @@
+;; byte-compile elisps
+(byte-recompile-directory "~/.emacs.d" 0)
+
 ;;;
 ;;; system configuration
 ;;;
 
 ;;; load path configuration
-(setq load-path (append '("~/.emacs.d") load-path))
+(when (< emacs-major-version 24)
+  (setq load-path (append '("~/.emacs.d") load-path)))
 
 (when (> emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
@@ -57,6 +61,10 @@
           '(lambda ()
              (local-set-key (kbd "C-m") 'reindent-then-newline-and-indent)))
 
+;;; cua mode
+(cua-mode t)
+(setq cua-enable-cua-keys nil)
+
 ;;; using clipboard in emacs gui mode
 (cond (window-system (setq x-select-enable-clipboard t)))
 
@@ -108,6 +116,11 @@
     (car grep-command)))
 (setq grep-command (cons (concat grep-command-before-query " .")
                          (+ (length grep-command-before-query) 1)))
+
+;;; wgrep
+(when (require 'wgrep nil t)
+  (setf wgrep-enable-key "e")
+  (setq wgrep-auto-save-buffer t))
 
 ;; color-moccur
 (when (require 'color-moccur nil t)
@@ -196,9 +209,6 @@
 ;;; ignore case in completion
 (setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
-
-;;; flymake-cursor
-(eval-after-load 'flymake '(require 'flymake-cursor))
 
 ;;; using dired-x
 (require 'dired-x)
@@ -309,16 +319,22 @@
 
 ;;; package.el
 (when (require 'package nil t)
-  ;; Add package repository Marmalade and ELPA which is managed by creater
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives
-               '("ELPA" . "http://tromey.com/elpa/"))
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
   ;; setting load path and loading installed packages
   (package-initialize))
 
 ;;; auto-complete
 (require 'init-auto-complete)
+
+;;; Anything
+;(require 'init-anything)
+
+;;; helm
+(require 'init-helm)
 
 ;;; Flymake
 (require 'init-flymake)
@@ -329,17 +345,11 @@
 ;;; Ocaml
 (require 'init-ocaml)
 
-;;; Anything
-(require 'init-anything)
-
 ;;; Python
 (require 'init-python)
 
 ;;; org-mode
 (require 'init-org nil t)
-
-;;; dot-mode
-(require 'graphviz-dot-mode-autoloads nil t)
 
 ;; configure for postgresql code
 (require 'pg-config nil t)

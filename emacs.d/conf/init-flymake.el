@@ -66,11 +66,6 @@ Use CREATE-TEMP-F for creating temp copy."
              '("\\.\\(?:c\\(?:pp\\|xx\\|\\+\\+\\)?\\|CC\\)\\'"
                flymake-simple-make-gcc-init))
 
-;; keybind
-(smartrep-define-key
-    global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
-                       ("M-p" . 'flymake-goto-prev-error)))
-
 (defun flymake-pyflakes-init ()
 ;; Make sure it's not a remote buffer or flymake would not work
   (when (if (fboundp 'tramp-list-remote-buffers)
@@ -86,5 +81,13 @@ Use CREATE-TEMP-F for creating temp copy."
       (list "pyflakes" (list local-file)))))
 (add-to-list 'flymake-allowed-file-name-masks
              '("\\.py\\'" flymake-pyflakes-init))
+
+(when (require 'smartrep nil t)
+  (smartrep-define-key global-map "M-g"
+                       '(("M-n" . 'flymake-goto-next-error)
+                         ("M-p" . 'flymake-goto-prev-error))))
+
+;;; flymake-cursor
+(eval-after-load 'flymake '(require 'flymake-cursor))
 
 (provide 'init-flymake)

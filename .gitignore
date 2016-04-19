@@ -1,5 +1,12 @@
+*.pyc
+*.elc
 emacs.d/auto-save-list
 emacs.d/ac-comphist.dat
+emacs.d/recentf
+emacs.d/places
 emacs.d/elpa/archives
 emacs.d/url
-*.pyc
+emacs.d/kkcrc
+emacs.d/tramp
+emacs.d/eshell
+emacs.d/.python-environments
