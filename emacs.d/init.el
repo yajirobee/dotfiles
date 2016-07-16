@@ -43,14 +43,6 @@
   (define-key global-map (kbd "M-P") 'push-current-place)
   (define-key global-map (kbd "M-p") 'backward-jump)
   (define-key global-map (kbd "M-n") 'forward-jump))
-(when (require 'smartrep nil t)
-  (defvar ctl-q-map (make-keymap))
-  (define-key global-map (kbd "C-q") ctl-q-map)
-  (smartrep-define-key global-map (kbd "C-x") '(("o" . 'other-window)))
-  (smartrep-define-key global-map (kbd "C-q") '(("l" . 'windmove-right)
-                                                ("h" . 'windmove-left)
-                                                ("j" . 'windmove-down)
-                                                ("k" . 'windmove-up))))
 
 ;; in C-mode and sh-mode, indent before and after newline
 (add-hook 'c-mode-common-hook
@@ -137,6 +129,16 @@
              (require 'migemo nil t))
     (setq moccur-use-migemo t))
   (require 'moccur-edit nil t))
+
+;; open large file with read only mode
+(defun my-find-file-check-make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (> (buffer-size) (* 1024 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)))
+
+(add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
 ;; ctags
 (when (require 'ctags nil t)
@@ -348,8 +350,21 @@
 ;;; Python
 (require 'init-python)
 
+;;; Web
+(require 'init-web)
+
 ;;; org-mode
 (require 'init-org nil t)
+
+;; smartrep
+(when (require 'smartrep nil t)
+  (defvar ctl-q-map (make-keymap))
+  (define-key global-map (kbd "C-q") ctl-q-map)
+  (smartrep-define-key global-map (kbd "C-x") '(("o" . 'other-window)))
+  (smartrep-define-key global-map (kbd "C-q") '(("l" . 'windmove-right)
+                                                ("h" . 'windmove-left)
+                                                ("j" . 'windmove-down)
+                                                ("k" . 'windmove-up))))
 
 ;; configure for postgresql code
 (require 'pg-config nil t)
