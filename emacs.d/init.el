@@ -219,6 +219,9 @@
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
+;;; ls option
+(setq dired-listing-switches "-alh")
+
 ;;; if the same file names exist in buffer, adding directory names to display file names
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
