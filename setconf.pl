@@ -62,10 +62,9 @@ for (@files) {
 }
 
 # setup emacs config
-$emacs_dir = "$home/.emacs.d";
+$emacs_dir = "$home/.spacemacs.d";
 if (-d "$emacs_dir/"){
     print "$emacs_dir/ already exists\n";
-}
-else{
-    symlink "$base/emacs.d/", "$emacs_dir";
+} else{
+    symlink "$base/dotfiles/spacemacs.d", "$emacs_dir";
 }
