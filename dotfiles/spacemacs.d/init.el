@@ -149,8 +149,8 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font '("Ricty Diminished"
+                               :size 17
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -320,6 +320,12 @@ you should place your code here."
   (define-key global-map "\C-o" 'toggle-input-method)
 
   (setq powerline-default-separator nil)
+
+  ;; font
+  (set-fontset-font nil 'japanese-jisx0208
+                    (font-spec :family "Ricty Diminished"))
+  (set-fontset-font nil 'katakana-jisx0201
+                    (font-spec :family "Ricty Diminished"))
 
   ;;; if file starts by "#!", change permission to +x
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
