@@ -307,6 +307,8 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+
+  ;; (set-proxy)
   )
 
 (defun dotspacemacs/user-config ()
@@ -329,6 +331,32 @@ you should place your code here."
 
   ;;; if file starts by "#!", change permission to +x
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+  )
+
+
+;; get user:passwd entry from http_proxy environment var and base64-encode it.
+(defun set-proxy ()
+  (when (getenv "http_proxy")
+    (cl-flet
+        ((get-passwd-encode-string
+          ()
+          (let* ((ev (getenv "http_proxy"))
+                 (x (decode-coding-string (url-unhex-string ev) 'utf-8)))
+            (if (not (equal x ""))
+                (base64-encode-string
+                 (substring x (+ 2 (string-match "//" x)) (string-match "@" x)))
+              nil)))
+         (get-proxy-url-string
+          ()
+          (let* ((ev (getenv "http_proxy"))
+                 (x (decode-coding-string (url-unhex-string ev) 'utf-8)))
+            (if (not (equal x ""))
+                (substring x (+ 1 (string-match "@" x)))
+              ""))))
+      ;; proxy service var
+      (setq url-proxy-services `(("no_proxy" . "^\\(localhost \\| 10.*\\)")
+                                 ("http"  . ,(get-proxy-url-string))
+                                 ("https" . ,(get-proxy-url-string))))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
