@@ -31,26 +31,41 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     vimscript
-     markdown
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     helm
-     ;; auto-completion
-     ;; better-defaults
+     csv
+     ;; press <M-m f e R> (Emacs style) to install them.
+     ;; programming and markup languages
+     python
+     c-c++
+     ruby
+     shell-scripts
      emacs-lisp
-     ;; git
-     ;; markdown
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
-     ;; syntax-checking
-     ;; version-control
+     html
+     sql
+     markdown
+     vimscript
+
+     ;; completion
+     helm
+     auto-completion
+
+     ;; version controll
+     git
+     version-control
+
+     ;; tools
+     org
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
+
+     ;; checkers
+     spell-checking
+     syntax-checking
+
+     ;; tags
+     gtags
+
+     ;; better-defaults
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -301,6 +316,13 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (define-key global-map "\C-h" 'delete-backward-char)
+  (define-key global-map "\C-o" 'toggle-input-method)
+
+  (setq powerline-default-separator nil)
+
+  ;;; if file starts by "#!", change permission to +x
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
