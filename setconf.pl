@@ -8,10 +8,19 @@ use File::Basename;
 $base = dirname(File::Spec->rel2abs($0));
 $home = $ENV{"HOME"};
 
+# link dot files
+@files = ("bashrc", "zshrc", "vimrc", "screenrc", "sqliterc");
+for (@files) {
+    $conffile = "$home/.$_";
+    if (-f $conffile) {
+        print "$conffile already exists\n";
+    } else {
+        symlink "$base/dotfiles/$_", $conffile;
+    }
+}
+
 # setup scripts
-@files = ("bashrc", "zshrc", "vimrc",
-          "screenrc", "pythonstartup.py", "sqliterc",
-          "aspell.conf");
+@files = ("pythonstartup.py", "aspell.conf");
 for (@files) {
     $conffile = "$home/.$_";
     if (-f $conffile) {
@@ -32,7 +41,7 @@ for (@files) {
     if (-f $binfile) {
         print "$binfile already exists\n";
     } else {
-        symlink "$base/$_", $binfile;
+        symlink "$base/bin/$_", $binfile;
         chmod 0755, $binfile or die "Cannot change permission $binfile: $!";
     }
 }
