@@ -67,5 +67,5 @@ if (-d "$emacs_dir/"){
     print "$emacs_dir/ already exists\n";
 }
 else{
-    symlink "$base/emacs.d/", "$emacs_dir";
+    symlink "$base/dotfiles/emacs.d/", "$emacs_dir";
 }
