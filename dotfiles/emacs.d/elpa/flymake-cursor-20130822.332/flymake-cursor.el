@@ -7,8 +7,8 @@
 ;; Created    : May 2011
 ;; Modified   : December 2012
 ;; Version    : 0.1.5
-;; Keywords   : languages mode flymake
 ;; Package-Version: 20130822.332
+;; Keywords   : languages mode flymake
 ;; X-URL      : http://www.emacswiki.org/emacs/flymake-cursor.el
 ;; Last-saved : <2012-Dec-20 09:49:28>
 ;;

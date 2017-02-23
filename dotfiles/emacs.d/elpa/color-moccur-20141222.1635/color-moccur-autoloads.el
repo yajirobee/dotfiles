@@ -1,11 +1,11 @@
 ;;; color-moccur-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "color-moccur" "color-moccur.el" (22257 23121
-;;;;;;  303693 919000))
-;;; Generated autoloads from color-moccur.el
+;;;### (autoloads nil "color-moccur" "../../../../../../.emacs.d/elpa/color-moccur-20141222.1635/color-moccur.el"
+;;;;;;  "219efa6562fe107309ad67e45ceb8e1f")
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/color-moccur-20141222.1635/color-moccur.el
 
 (autoload 'occur-by-moccur "color-moccur" "\
 Use this instead of occur.
@@ -36,6 +36,12 @@ It serves as a menu to find any of the occurrences in this buffer.
 *Search string of all buffers.
 
 \(fn REGEXP ARG)" t nil)
+
+;;;***
+
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/color-moccur-20141222.1635/color-moccur-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/color-moccur-20141222.1635/color-moccur.el")
+;;;;;;  (22702 65433 725607 274000))
 
 ;;;***
 

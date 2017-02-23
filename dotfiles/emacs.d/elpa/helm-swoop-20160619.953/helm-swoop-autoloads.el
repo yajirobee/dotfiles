@@ -1,11 +1,11 @@
 ;;; helm-swoop-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "helm-swoop" "helm-swoop.el" (22410 12500 65990
-;;;;;;  587000))
-;;; Generated autoloads from helm-swoop.el
+;;;### (autoloads nil "helm-swoop" "../../../../../../.emacs.d/elpa/helm-swoop-20160619.953/helm-swoop.el"
+;;;;;;  "e5975f62f7e91813436d53e6937d8a08")
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/helm-swoop-20160619.953/helm-swoop.el
 
 (autoload 'helm-swoop-back-to-last-point "helm-swoop" "\
 Go back to last position where `helm-swoop' was called
@@ -17,7 +17,7 @@ List the all lines to another buffer, which is able to squeeze by
  any words you input. At the same time, the original buffer's cursor
  is jumping line to line according to moving up and down the list.
 
-\(fn &key $QUERY $SOURCE ($multiline current-prefix-arg))" t nil)
+\(fn &key $QUERY $SOURCE ($MULTILINE current-prefix-arg))" t nil)
 
 (autoload 'helm-swoop-from-isearch "helm-swoop" "\
 Invoke `helm-swoop' from isearch.
@@ -70,6 +70,12 @@ Start helm-swoop without pre input query.
 
 
 \(fn)" t nil)
+
+;;;***
+
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/helm-swoop-20160619.953/helm-swoop-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/helm-swoop-20160619.953/helm-swoop.el")
+;;;;;;  (22702 65100 981043 546000))
 
 ;;;***
 

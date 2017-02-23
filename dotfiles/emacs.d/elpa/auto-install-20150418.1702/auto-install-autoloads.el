@@ -1,10 +1,11 @@
 ;;; auto-install-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil nil ("auto-install.el") (22257 23230 577560
-;;;;;;  310000))
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/auto-install-20150418.1702/auto-install-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/auto-install-20150418.1702/auto-install.el")
+;;;;;;  (22703 285 337997 124000))
 
 ;;;***
 

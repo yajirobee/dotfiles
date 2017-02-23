@@ -1,11 +1,11 @@
 ;;; flymake-cursor-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "flymake-cursor" "flymake-cursor.el" (22257
-;;;;;;  22001 706379 651000))
-;;; Generated autoloads from flymake-cursor.el
+;;;### (autoloads nil "flymake-cursor" "../../../../../../.emacs.d/elpa/flymake-cursor-20130822.332/flymake-cursor.el"
+;;;;;;  "24f940c73f03608fec120e826fb3c31b")
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/flymake-cursor-20130822.332/flymake-cursor.el
 
 (autoload 'flyc/show-fly-error-at-point-now "flymake-cursor" "\
 If the cursor is sitting on a flymake error, display
@@ -26,6 +26,12 @@ second, does the flymake error message (if any) get displayed.
 \(fn)" nil nil)
 
 (eval-after-load "flymake" '(progn (defadvice flymake-goto-next-error (after flyc/display-message-1 activate compile) "Display the error in the mini-buffer rather than having to mouse over it" (flyc/show-fly-error-at-point-now)) (defadvice flymake-goto-prev-error (after flyc/display-message-2 activate compile) "Display the error in the mini-buffer rather than having to mouse over it" (flyc/show-fly-error-at-point-now)) (defadvice flymake-mode (before flyc/post-command-fn activate compile) "Add functionality to the post command hook so that if the\ncursor is sitting on a flymake error the error information is\ndisplayed in the minibuffer (rather than having to mouse over\nit)" (add-hook 'post-command-hook 'flyc/show-fly-error-at-point-pretty-soon t t))))
+
+;;;***
+
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/flymake-cursor-20130822.332/flymake-cursor-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/flymake-cursor-20130822.332/flymake-cursor.el")
+;;;;;;  (22702 65122 389004 774000))
 
 ;;;***
 

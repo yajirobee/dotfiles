@@ -1,11 +1,11 @@
 ;;; graphviz-dot-mode-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "graphviz-dot-mode" "graphviz-dot-mode.el"
-;;;;;;  (22257 22000 209689 839000))
-;;; Generated autoloads from graphviz-dot-mode.el
+;;;### (autoloads nil "graphviz-dot-mode" "../../../../../../.emacs.d/elpa/graphviz-dot-mode-20151127.621/graphviz-dot-mode.el"
+;;;;;;  "1421f0c33ccaea422695c51dd3ab2455")
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/graphviz-dot-mode-20151127.621/graphviz-dot-mode.el
 
 (autoload 'graphviz-dot-mode "graphviz-dot-mode" "\
 Major mode for the dot language. \\<graphviz-dot-mode-map>
@@ -58,6 +58,12 @@ Turning on Graphviz Dot mode calls the value of the variable
 (add-to-list 'auto-mode-alist '("\\.dot\\'" . graphviz-dot-mode))
 
 (add-to-list 'auto-mode-alist '("\\.gv\\'" . graphviz-dot-mode))
+
+;;;***
+
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/graphviz-dot-mode-20151127.621/graphviz-dot-mode-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/graphviz-dot-mode-20151127.621/graphviz-dot-mode.el")
+;;;;;;  (22702 65123 972930 412000))
 
 ;;;***
 

@@ -1,11 +1,11 @@
 ;;; caml-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "camldebug" "camldebug.el" (22410 12510 485990
-;;;;;;  398000))
-;;; Generated autoloads from camldebug.el
+;;;### (autoloads nil "camldebug" "../../../../../../.emacs.d/elpa/caml-20151009.845/camldebug.el"
+;;;;;;  "34d8ff534b6af1091d78780e19cb7455")
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/caml-20151009.845/camldebug.el
 
 (defvar camldebug-command-name "ocamldebug" "\
 *Pathname for executing camldebug.")
@@ -20,10 +20,20 @@ the camldebug commands `cd DIR' and `directory'.
 
 ;;;***
 
-;;;### (autoloads nil nil ("caml-compat.el" "caml-emacs.el" "caml-font-old.el"
-;;;;;;  "caml-font.el" "caml-help.el" "caml-hilit.el" "caml-pkg.el"
-;;;;;;  "caml-types.el" "caml-xemacs.el" "caml.el" "inf-caml.el")
-;;;;;;  (22410 12510 506509 250000))
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/caml-20151009.845/caml-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-compat.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-emacs.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-font-old.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-font.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-help.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-hilit.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-pkg.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-types.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml-xemacs.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/caml.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/camldebug.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/caml-20151009.845/inf-caml.el")
+;;;;;;  (22703 2 629219 254000))
 
 ;;;***
 

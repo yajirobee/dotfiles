@@ -1,9 +1,11 @@
 ;;; smartrep-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil nil ("smartrep.el") (22257 22988 830191 458000))
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/smartrep-20150508.1930/smartrep-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/smartrep-20150508.1930/smartrep.el")
+;;;;;;  (22703 57 961802 82000))
 
 ;;;***
 

@@ -1,10 +1,13 @@
 ;;; python-environment-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil nil ("python-environment-pkg.el" "python-environment.el"
-;;;;;;  "test-python-environment.el") (22260 866 256616 438000))
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/python-environment-20150310.153/python-environment-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/python-environment-20150310.153/python-environment-pkg.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/python-environment-20150310.153/python-environment.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/python-environment-20150310.153/test-python-environment.el")
+;;;;;;  (22702 65523 575068 835000))
 
 ;;;***
 

@@ -1,10 +1,11 @@
 ;;; vline-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "vline" "vline.el" (22257 21990 406204 897000))
-;;; Generated autoloads from vline.el
+;;;### (autoloads nil "vline" "../../../../../../.emacs.d/elpa/vline-20120108.445/vline.el"
+;;;;;;  "ae7db12b9551913ba69b7acee73b11da")
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/vline-20120108.445/vline.el
 
 (autoload 'vline-mode "vline" "\
 Display vertical line mode.
@@ -13,7 +14,8 @@ Display vertical line mode.
 
 (defvar vline-global-mode nil "\
 Non-nil if Vline-Global mode is enabled.
-See the command `vline-global-mode' for a description of this minor mode.
+See the `vline-global-mode' command
+for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')
 or call the function `vline-global-mode'.")
@@ -31,6 +33,12 @@ Vline mode is enabled in all buffers where
 See `vline-mode' for more information on Vline mode.
 
 \(fn &optional ARG)" t nil)
+
+;;;***
+
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/vline-20120108.445/vline-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/vline-20120108.445/vline.el")
+;;;;;;  (22702 65430 518198 920000))
 
 ;;;***
 
