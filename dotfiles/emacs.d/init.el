@@ -109,11 +109,6 @@
 (setq grep-command (cons (concat grep-command-before-query " .")
                          (+ (length grep-command-before-query) 1)))
 
-;;; wgrep
-(when (require 'wgrep nil t)
-  (setf wgrep-enable-key "e")
-  (setq wgrep-auto-save-buffer t))
-
 ;; color-moccur
 (when (require 'color-moccur nil t)
   ;; keybind
@@ -127,8 +122,7 @@
   ;; using Migemo if available
   (when (and (executable-find "cmigemo")
              (require 'migemo nil t))
-    (setq moccur-use-migemo t))
-  (require 'moccur-edit nil t))
+    (setq moccur-use-migemo t)))
 
 ;; open large file with read only mode
 (defun my-find-file-check-make-large-file-read-only-hook ()
@@ -139,14 +133,6 @@
     (fundamental-mode)))
 
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
-
-;; ctags
-(when (require 'ctags nil t)
-  (setq tags-revert-without-query t)
-  ;; command line for ctags
-  ;; (setq ctags-command "ctags -e -R")
-  ;; keybind
-  (define-key global-map (kbd "M-u") 'ctags-create-or-update-tags-table))
 
 ;;;
 ;;; display configuration
@@ -171,9 +157,6 @@
 ;;; disable indentation by Tab character
 (setq-default indent-tabs-mode nil)
 
-;;; highlight-indentaion
-(when (require 'highlight-indentation nil t))
-
 ;;; show tail whitespace
 (setq-default show-trailing-whitespace t)
 
@@ -190,11 +173,6 @@
   "hl-line's my face")
 (setq hl-line-face 'my-hl-line-face)
 (global-hl-line-mode t)
-
-;;; col-highlight
-;(when (require 'col-highlight nil t)
-;  (column-highlight-mode 1)
-;  (custom-set-faces '(col-highlight ((t (:background "gray50"))))))
 
 ;;; display current column
 (column-number-mode t)
@@ -214,10 +192,6 @@
 
 ;;; using dired-x
 (require 'dired-x)
-
-;;; start inline edit of file name from dired
-(require 'wdired)
-(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
 ;;; ls option
 (setq dired-listing-switches "-alh")
@@ -265,10 +239,6 @@
                   'katakana-jisx0201
                   '("TakaoExゴシック*" . "jisx0201.*"))
 
-;;; yasnippet
-(when (require 'yasnippet nil t)
-  (yas-global-mode 1))
-
 ;;; ispell
 (setq-default ispell-program-name "aspell")
 (eval-after-load "ispell"
@@ -276,6 +246,42 @@
 
 ;;; auto-insert
 (require 'init-autoinsert)
+
+;;; package.el
+(when (require 'package nil t)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  ;; setting load path and loading installed packages
+  (package-initialize)
+  (package-refresh-contents)
+
+  (package-install 'auto-install)
+  (package-install 'helm)
+  (package-install 'helm-gtags)
+  (package-install 'helm-descbinds)
+  (package-install 'helm-ls-git)
+  (package-install 'highlight-indentation)
+  (package-install 'col-highlight)
+  (package-install 'ace-isearch)
+  (package-install 'moccur-edit)
+  (package-install 'ctags)
+  (package-install 'wgrep)
+  (package-install 'yasnippet)
+  (package-install 'auto-complete)
+  (package-install 'esup)
+  (package-install 'flycheck)
+  (package-install 'flymake)
+  (package-install 'flymake-cursor)
+  (package-install 'graphviz-dot-mode)
+  (package-install 'jedi)
+  (package-install 'tuareg)
+  (package-install 'web-mode)
+  (package-install 'mkdown)
+  (package-install 'smartrep)
+  (package-install 'yatex))
 
 ;;; auto-install
 (when (require 'auto-install nil t)
@@ -288,15 +294,36 @@
   ;; enable functions of install-elisp
   (auto-install-compatibility-setup))
 
-;;; package.el
-(when (require 'package nil t)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-  ;; setting load path and loading installed packages
-  (package-initialize))
+;;; wgrep
+(when (require 'wgrep nil t)
+  (setf wgrep-enable-key "e")
+  (setq wgrep-auto-save-buffer t))
+
+(require 'moccur-edit nil t)
+
+;;; highlight-indentaion
+(when (require 'highlight-indentation nil t))
+
+;;; col-highlight
+;(when (require 'col-highlight nil t)
+;  (column-highlight-mode 1)
+;  (custom-set-faces '(col-highlight ((t (:background "gray50"))))))
+
+;;; start inline edit of file name from dired
+(require 'wdired)
+(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+
+;; ctags
+(when (require 'ctags nil t)
+  (setq tags-revert-without-query t)
+  ;; command line for ctags
+  ;; (setq ctags-command "ctags -e -R")
+  ;; keybind
+  (define-key global-map (kbd "M-u") 'ctags-create-or-update-tags-table))
+
+;;; yasnippet
+(when (require 'yasnippet nil t)
+  (yas-global-mode 1))
 
 ;;; auto-complete
 (require 'init-auto-complete)
@@ -341,3 +368,18 @@
 ;; configure for windows
 (if (eq system-type 'windows-nt)
     (require 'init-windows))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ace-isearch-jump-delay 0.6)
+ '(package-selected-packages
+   (quote
+    (yatex smartrep web-mode tuareg jedi flymake auto-complete yasnippet wgrep moccur-edit col-highlight highlight-indentation helm mkdown helm-ls-git helm-gtags helm-descbinds graphviz-dot-mode flymake-cursor flycheck esup ctags ace-isearch))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

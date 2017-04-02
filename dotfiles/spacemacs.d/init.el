@@ -320,7 +320,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (define-key global-map "\C-h" 'delete-backward-char)
   (define-key global-map "\C-o" 'toggle-input-method)
-
+  (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
   (setq powerline-default-separator nil)
 
   ;; font
