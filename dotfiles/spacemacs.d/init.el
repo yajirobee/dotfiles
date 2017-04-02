@@ -320,6 +320,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (define-key global-map "\C-h" 'delete-backward-char)
   (define-key global-map "\C-o" 'toggle-input-method)
+  (define-key global-map "\M-." 'helm-gtags-find-tag)
   (define-key global-map "\M-n" 'helm-gtags-next-history)
   (define-key global-map "\M-p" 'helm-gtags-previous-history)
   (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
