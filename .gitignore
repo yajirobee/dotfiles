@@ -1,8 +1,8 @@
-*.pyc
-*.elc
 *.so
 *.data
 
+# emacs
+*.elc
 elpa
 recentf
 abbrev_defs
@@ -14,3 +14,6 @@ url
 kkcrc
 tramp
 eshell
+
+# python
+*.pyc

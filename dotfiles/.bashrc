@@ -1,7 +1,9 @@
 # ~/.bashrc: executed by bash for non-login shells.
 
-function addpath()
-{
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+function addpath() {
 for i in $@
 do
     if ! (echo $PATH | grep "$i" > /dev/null) && [ -d $i ]
@@ -12,17 +14,19 @@ done
 }
 export -f addpath
 
+function source_if_exist() {
+    local SRC=$1
+    if [ -f "${SRC}" ]; then
+        source "${SRC}"
+    fi
+}
+
 #
 # set enviromental variables
 #
 
 # load local environment setup
-if [ -f "$HOME/.localenvs.$(hostname -s)" ]; then
-    source "$HOME/.localenvs.$(hostname -s)"
-fi
-
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+source_if_exist ${HOME}/.localenvs.$(hostname -s)
 
 #
 # set history
@@ -60,42 +64,28 @@ PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\n\$ '
 #
 # set alias
 #
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias du1='du -h --max-depth=1'
-
-# Add an "alert" alias for long running commands
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-addpath "$HOME/bin"
+source_if_exist ${HOME}/etc/aliases
 
 # load local bash setup
-if [ -f "$HOME/.bashrc.$(hostname -s)" ]; then
-    source "$HOME/.bash.$(hostname -s)"
+source_if_exist ${HOME}/.bashrc.$(hostname -s)
+
+LOCALBIN=${HOME}/bin
+if [ -d "${LOCALBIN}" ]; then
+    addpath "${LOCALBIN}"
 fi
 
-if [ -d "$HOME/common" ]; then
-   export PYTHONPATH="$HOME/common${PYTHONPATH:+:}${PYTHONPATH}"
-fi
-
-PYTHONSTARTUP=~/.pythonstartup.py
+PYTHONSTARTUP=~/etc/lib/pythonstartup.py
 if [ -f $PYTHONSTARTUP ]; then
-   export PYTHONSTARTUP
+    export PYTHONSTARTUP
+fi
+
+PYTHONLIB=${HOME}/etc/lib/python
+if [ -d "${PYTHONLIB}" ]; then
+   export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
 fi
 
 # if zsh is available use that
 if which zsh 1> /dev/null 2> /dev/null; then
-   export SHELL=`which zsh`
+   export SHELL=$(which zsh)
    exec $(which zsh)
 fi

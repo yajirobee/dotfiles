@@ -1,4 +1,14 @@
 #
+# functions
+#
+function source_if_exist() {
+    local SRC=$1
+    if [ -f "${SRC}" ]; then
+        source "${SRC}"
+    fi
+}
+
+#
 # set complete
 #
 
@@ -57,22 +67,7 @@ setopt hist_reduce_blanks
 #
 # set alias
 #
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias du1='du -h --max-depth=1'
+source_if_exist ${HOME}/etc/aliases
 
 # load local zsh setup
-if [ -f "$HOME/.zshrc.$(hostname -s)" ]; then
-    source "$HOME/.zshrc.$(hostname -s)"
-fi
+source_if_exist $HOME/.zshrc.$(hostname -s)
