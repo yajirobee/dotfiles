@@ -29,11 +29,12 @@ values."
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
+   ;; press <M-m f e R> (Emacs style) to install them.
+   ;; programming and markup languages
    dotspacemacs-configuration-layers
    '(
+     yaml
      csv
-     ;; press <M-m f e R> (Emacs style) to install them.
-     ;; programming and markup languages
      python
      c-c++
      ruby
@@ -59,7 +60,7 @@ values."
             shell-default-position 'bottom)
 
      ;; checkers
-     spell-checking
+     (spell-checking :variables spell-checking-enable-by-default nil)
      syntax-checking
 
      ;; tags
