@@ -2,6 +2,8 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;; press <M-m f e R> (Emacs style) to install them..
+
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable
@@ -29,12 +31,9 @@ values."
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
-   ;; press <M-m f e R> (Emacs style) to install them.
    ;; programming and markup languages
    dotspacemacs-configuration-layers
    '(
-     yaml
-     csv
      python
      c-c++
      ruby
@@ -43,11 +42,17 @@ values."
      html
      sql
      markdown
+     yaml
+     csv
      vimscript
 
      ;; completion
      helm
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-enable-help-tooltip 'manual)
 
      ;; version controll
      git
@@ -319,13 +324,17 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (define-key global-map "\C-h" 'delete-backward-char)
-  (define-key global-map "\C-o" 'toggle-input-method)
-  (define-key global-map "\M-." 'helm-gtags-find-tag)
-  (define-key global-map "\M-n" 'helm-gtags-next-history)
-  (define-key global-map "\M-p" 'helm-gtags-previous-history)
-  (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
   (setq powerline-default-separator nil)
+  ;; keybind
+  (global-set-key (kbd "C-h") 'delete-backward-char)
+  (global-set-key (kbd "C-o") 'toggle-input-method)
+  (global-set-key (kbd "M-.") 'helm-gtags-find-tag)
+  (global-set-key (kbd "M-n") 'helm-gtags-next-history)
+  (global-set-key (kbd "M-p") 'helm-gtags-previous-history)
+  (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+  (add-hook 'company-mode-hook
+            (lambda()
+              (global-set-key (kbd "C-\]") 'company-complete)))
 
   ;; font
   (set-fontset-font nil 'japanese-jisx0208
@@ -335,6 +344,9 @@ you should place your code here."
 
   ;;; if file starts by "#!", change permission to +x
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+  ;; dired
+  (setq dired-listing-switches "-alh")
   )
 
 
