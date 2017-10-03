@@ -21,8 +21,14 @@ setopt correct
 setopt magic_equal_subst
 setopt print_eight_bit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-eval `dircolors`
-zstyle ':completion:*:default' list-colors ${LS_COLORS}
+if which dircolors > /dev/null; then
+    eval $(dircolors)
+    zstyle ':completion:*:default' list-colors ${LS_COLORS}
+else
+    export CLICOLOR=1
+    zstyle ':completion:*:default' list-colors ''
+fi
+
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
 
 #
