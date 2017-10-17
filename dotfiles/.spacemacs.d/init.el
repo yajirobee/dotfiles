@@ -34,8 +34,11 @@ values."
    ;; programming and markup languages
    dotspacemacs-configuration-layers
    '(
+     javascript
+     osx
      python
      c-c++
+     java
      ruby
      shell-scripts
      emacs-lisp
@@ -113,7 +116,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -155,7 +158,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Ricty Diminished"
+   dotspacemacs-default-font '("Ricty"
                                :size 17
                                :weight normal
                                :width normal
@@ -324,6 +327,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; workaround for https://github.com/syl20bnr/spacemacs/issues/9549#issuecomment-327788403
+  (require 'helm-bookmark)
+
   (setq powerline-default-separator nil)
   ;; keybind
   (global-set-key (kbd "C-h") 'delete-backward-char)
@@ -346,7 +352,12 @@ you should place your code here."
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
   ;; dired
+  (require 'dired-x)
   (setq dired-listing-switches "-alh")
+
+  ;; java layer
+  (setq eclim-eclipse-dirs '("~/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/")
+        eclim-executable "~/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/eclim")
   )
 
 
