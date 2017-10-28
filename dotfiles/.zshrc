@@ -77,12 +77,9 @@ setopt hist_reduce_blanks
 #
 source_if_exist ${HOME}/common/aliases
 
-# load local zsh setup
-source_if_exist $HOME/.zshrc.local
-source_if_exist $HOME/.zshrc.$(hostname -s)
-
+# set PATH
 path=(
-    ${HOME}/bin(N-/)
+    ${HOME}/common/bin(N-/)
     ${HOME}/local/bin(N-/)
     $path
 )
@@ -99,3 +96,7 @@ if which pbcopy 1> /dev/null 2> /dev/null; then
 elif which xsel 1> /dev/null 2> /dev/null; then
     export copy_cmd="xsel -i -b < /tmp/screen-exchange; xsel -i -p < /tmp/screen-exchange"
 fi
+
+# load local zsh setup
+source_if_exist $HOME/.zshrc.local
+source_if_exist $HOME/.zshrc.$(hostname -s)

@@ -66,11 +66,7 @@ PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\n\$ '
 #
 source_if_exist ${HOME}/common/aliases
 
-# load local bash setup
-source_if_exist ${HOME}/.bashrc.local
-source_if_exist ${HOME}/.bashrc.$(hostname -s)
-
-MYBIN=${HOME}/bin
+MYBIN=${HOME}/common/bin
 [ -d "${MYBIN}" ] && addpath "${MYBIN}"
 
 LOCALBIN=${HOME}/local/bin
@@ -81,3 +77,7 @@ PYTHONSTARTUP=${HOME}/common/pythonstartup.py
 
 PYTHONLIB=${HOME}/common/lib/python
 [ -d "${PYTHONLIB}" ] && export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
+
+# load local bash setup
+source_if_exist ${HOME}/.bashrc.local
+source_if_exist ${HOME}/.bashrc.$(hostname -s)
