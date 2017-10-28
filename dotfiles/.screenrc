@@ -29,6 +29,8 @@ bind -c REGION { resize -2
 bind ^x command -c REGION
 bind x command -c REGION
 
+bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec sh -c "/usr/bin/pbcopy < /tmp/screen-exchange"'
+
 # hardstatus alwayslastline "%w"
 hardstatus alwayslastline "%?%h%:%t (screen #%n on %H)%F%-019=%Y/%m/%d %c:%s%:%=%?"
 caption always "%{=r dd}%-Lw%40L>%?%F%{=b dR}%:[%? %n%f %t %?%F%{-}%:]%?%+Lw %?"

@@ -4,10 +4,8 @@
 [ -z "$PS1" ] && return
 
 function addpath() {
-for i in $@
-do
-    if ! (echo $PATH | grep "$i" > /dev/null) && [ -d $i ]
-    then
+for i in $@; do
+    if ! (echo $PATH | grep "$i" > /dev/null) && [ -d $i ]; then
         export PATH=$i:"$PATH"
     fi
 done
@@ -16,9 +14,7 @@ export -f addpath
 
 function source_if_exist() {
     local SRC=$1
-    if [ -f "${SRC}" ]; then
-        source "${SRC}"
-    fi
+    [ -f "${SRC}" ] && source "${SRC}"
 }
 
 #
@@ -26,6 +22,7 @@ function source_if_exist() {
 #
 
 # load local environment setup
+source_if_exist ${HOME}/.localenvs.local
 source_if_exist ${HOME}/.localenvs.$(hostname -s)
 
 #
@@ -67,22 +64,20 @@ PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\n\$ '
 source_if_exist ${HOME}/etc/aliases
 
 # load local bash setup
+source_if_exist ${HOME}/.bashrc.local
 source_if_exist ${HOME}/.bashrc.$(hostname -s)
 
-LOCALBIN=${HOME}/bin
-if [ -d "${LOCALBIN}" ]; then
-    addpath "${LOCALBIN}"
-fi
+MYBIN=${HOME}/bin
+[ -d "${MYBIN}" ] && addpath "${MYBIN}"
+
+LOCALBIN=${HOME}/local/bin
+[ -d "${LOCALBIN}" ] && addpath "${LOCALBIN}"
 
 PYTHONSTARTUP=~/etc/lib/pythonstartup.py
-if [ -f $PYTHONSTARTUP ]; then
-    export PYTHONSTARTUP
-fi
+[ -f "$PYTHONSTARTUP" ] && export PYTHONSTARTUP
 
 PYTHONLIB=${HOME}/etc/lib/python
-if [ -d "${PYTHONLIB}" ]; then
-   export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
-fi
+[ -d "${PYTHONLIB}" ] && export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
 
 # if zsh is available use that
 if which zsh 1> /dev/null 2> /dev/null; then

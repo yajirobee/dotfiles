@@ -76,4 +76,5 @@ setopt hist_reduce_blanks
 source_if_exist ${HOME}/etc/aliases
 
 # load local zsh setup
+source_if_exist $HOME/.zshrc.local
 source_if_exist $HOME/.zshrc.$(hostname -s)

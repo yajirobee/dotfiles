@@ -34,8 +34,10 @@ values."
    ;; programming and markup languages
    dotspacemacs-configuration-layers
    '(
+     javascript
      python
      c-c++
+     java
      ruby
      shell-scripts
      emacs-lisp
@@ -113,7 +115,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -324,6 +326,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; workaround for https://github.com/syl20bnr/spacemacs/issues/9549#issuecomment-327788403
+  (require 'helm-bookmark)
+
   (setq powerline-default-separator nil)
   ;; keybind
   (global-set-key (kbd "C-h") 'delete-backward-char)
@@ -346,6 +351,7 @@ you should place your code here."
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
   ;; dired
+  (require 'dired-x)
   (setq dired-listing-switches "-alh")
   )
 
