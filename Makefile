@@ -1,5 +1,5 @@
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
-CANDIDATES := $(wildcard dotfiles/.??*) bin etc
+CANDIDATES := $(wildcard dotfiles/.??*) common
 EXCLUSIONS := .DS_Store .git .gitmodules .gitignore dotfiles/.emacs.d
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
 

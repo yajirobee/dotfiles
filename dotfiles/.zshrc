@@ -3,9 +3,7 @@
 #
 function source_if_exist() {
     local SRC=$1
-    if [ -f "${SRC}" ]; then
-        source "${SRC}"
-    fi
+    [ -f "${SRC}" ] && source "${SRC}"
 }
 
 #
@@ -37,6 +35,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31
 
 #export LANG=ja_JP.UTF-8
 export LANG=C
+export LC_MESSAGES=C
 
 #
 # set prompt
@@ -70,11 +69,33 @@ setopt hist_ignore_dups     # ignore duplication command history list
 setopt share_history        # share command history data
 setopt hist_reduce_blanks
 
+# make less more friendly for non-text input files
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
 #
 # set alias
 #
-source_if_exist ${HOME}/etc/aliases
+source_if_exist ${HOME}/common/aliases
 
 # load local zsh setup
 source_if_exist $HOME/.zshrc.local
 source_if_exist $HOME/.zshrc.$(hostname -s)
+
+path=(
+    ${HOME}/bin(N-/)
+    ${HOME}/local/bin(N-/)
+    $path
+)
+
+PYTHONSTARTUP=${HOME}/common/pythonstartup.py
+[ -f "$PYTHONSTARTUP" ] && export PYTHONSTARTUP
+
+PYTHONLIB=${HOME}/common/lib/python
+[ -d "${PYTHONLIB}" ] && export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
+
+# for gnu screen
+if which pbcopy 1> /dev/null 2> /dev/null; then
+    export copy_cmd="pbcopy < /tmp/screen-exchange"
+elif which xsel 1> /dev/null 2> /dev/null; then
+    export copy_cmd="xsel -i -b < /tmp/screen-exchange; xsel -i -p < /tmp/screen-exchange"
+fi
