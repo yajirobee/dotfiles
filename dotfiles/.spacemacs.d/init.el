@@ -159,7 +159,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Ricty"
-                               :size 17
+                               :size 16
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -344,9 +344,9 @@ you should place your code here."
 
   ;; font
   (set-fontset-font nil 'japanese-jisx0208
-                    (font-spec :family "Ricty Diminished"))
+                    (font-spec :family "Ricty"))
   (set-fontset-font nil 'katakana-jisx0201
-                    (font-spec :family "Ricty Diminished"))
+                    (font-spec :family "Ricty"))
 
   ;;; if file starts by "#!", change permission to +x
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
@@ -354,10 +354,6 @@ you should place your code here."
   ;; dired
   (require 'dired-x)
   (setq dired-listing-switches "-alh")
-
-  ;; java layer
-  (setq eclim-eclipse-dirs '("~/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/")
-        eclim-executable "~/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/eclim")
   )
 
 
