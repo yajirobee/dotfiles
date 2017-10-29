@@ -34,8 +34,8 @@ values."
    ;; programming and markup languages
    dotspacemacs-configuration-layers
    '(
-     javascript
      osx
+     javascript
      python
      c-c++
      java
