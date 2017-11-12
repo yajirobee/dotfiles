@@ -39,6 +39,7 @@ values."
      c-c++
      java
      ruby
+     rust
      shell-scripts
      emacs-lisp
      html
