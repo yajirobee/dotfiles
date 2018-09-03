@@ -31,24 +31,34 @@ values."
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
-   ;; programming and markup languages
    dotspacemacs-configuration-layers
    '(
+     ansible
+     ;; programming and markup languages
      osx
      javascript
      python
      c-c++
-     java
+     (java :variables java-backend 'ensime)
+     (scala :variables
+            scala-auto-insert-asterisk-in-comments t
+            ensime-startup-notification nil)
+     go
      ruby
      rust
+     perl5
      shell-scripts
      emacs-lisp
      html
      sql
      markdown
+     asciidoc
      yaml
      csv
      vimscript
+
+     docker
+     terraform
 
      ;; completion
      helm
@@ -74,8 +84,6 @@ values."
 
      ;; tags
      gtags
-
-     ;; better-defaults
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -155,6 +163,7 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light)
+   dotspacemacs-mode-line-theme 'spacemacs
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -319,6 +328,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   ;; (set-proxy)
+  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives)
+  (push '("ensime" . "melpa-stable") package-pinned-packages)
   )
 
 (defun dotspacemacs/user-config ()
@@ -335,9 +346,10 @@ you should place your code here."
   ;; keybind
   (global-set-key (kbd "C-h") 'delete-backward-char)
   (global-set-key (kbd "C-o") 'toggle-input-method)
-  (global-set-key (kbd "M-.") 'helm-gtags-find-tag)
   (global-set-key (kbd "M-n") 'helm-gtags-next-history)
   (global-set-key (kbd "M-p") 'helm-gtags-previous-history)
+  (global-set-key (kbd "C-.") 'dumb-jump-go)
+  (global-set-key (kbd "M-.") 'dumb-jump-back)
   (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
   (add-hook 'company-mode-hook
             (lambda()
@@ -355,6 +367,11 @@ you should place your code here."
   ;; dired
   (require 'dired-x)
   (setq dired-listing-switches "-alh")
+
+  (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
+
+  (setq dumb-jump-force-searcher 'rg)
+  (custom-set-variables '(helm-ag-base-command "rg --no-heading"))
   )
 
 
@@ -382,6 +399,3 @@ you should place your code here."
                                  ("http"  . ,(get-proxy-url-string))
                                  ("https" . ,(get-proxy-url-string))))))
   )
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
