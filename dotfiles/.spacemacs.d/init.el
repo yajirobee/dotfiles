@@ -33,7 +33,6 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ansible
      ;; programming and markup languages
      osx
      javascript
@@ -56,9 +55,12 @@ values."
      yaml
      csv
      vimscript
+     windows-scripts
 
      docker
      terraform
+     systemd
+     ansible
 
      ;; completion
      helm
@@ -89,7 +91,9 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      ox-confluence
+                                      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -339,21 +343,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; workaround for https://github.com/syl20bnr/spacemacs/issues/9549#issuecomment-327788403
-  (require 'helm-bookmark)
-
   (setq powerline-default-separator nil)
-  ;; keybind
-  (global-set-key (kbd "C-h") 'delete-backward-char)
-  (global-set-key (kbd "C-o") 'toggle-input-method)
-  (global-set-key (kbd "M-n") 'helm-gtags-next-history)
-  (global-set-key (kbd "M-p") 'helm-gtags-previous-history)
-  (global-set-key (kbd "C-.") 'dumb-jump-go)
-  (global-set-key (kbd "M-.") 'dumb-jump-back)
-  (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
-  (add-hook 'company-mode-hook
-            (lambda()
-              (global-set-key (kbd "C-\]") 'company-complete)))
 
   ;; font
   (set-fontset-font nil 'japanese-jisx0208
@@ -370,8 +360,30 @@ you should place your code here."
 
   (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
 
+  ;; dumb-jump
   (setq dumb-jump-force-searcher 'rg)
-  (custom-set-variables '(helm-ag-base-command "rg --no-heading"))
+
+  ;; use ripgrep on helm-ag
+  (setq helm-ag-base-command "rg --smart-case --no-heading --line-number")
+
+  (require 'ox-confluence)
+
+  ;; keybind
+  ;;; global
+  (global-set-key (kbd "C-h") 'delete-backward-char)
+  (global-set-key (kbd "C-o") 'toggle-input-method)
+  (global-set-key (kbd "C-.") 'dumb-jump-go)
+  (global-set-key (kbd "C-,") 'dumb-jump-back)
+  (global-set-key (kbd "C-M-g") 'helm-ag)
+
+  (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+  (add-hook 'ggtags-mode-hook
+            (lambda()
+            (define-key ggtags-mode-map (kbd "M-n") 'helm-gtags-next-history)
+            (define-key ggtags-mode-map (kbd "M-p") 'helm-gtags-previous-history)))
+  (add-hook 'company-mode-hook
+            (lambda()
+              (global-set-key (kbd "C-\]") 'company-complete)))
   )
 
 
