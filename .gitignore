@@ -14,6 +14,7 @@ url
 kkcrc
 tramp
 eshell
+dotfiles/.spacemacs.d/.spacemacs.env
 
 # python
 *.pyc
