@@ -10,8 +10,8 @@ function source_if_exist() {
 # set complete
 #
 
-autoload -U compinit
-compinit
+autoload -Uz compinit
+compinit -i
 
 setopt list_packed
 setopt auto_pushd

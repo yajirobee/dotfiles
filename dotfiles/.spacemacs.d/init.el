@@ -31,23 +31,36 @@ values."
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
-   ;; programming and markup languages
    dotspacemacs-configuration-layers
    '(
+     ;; programming and markup languages
+     osx
      javascript
      python
      c-c++
-     java
+     (java :variables java-backend 'ensime)
+     (scala :variables
+            scala-auto-insert-asterisk-in-comments t
+            ensime-startup-notification nil)
+     go
      ruby
      rust
+     perl5
      shell-scripts
      emacs-lisp
      html
      sql
      markdown
+     asciidoc
      yaml
      csv
      vimscript
+     windows-scripts
+
+     docker
+     terraform
+     systemd
+     ansible
 
      ;; completion
      helm
@@ -73,14 +86,14 @@ values."
 
      ;; tags
      gtags
-
-     ;; better-defaults
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      ox-confluence
+                                      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -154,12 +167,13 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light)
+   dotspacemacs-mode-line-theme 'spacemacs
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Ricty Diminished"
-                               :size 17
+   dotspacemacs-default-font '("Ricty"
+                               :size 16
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -318,6 +332,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   ;; (set-proxy)
+  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives)
+  (push '("ensime" . "melpa-stable") package-pinned-packages)
   )
 
 (defun dotspacemacs/user-config ()
@@ -327,26 +343,13 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; workaround for https://github.com/syl20bnr/spacemacs/issues/9549#issuecomment-327788403
-  (require 'helm-bookmark)
-
   (setq powerline-default-separator nil)
-  ;; keybind
-  (global-set-key (kbd "C-h") 'delete-backward-char)
-  (global-set-key (kbd "C-o") 'toggle-input-method)
-  (global-set-key (kbd "M-.") 'helm-gtags-find-tag)
-  (global-set-key (kbd "M-n") 'helm-gtags-next-history)
-  (global-set-key (kbd "M-p") 'helm-gtags-previous-history)
-  (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
-  (add-hook 'company-mode-hook
-            (lambda()
-              (global-set-key (kbd "C-\]") 'company-complete)))
 
   ;; font
   (set-fontset-font nil 'japanese-jisx0208
-                    (font-spec :family "Ricty Diminished"))
+                    (font-spec :family "Ricty"))
   (set-fontset-font nil 'katakana-jisx0201
-                    (font-spec :family "Ricty Diminished"))
+                    (font-spec :family "Ricty"))
 
   ;;; if file starts by "#!", change permission to +x
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
@@ -354,6 +357,33 @@ you should place your code here."
   ;; dired
   (require 'dired-x)
   (setq dired-listing-switches "-alh")
+
+  (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
+
+  ;; dumb-jump
+  (setq dumb-jump-force-searcher 'rg)
+
+  ;; use ripgrep on helm-ag
+  (setq helm-ag-base-command "rg --smart-case --no-heading --line-number")
+
+  (require 'ox-confluence)
+
+  ;; keybind
+  ;;; global
+  (global-set-key (kbd "C-h") 'delete-backward-char)
+  (global-set-key (kbd "C-o") 'toggle-input-method)
+  (global-set-key (kbd "C-.") 'dumb-jump-go)
+  (global-set-key (kbd "C-,") 'dumb-jump-back)
+  (global-set-key (kbd "C-M-g") 'helm-ag)
+
+  (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+  (add-hook 'ggtags-mode-hook
+            (lambda()
+            (define-key ggtags-mode-map (kbd "M-n") 'helm-gtags-next-history)
+            (define-key ggtags-mode-map (kbd "M-p") 'helm-gtags-previous-history)))
+  (add-hook 'company-mode-hook
+            (lambda()
+              (global-set-key (kbd "C-\]") 'company-complete)))
   )
 
 
@@ -381,6 +411,3 @@ you should place your code here."
                                  ("http"  . ,(get-proxy-url-string))
                                  ("https" . ,(get-proxy-url-string))))))
   )
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
