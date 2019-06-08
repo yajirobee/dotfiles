@@ -34,7 +34,6 @@ values."
    dotspacemacs-configuration-layers
    '(
      ;; programming and markup languages
-     osx
      javascript
      python
      c-c++
@@ -91,9 +90,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(
-                                      ox-confluence
-                                      )
+   dotspacemacs-additional-packages '(ox-confluence)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -105,7 +102,8 @@ values."
    ;; `used-but-keep-unused' installs only the used packages but won't uninstall
    ;; them if they become unused. `all' installs *all* packages supported by
    ;; Spacemacs and never uninstall them. (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-only)
+  (if (eq system-type 'darwin) (add-to-list 'dotspacemacs-configuration-layers 'osx)))
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -172,11 +170,9 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Ricty"
-                               :size 16
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
+   dotspacemacs-default-font
+   '(("Ricty Diminished" :size 16 :weight normal :width normal :powerline-scale 1.1)
+     ("Ricty" :size 16 :weight normal :width normal :powerline-scale 1.1))
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -346,10 +342,16 @@ you should place your code here."
   (setq powerline-default-separator nil)
 
   ;; font
-  (set-fontset-font nil 'japanese-jisx0208
-                    (font-spec :family "Ricty"))
-  (set-fontset-font nil 'katakana-jisx0201
-                    (font-spec :family "Ricty"))
+  (cond ((member "Ricty Diminished" (font-family-list))
+         (set-fontset-font nil 'japanese-jisx0208
+                           (font-spec :family "Ricty Diminished"))
+         (set-fontset-font nil 'katakana-jisx0201
+                           (font-spec :family "Ricty Diminished")))
+        ((member "Ricty" (font-family-list))
+         (set-fontset-font nil 'japanese-jisx0208
+                           (font-spec :family "Ricty"))
+         (set-fontset-font nil 'katakana-jisx0201
+                           (font-spec :family "Ricty"))))
 
   ;;; if file starts by "#!", change permission to +x
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
