@@ -1,9 +1,16 @@
-environment
+Environment
 ==============
 
-install dot files
+Requirements
+-----------
+
+- ssh, git
+- github access
+
+Install dot files
 --------------------
 
 ```
-$ make deploy
+$ make depend
+$ make install
 ```
