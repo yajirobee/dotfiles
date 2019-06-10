@@ -3,6 +3,7 @@
 # now debian flavor only
 
 apt-get install --yes \
+        xsel \
         zsh \
         emacs \
         vim \
