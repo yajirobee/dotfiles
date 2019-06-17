@@ -41,6 +41,7 @@ values."
      (scala :variables
             scala-auto-insert-asterisk-in-comments t
             ensime-startup-notification nil)
+     kotlin
      go
      ruby
      rust
@@ -376,13 +377,13 @@ you should place your code here."
   (global-set-key (kbd "C-o") 'toggle-input-method)
   (global-set-key (kbd "C-.") 'dumb-jump-go)
   (global-set-key (kbd "C-,") 'dumb-jump-back)
-  (global-set-key (kbd "C-M-g") 'helm-ag)
+  (global-set-key (kbd "C-M-g") 'helm-do-ag)
 
   (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
   (add-hook 'ggtags-mode-hook
             (lambda()
-            (define-key ggtags-mode-map (kbd "M-n") 'helm-gtags-next-history)
-            (define-key ggtags-mode-map (kbd "M-p") 'helm-gtags-previous-history)))
+            (define-key ggtags-mode-map (kbd "C-c n") 'helm-gtags-next-history)
+            (define-key ggtags-mode-map (kbd "C-c p") 'helm-gtags-previous-history)))
   (add-hook 'company-mode-hook
             (lambda()
               (global-set-key (kbd "C-\]") 'company-complete)))
