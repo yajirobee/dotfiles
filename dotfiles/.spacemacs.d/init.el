@@ -39,6 +39,7 @@ values."
      c-c++
      (java :variables java-backend 'ensime)
      (scala :variables
+            scala-backend 'scala-metals
             scala-auto-insert-asterisk-in-comments t
             ensime-startup-notification nil)
      kotlin
