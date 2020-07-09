@@ -34,10 +34,9 @@ values."
    dotspacemacs-configuration-layers
    '(
      ;; programming and markup languages
-     javascript
      python
      c-c++
-     (java :variables java-backend 'ensime)
+     (java :variables java-backend 'lsp)
      (scala :variables
             scala-backend 'scala-metals
             scala-auto-insert-asterisk-in-comments t
@@ -46,6 +45,7 @@ values."
      go
      ruby
      rust
+     javascript
      perl5
      shell-scripts
      emacs-lisp
@@ -53,6 +53,8 @@ values."
      sql
      markdown
      asciidoc
+
+     (json :variables js-indent-level 2)
      yaml
      csv
      vimscript
@@ -92,7 +94,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(ox-confluence)
+   dotspacemacs-additional-packages '()
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -383,11 +385,15 @@ you should place your code here."
   (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
   (add-hook 'ggtags-mode-hook
             (lambda()
-            (define-key ggtags-mode-map (kbd "C-c n") 'helm-gtags-next-history)
-            (define-key ggtags-mode-map (kbd "C-c p") 'helm-gtags-previous-history)))
+              (define-key ggtags-mode-map (kbd "C-c n") 'helm-gtags-next-history)
+              (define-key ggtags-mode-map (kbd "C-c p") 'helm-gtags-previous-history)))
   (add-hook 'company-mode-hook
             (lambda()
               (global-set-key (kbd "C-\]") 'company-complete)))
+  (add-hook 'scala-mode-hook
+            (lambda()
+              (global-set-key (kbd "M-.") 'xref-find-definitions)
+              (global-set-key (kbd "M-,") 'xref-pop-marker-stack)))
   )
 
 
