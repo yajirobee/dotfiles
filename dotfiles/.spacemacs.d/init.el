@@ -368,18 +368,22 @@ you should place your code here."
 
   ;; dumb-jump
   (setq dumb-jump-force-searcher 'rg)
+  ; use dumb jump via xref interface
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
   ;; use ripgrep on helm-ag
   (setq helm-ag-base-command "rg --smart-case --no-heading --line-number")
 
-  (require 'ox-confluence)
+  (setq lsp-java-format-settings-url
+        "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
+  (setq lsp-java-format-settings-profile "GoogleStyle")
 
   ;; keybind
   ;;; global
   (global-set-key (kbd "C-h") 'delete-backward-char)
   (global-set-key (kbd "C-o") 'toggle-input-method)
-  (global-set-key (kbd "C-.") 'dumb-jump-go)
-  (global-set-key (kbd "C-,") 'dumb-jump-back)
+  (global-set-key (kbd "C-.") 'xref-find-definitions)
+  (global-set-key (kbd "C-,") 'xref-pop-marker-stack)
   (global-set-key (kbd "C-M-g") 'helm-do-ag)
 
   (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
@@ -390,10 +394,6 @@ you should place your code here."
   (add-hook 'company-mode-hook
             (lambda()
               (global-set-key (kbd "C-\]") 'company-complete)))
-  (add-hook 'scala-mode-hook
-            (lambda()
-              (global-set-key (kbd "M-.") 'xref-find-definitions)
-              (global-set-key (kbd "M-,") 'xref-pop-marker-stack)))
   )
 
 
