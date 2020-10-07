@@ -364,8 +364,6 @@ you should place your code here."
   (require 'dired-x)
   (setq dired-listing-switches "-alh")
 
-  (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
-
   ;; dumb-jump
   (setq dumb-jump-force-searcher 'rg)
   ; use dumb jump via xref interface
@@ -374,6 +372,16 @@ you should place your code here."
   ;; use ripgrep on helm-ag
   (setq helm-ag-base-command "rg --smart-case --no-heading --line-number")
 
+  ;; lsp
+  ; optimize performance https://emacs-lsp.github.io/lsp-mode/page/performance/
+  (setq lsp-enable-file-watchers nil)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-completion-provider :capf)
+
+  ;; scala
+  (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
+
+  ;; java
   (setq lsp-java-format-settings-url
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
   (setq lsp-java-format-settings-profile "GoogleStyle")
@@ -394,6 +402,10 @@ you should place your code here."
   (add-hook 'company-mode-hook
             (lambda()
               (global-set-key (kbd "C-\]") 'company-complete)))
+  (add-hook 'lsp-mode-hook
+            (lambda()
+              (define-key lsp-mode-map (kbd "C->") 'lsp-find-definition)
+              (define-key lsp-mode-map (kbd "C-<") 'lsp-find-references)))
   )
 
 
