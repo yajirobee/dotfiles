@@ -19,7 +19,7 @@ setopt correct
 setopt magic_equal_subst
 setopt print_eight_bit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-if which dircolors > /dev/null; then
+if command -v dircolors > /dev/null 2&>1; then
     eval $(dircolors)
     zstyle ':completion:*:default' list-colors ${LS_COLORS}
 else
@@ -91,10 +91,14 @@ PYTHONLIB=${HOME}/common/lib/python
 [ -d "${PYTHONLIB}" ] && export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
 
 # for gnu screen
-if which pbcopy 1> /dev/null 2> /dev/null; then
+if command -v pbcopy > /dev/null 2&>1; then
     export copy_cmd="pbcopy < /tmp/screen-exchange"
-elif which xsel 1> /dev/null 2> /dev/null; then
+elif command -v xsel > /dev/null 2&>1; then
     export copy_cmd="xsel -i -b < /tmp/screen-exchange; xsel -i -p < /tmp/screen-exchange"
+fi
+
+if [[ ! -f $HOME/.zshrc.local ]]; then
+    touch $HOME/.zshrc.local
 fi
 
 # load local zsh setup
