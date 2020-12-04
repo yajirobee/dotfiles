@@ -12,7 +12,8 @@ brew install \
      readline \
      sqlite3 \
      xz \
-     zlib
+     zlib \
+     ripgrep
 
 if ! command -v emacs 1> /dev/null 2&>1; then
   # https://github.com/Homebrew/homebrew-cask/issues/87415

@@ -1,5 +1,8 @@
 export PYENV_ROOT=${HOME}/.pyenv
+
 path=(
+    ${HOME}/common/bin(N-/)
+    ${HOME}/local/bin(N-/)
     ${PYENV_ROOT}/bin(N-/)
     ${HOME}/.rbenv/bin(N-/)
     ${HOME}/.jenv/bin(N-/)
@@ -20,4 +23,3 @@ fi
 if command -v jenv 1>/dev/null 2>&1; then
     eval "$(jenv init -)"
 fi
-

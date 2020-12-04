@@ -77,13 +77,6 @@ setopt hist_reduce_blanks
 #
 source_if_exist ${HOME}/common/aliases
 
-# set PATH
-path=(
-    ${HOME}/common/bin(N-/)
-    ${HOME}/local/bin(N-/)
-    $path
-)
-
 PYTHONSTARTUP=${HOME}/common/pythonstartup.py
 [ -f "$PYTHONSTARTUP" ] && export PYTHONSTARTUP
 
@@ -104,3 +97,15 @@ fi
 # load local zsh setup
 source_if_exist $HOME/.zshrc.local
 source_if_exist $HOME/.zshrc.$(hostname -s)
+
+if command -v pipenv > /dev/null 2&>1; then
+    eval "$(pipenv --completion)"
+fi
+
+# homebrew completion
+if command -v brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
