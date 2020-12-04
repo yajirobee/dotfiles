@@ -1,5 +1,9 @@
 export PYENV_ROOT=${HOME}/.pyenv
 
+# make path list unique
+# http://zsh.sourceforge.net/Guide/zshguide02.html#l24
+typeset -U path
+
 path=(
     ${HOME}/common/bin(N-/)
     ${HOME}/local/bin(N-/)
@@ -8,18 +12,3 @@ path=(
     ${HOME}/.jenv/bin(N-/)
     $path
 )
-
-# pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-fi
-
-# rbenv
-if command -v rbenv 1>/dev/null 2>&1; then
-    eval "$(rbenv init -)"
-fi
-
-# jenv
-if command -v jenv 1>/dev/null 2>&1; then
-    eval "$(jenv init -)"
-fi
