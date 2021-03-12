@@ -10,6 +10,11 @@ function source_if_exist() {
 # set complete
 #
 
+# homebrew completion
+if command -v brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
 autoload -Uz compinit
 compinit -i
 
@@ -98,14 +103,6 @@ fi
 #
 if command -v pipenv > /dev/null 2&>1; then
     eval "$(pipenv --completion)"
-fi
-
-# homebrew completion
-if command -v brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-
-    autoload -Uz compinit
-    compinit
 fi
 
 #
