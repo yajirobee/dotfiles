@@ -332,9 +332,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   ;; (set-proxy)
-  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives)
-  (push '("ensime" . "melpa-stable") package-pinned-packages)
-  )
+  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -385,6 +383,26 @@ you should place your code here."
   (setq lsp-java-format-settings-url
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
   (setq lsp-java-format-settings-profile "GoogleStyle")
+  (setq lsp-java-java-path "/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home/bin/java")
+
+  ;; sql-indent
+  (require 'sql-indent)
+  (defvar my-sql-indentation-offsets-alist
+    `((select-clause 0)
+      (in-select-clause 0)
+      (insert-clause 0)
+      (in-insert-clause 0)
+      (delete-clause 0)
+      (in-delete-clause 0)
+      (update-clause 0)
+      (in-update-clause 0)
+      ,@sqlind-default-indentation-offsets-alist))
+
+  (add-hook 'sqlind-minor-mode-hook
+            (lambda ()
+              (setq sqlind-indentation-offsets-alist
+                    my-sql-indentation-offsets-alist)))
+
 
   ;; keybind
   ;;; global
