@@ -34,6 +34,7 @@ values."
    dotspacemacs-configuration-layers
    '(
      ;; programming and markup languages
+     lsp
      python
      c-c++
      (java :variables java-backend 'lsp)
@@ -384,6 +385,12 @@ you should place your code here."
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
   (setq lsp-java-format-settings-profile "GoogleStyle")
   (setq lsp-java-java-path "/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home/bin/java")
+
+  ;; web mode indent
+  (setq web-mode-markup-indent-offset 2) ; web-mode, html tag in html file
+  (setq web-mode-css-indent-offset 2) ; web-mode, css in html file
+  (setq web-mode-code-indent-offset 2) ; web-mode, js code in html file
+  (setq css-indent-offset 2) ; css-mode
 
   ;; sql-indent
   (require 'sql-indent)
