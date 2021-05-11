@@ -35,7 +35,7 @@ values."
    '(
      ;; programming and markup languages
      lsp
-     python
+     (python :variables python-backend 'lsp python-lsp-server 'pyls)
      c-c++
      (java :variables java-backend 'lsp)
      (scala :variables
@@ -385,6 +385,9 @@ you should place your code here."
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
   (setq lsp-java-format-settings-profile "GoogleStyle")
   (setq lsp-java-java-path "/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home/bin/java")
+
+  ;; python
+  (setq-default python-indent-offset 4)
 
   ;; web mode indent
   (setq web-mode-markup-indent-offset 2) ; web-mode, html tag in html file
