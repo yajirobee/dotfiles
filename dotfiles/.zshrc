@@ -55,9 +55,9 @@ if [[ $ZSH_VERSION == (<5->|4.<4->|4.3.<10->)* ]]; then
         LANG=en_US.UTF-8 vcs_info
         [[ -n "$vcs_info_msg_0_" ]] && psvar[1]=$vcs_info_msg_0_
     }
-    PROMPT=$'%B%F{green}%n@%m%F{white}:%F{cyan}%~%b%F{white}%1v\n%(!.#.$) '
+    PROMPT=$'%B%F{green}%n@%m%F{white}:%F{cyan}%~%b%F{white}%1v%f\n%(!.#.$) '
 else
-    PROMPT=$'%B%F{green}%n@%m%F{white}:%F{cyan}%~\n%b%F{white}%(!.#.$) '
+    PROMPT=$'%B%F{green}%n@%m%F{white}:%F{cyan}%~%b%f\n%(!.#.$) '
 fi
 PROMPT2="%B%_>%b "
 SPROMPT="%r is correct? [n,y,a,e]: "
@@ -102,7 +102,7 @@ fi
 # completion
 #
 if command -v pipenv > /dev/null 2&>1; then
-    eval "$(pipenv --completion)"
+    eval "$(_PIPENV_COMPLETE=zsh_source pipenv)"
 fi
 
 #
