@@ -35,7 +35,9 @@ values."
    '(
      ;; programming and markup languages
      lsp
-     (python :variables python-backend 'lsp python-lsp-server 'pyls)
+     (python :variables
+             python-backend 'lsp python-lsp-server 'pyls
+             python-formatter 'black)
      c-c++
      (java :variables java-backend 'lsp)
      (scala :variables
@@ -47,8 +49,9 @@ values."
      ruby
      rust
      javascript
+     typescript
      perl5
-     shell-scripts
+     (shell-scripts :variables shell-scripts-backend 'none)
      emacs-lisp
      html
      sql
@@ -66,6 +69,8 @@ values."
      systemd
      ansible
 
+
+     graphviz
      ;; completion
      helm
      (auto-completion :variables
@@ -435,30 +440,4 @@ you should place your code here."
             (lambda()
               (define-key lsp-mode-map (kbd "C->") 'lsp-find-definition)
               (define-key lsp-mode-map (kbd "C-<") 'lsp-find-references)))
-  )
-
-
-;; get user:passwd entry from http_proxy environment var and base64-encode it.
-(defun set-proxy ()
-  (when (getenv "http_proxy")
-    (cl-flet
-        ((get-passwd-encode-string
-          ()
-          (let* ((ev (getenv "http_proxy"))
-                 (x (decode-coding-string (url-unhex-string ev) 'utf-8)))
-            (if (not (equal x ""))
-                (base64-encode-string
-                 (substring x (+ 2 (string-match "//" x)) (string-match "@" x)))
-              nil)))
-         (get-proxy-url-string
-          ()
-          (let* ((ev (getenv "http_proxy"))
-                 (x (decode-coding-string (url-unhex-string ev) 'utf-8)))
-            (if (not (equal x ""))
-                (substring x (+ 1 (string-match "@" x)))
-              ""))))
-      ;; proxy service var
-      (setq url-proxy-services `(("no_proxy" . "^\\(localhost \\| 10.*\\)")
-                                 ("http"  . ,(get-proxy-url-string))
-                                 ("https" . ,(get-proxy-url-string))))))
   )
