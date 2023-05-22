@@ -66,10 +66,9 @@ values."
 
      docker
      terraform
-     systemd
      ansible
 
-
+     systemd
      graphviz
      ;; completion
      helm
@@ -100,7 +99,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(sqlite3)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -440,4 +439,9 @@ you should place your code here."
             (lambda()
               (define-key lsp-mode-map (kbd "C->") 'lsp-find-definition)
               (define-key lsp-mode-map (kbd "C-<") 'lsp-find-references)))
+
+  ;; workaround for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=59081
+  ;; from https://emacs.stackexchange.com/questions/74289/emacs-28-2-error-in-macos-ventura-image-type-invalid-image-type-svg
+  ;; remove after upgrade to emacs 29
+  (add-to-list 'image-types 'svg)
   )
