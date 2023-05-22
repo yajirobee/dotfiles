@@ -337,7 +337,14 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   ;; (set-proxy)
-  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives))
+  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives)
+
+  ;; change the location of dotspacemacs/emacs-custom-settings
+  ;; https://github.com/syl20bnr/spacemacs/issues/7891
+  ;; https://develop.spacemacs.org/doc/DOCUMENTATION.html#configuration-functions
+  (setq custom-file "~/.emacs.d/.cache/.custom-settings")
+  (load custom-file)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
