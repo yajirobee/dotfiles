@@ -8,4 +8,8 @@ apt-get install --yes \
         emacs \
         vim \
         python3-pip \
-        ripgrep
+        ripgrep \
+        openssl \
+        libffi-dev \
+        libedit-dev \
+        libyaml-dev        
