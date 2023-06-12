@@ -9,10 +9,11 @@ apt-get install --yes \
         vim \
         python3-pip \
         ripgrep \
+        sysstat \
         openssl \
         libssl-dev \
         libffi-dev \
-        plibedit-dev \
+        libedit-dev \
         libyaml-dev \
         autoconf \
         build-essential \
