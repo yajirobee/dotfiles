@@ -399,6 +399,11 @@ you should place your code here."
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
   (setq lsp-java-format-settings-profile "GoogleStyle")
 
+  ;; https://www.emacswiki.org/emacs/IndentingC#h5o-9
+  (defun java-indent-setup ()
+    (c-set-offset 'arglist-intro '+))
+  (add-hook 'java-mode-hook 'java-indent-setup)
+
   ;; python
   (setq-default python-indent-offset 4)
 
