@@ -4,6 +4,7 @@
 apt-get update
 apt-get install --yes \
         xsel \
+        screen \
         zsh \
         emacs \
         vim \
@@ -13,11 +14,13 @@ apt-get install --yes \
         openssl \
         libssl-dev \
         libffi-dev \
+        rustc \
+        sqlite3 \
+        libsqlite3-dev \
         libedit-dev \
         libyaml-dev \
         autoconf \
         build-essential \
-        rustc \
         libreadline6-dev \
         zlib1g-dev \
         libgmp-dev \
