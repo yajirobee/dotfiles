@@ -11,6 +11,7 @@ apt-get install --yes \
         python3-pip \
         ripgrep \
         sysstat \
+        global \
         openssl \
         libssl-dev \
         libffi-dev \
