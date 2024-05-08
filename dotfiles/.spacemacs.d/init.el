@@ -455,9 +455,4 @@ you should place your code here."
 
   ;; avoid TAGS file auto update by default. rebuild is slow for large project
   (setq helm-gtags-auto-update nil)
-
-  ;; workaround for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=59081
-  ;; from https://emacs.stackexchange.com/questions/74289/emacs-28-2-error-in-macos-ventura-image-type-invalid-image-type-svg
-  ;; remove after upgrade to emacs 29
-  (add-to-list 'image-types 'svg)
   )
