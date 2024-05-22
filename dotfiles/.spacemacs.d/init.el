@@ -455,5 +455,5 @@ you should place your code here."
 
   ;; avoid TAGS file auto update by default. rebuild is slow for large project
   (setq helm-gtags-auto-update nil)
-  (require 'showkey nil t)
+  (setq ggtags-update-on-save nil)
   )
