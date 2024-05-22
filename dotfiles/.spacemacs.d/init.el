@@ -22,7 +22,7 @@ values."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-enable-lazy-installation 'nil
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
@@ -393,7 +393,7 @@ you should place your code here."
   (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
 
   ;; java
-  (setq lsp-java-java-path "/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home/bin/java")
+  (setq lsp-java-java-path "/usr/local/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home/bin/java")
   (setq lsp-java-vmargs "-noverify -Xmx4G -Xms100m -XX:+UseG1GC -XX:+UseStringDeduplication")
   (setq lsp-java-format-settings-url
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
@@ -455,4 +455,5 @@ you should place your code here."
 
   ;; avoid TAGS file auto update by default. rebuild is slow for large project
   (setq helm-gtags-auto-update nil)
+  (require 'showkey nil t)
   )

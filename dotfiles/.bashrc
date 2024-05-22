@@ -81,3 +81,4 @@ PYTHONLIB=${HOME}/common/lib/python
 # load local bash setup
 source_if_exist ${HOME}/.bashrc.local
 source_if_exist ${HOME}/.bashrc.$(hostname -s)
+source_if_exist ${HOME}/.cargo/env
