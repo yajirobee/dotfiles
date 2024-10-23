@@ -9,4 +9,4 @@ fi
 
 ACTION=$1
 
-${SCRIPT_DIR}/init/${ACTION}_${OSTYPE}.sh
+${SCRIPT_DIR}/init/${ACTION}_${OSTYPE/[0-9]*}.sh
