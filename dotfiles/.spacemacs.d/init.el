@@ -182,7 +182,8 @@ values."
    dotspacemacs-default-font
    '(("PlemolJP":size 16 :weight normal :width normal :powerline-scale 1.1)
      ("Ricty Diminished" :size 16 :weight normal :width normal :powerline-scale 1.1)
-     ("Ricty" :size 16 :weight normal :width normal :powerline-scale 1.1))
+     ("Ricty" :size 16 :weight normal :width normal :powerline-scale 1.1)
+     ("Inconsolata" :size 16 :weight normal :width normal :powerline-scale 1.1))
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -377,14 +378,14 @@ you should place your code here."
 
   ;; dumb-jump
   (setq dumb-jump-force-searcher 'rg)
-  ; use dumb jump via xref interface
+  ;; use dumb jump via xref interface
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
   ;; use ripgrep on helm-ag
   (setq helm-ag-base-command "rg --smart-case --no-heading --line-number")
 
   ;; lsp
-  ; optimize performance https://emacs-lsp.github.io/lsp-mode/page/performance/
+  ;; optimize performance https://emacs-lsp.github.io/lsp-mode/page/performance/
   (setq lsp-enable-file-watchers nil)
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
   (setq lsp-completion-provider :capf)
