@@ -25,7 +25,7 @@ setopt magic_equal_subst
 setopt print_eight_bit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-if command -v dircolors > /dev/null 2&>1; then
+if command -v dircolors > /dev/null 2>&1; then
     eval $(dircolors)
     zstyle ':completion:*:default' list-colors ${LS_COLORS}
 else
@@ -91,9 +91,9 @@ PYTHONLIB=${HOME}/common/lib/python
 [[ -d "${PYTHONLIB}" ]] && export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
 
 # for gnu screen
-if command -v pbcopy > /dev/null 2&>1; then
+if command -v pbcopy > /dev/null 2>&1; then
     export copy_cmd="pbcopy < /tmp/screen-exchange"
-elif command -v xsel > /dev/null 2&>1; then
+elif command -v xsel > /dev/null 2>&1; then
     export copy_cmd="xsel -i -b < /tmp/screen-exchange; xsel -i -p < /tmp/screen-exchange"
 fi
 [[ ! -f /tmp/screen-exchange ]] && touch /tmp/screen-exchange
@@ -101,7 +101,7 @@ fi
 #
 # completion
 #
-if command -v pipenv > /dev/null 2&>1; then
+if command -v pipenv > /dev/null 2>&1; then
     eval "$(_PIPENV_COMPLETE=zsh_source pipenv)"
 fi
 
