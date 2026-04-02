@@ -315,9 +315,9 @@ values."
    ;; (default nil)
    dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
-   ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
-   ;; (default '("ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   ;; tool of the list. Supported tools are `rg', `ag', `ack' and `grep'.
+   ;; (default '("rg" "ag" "ack" "grep"))
+   dotspacemacs-search-tools '("rg" "ag" "ack" "grep")
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now. (default nil)
@@ -394,8 +394,9 @@ you should place your code here."
   (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
 
   ;; java
-  (setq lsp-java-java-path "/usr/local/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home/bin/java")
-  (setq lsp-java-vmargs "-noverify -Xmx4G -Xms100m -XX:+UseG1GC -XX:+UseStringDeduplication")
+  (setq lsp-java-java-path
+        (string-trim (shell-command-to-string "jenv which java")))
+  (setq lsp-java-vmargs "-noverify -Xmx4G -Xms100m -XX:+UseStringDeduplication")
   (setq lsp-java-format-settings-url
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
   (setq lsp-java-format-settings-profile "GoogleStyle")
@@ -438,7 +439,7 @@ you should place your code here."
   (global-set-key (kbd "C-h") 'delete-backward-char)
   (global-set-key (kbd "C-o") 'toggle-input-method)
   (global-set-key (kbd "C-.") 'xref-find-definitions)
-  (global-set-key (kbd "C-,") 'xref-pop-marker-stack)
+  (global-set-key (kbd "C-,") 'xref-go-back)
   (global-set-key (kbd "C-M-g") 'helm-do-ag)
 
   (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
