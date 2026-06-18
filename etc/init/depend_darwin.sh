@@ -16,9 +16,7 @@ brew install \
      ripgrep
 
 if ! command -v emacs 1> /dev/null 2&>1; then
-  # https://github.com/Homebrew/homebrew-cask/issues/87415
-  # https://github.com/Homebrew/homebrew-cask/issues/70798
-  brew install --cask emacs --no-quarantine
+  brew install --cask emacs-app
 fi
 
 if ! command -v pyenv 1> /dev/null 2&>1; then

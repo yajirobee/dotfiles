@@ -72,9 +72,6 @@ MYBIN=${HOME}/common/bin
 LOCALBIN=${HOME}/local/bin
 [ -d "${LOCALBIN}" ] && addpath "${LOCALBIN}"
 
-PYTHONSTARTUP=${HOME}/common/pythonstartup.py
-[ -f "$PYTHONSTARTUP" ] && export PYTHONSTARTUP
-
 PYTHONLIB=${HOME}/common/lib/python
 [ -d "${PYTHONLIB}" ] && export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
 

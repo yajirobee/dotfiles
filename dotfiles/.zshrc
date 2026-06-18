@@ -84,9 +84,6 @@ setopt hist_reduce_blanks
 #
 source_if_exist ${HOME}/common/aliases
 
-PYTHONSTARTUP=${HOME}/common/pythonstartup.py
-[[ -f "$PYTHONSTARTUP" ]] && export PYTHONSTARTUP
-
 PYTHONLIB=${HOME}/common/lib/python
 [[ -d "${PYTHONLIB}" ]] && export PYTHONPATH="${PYTHONLIB}${PYTHONPATH:+:}${PYTHONPATH}"
 
