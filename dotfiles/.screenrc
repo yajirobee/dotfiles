@@ -18,6 +18,7 @@ bind ^s eval "encoding SJIS" "info"
 bind ^j eval "encoding jis" "info"
 bind j layout next
 bind t layout new
+bind u layout remove
 bind o focus
 bind -c REGION 0 remove
 bind -c REGION 1 only
