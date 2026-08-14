@@ -33,7 +33,7 @@ bind x command -c REGION
 bindkey -m ' ' eval 'stuff \040' 'writebuf' "exec sh -c '${copy_cmd}'"
 
 windowlist string "%4n %h%=%f"
-hardstatus alwayslastline "%?%h%:%t (screen #%n on %H)%F%-019=%Y/%m/%d %c:%s%:%=%?"
+hardstatus alwayslastline "%t (screen #%n on %H)%-019=%Y/%m/%d %c:%s"
 caption always "%{=r dd}%-Lw%40L>%?%F%{=b dR}%:[%? %n%f %t %?%F%{-}%:]%?%+Lw %?"
 
 layout new default
