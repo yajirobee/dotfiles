@@ -106,9 +106,9 @@ fi
 # setup language version managers
 #
 
-# pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
+# uv
+if command -v uv 1>/dev/null 2>&1; then
+    eval "$(uv generate-shell-completion zsh)"
 fi
 
 # rbenv

@@ -19,8 +19,8 @@ if ! command -v emacs 1> /dev/null 2&>1; then
   brew install --cask emacs-app
 fi
 
-if ! command -v pyenv 1> /dev/null 2&>1; then
-  brew install pyenv
+if ! command -v uv 1> /dev/null 2&>1; then
+  brew install uv
 fi
 
 if ! command -v rbenv 1> /dev/null 2&>1; then

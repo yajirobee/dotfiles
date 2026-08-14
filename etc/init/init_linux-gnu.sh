@@ -10,12 +10,9 @@ if [[ ! -d ${HOME}/.emacs.d ]]; then
     ln -sfnv ${GITPATH}/spacemacs ${HOME}/.emacs.d
 fi
 
-# install pyenv
-if [[ ! -d ${GITPATH}/pyenv ]]; then
-    git clone https://github.com/pyenv/pyenv.git ${GITPATH}/pyenv
-fi
-if [[ ! -d ${HOME}/.pyenv ]]; then
-    ln -sfnv ${GITPATH}/pyenv ${HOME}/.pyenv
+# install uv
+if ! command -v uv 1> /dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
 # install rbenv
