@@ -15,6 +15,9 @@ if ! command -v uv 1> /dev/null 2>&1; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
+# install default python (version pinned in ~/.python-version)
+uv python install --default "$(cat ${HOME}/.python-version)"
+
 # install rbenv
 RBENV_PATH=${GITPATH}/rbenv
 if [[ ! -d $RBENV_PATH ]]; then

@@ -9,3 +9,8 @@ fi
 if [[ ! -d ${HOME}/.emacs.d ]]; then
     ln -sfnv ${GITPATH}/spacemacs ${HOME}/.emacs.d
 fi
+
+# install default python (version pinned in ~/.python-version)
+if command -v uv 1> /dev/null 2>&1; then
+    uv python install --default "$(cat ${HOME}/.python-version)"
+fi
