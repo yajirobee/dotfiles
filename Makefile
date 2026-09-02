@@ -1,7 +1,7 @@
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 GITPATH 	 := $(HOME)/git
 CANDIDATES := $(wildcard dotfiles/.??*) common
-EXCLUSIONS := .DS_Store .git .gitmodules .gitignore dotfiles/.emacs.d
+EXCLUSIONS := .DS_Store .git .gitmodules .gitignore dotfiles/.emacs.d dotfiles/.keyhac
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
 
 .DEFAULT_GOAL := help
