@@ -24,9 +24,10 @@ def configure(keymap):
     kt_global = keymap.define_keytable(focus_path_pattern="*")
 
     def toggle_ime():
-        key = "Kana" if keymap.get_ime_status() == False else "Eisu"
-        with keymap.get_input_context() as ctx:
-            ctx.send_key(key)
+        status = keymap.get_ime_status()
+        if status is None:
+            return
+        keymap.set_ime_status(not status)
 
     kt_global["Ctrl-Space"] = toggle_ime        
 
@@ -78,6 +79,12 @@ def configure(keymap):
     kt["Ctrl-P"] = move("Up")
     kt["Ctrl-N"] = move("Down")
     kt["Alt-V"] = move("PageUp")
+    # Ctrl-< and Ctrl-> are Ctrl-Shift-Comma and Ctrl-Shift-Period on the
+    # keyboard.  While mark mode is active these extend the selection.
+    kt["Ctrl-Shift-Comma"] = move("Ctrl-Home")
+    kt["Ctrl-Shift-Period"] = move("Ctrl-End")
+    kt["Alt-F"] = move("Ctrl-Right")
+    kt["Alt-B"] = move("Ctrl-Left")
 
     # Editing and basic commands.
     kt["Ctrl-D"] = send("Delete")
