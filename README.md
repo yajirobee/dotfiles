@@ -1,14 +1,11 @@
-Environment
-==============
+# Environment
 
-Requirements
------------
+## Requirements
 
 - ssh, git
 - github access
 
-Install dot files
---------------------
+## Install dot files
 
 ```
 $ make depend

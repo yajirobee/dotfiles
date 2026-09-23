@@ -1,5 +1,6 @@
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 GITPATH 	 := $(HOME)/git
+CODEX_AGENTS := dotfiles/AGENTS.md
 CANDIDATES := $(wildcard dotfiles/.??*) common
 EXCLUSIONS := .DS_Store .git .gitmodules .gitignore dotfiles/.emacs.d dotfiles/.keyhac
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
@@ -19,6 +20,8 @@ deploy: ## Create symlink to home directory
 	@echo '==> Start to deploy dotfiles to home directory.'
 	@$(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) \
 $(HOME)/$(notdir $(val));)
+	@mkdir -p "$(HOME)/.codex"
+	@ln -sfnv "$(abspath $(CODEX_AGENTS))" "$(HOME)/.codex/AGENTS.md"
 
 init: ## Setup environment settings
 	@echo '==> Start to initialize configurations.'
@@ -37,6 +40,7 @@ install: update deploy init ## Run make update, deploy, init
 clean: ## Remove the dot files
 	@echo 'Remove dot files in your home directory...'
 	@-$(foreach val, $(DOTFILES), /bin/rm -vrf $(HOME)/$(notdir $(val));)
+	@if [ "$$(readlink "$(HOME)/.codex/AGENTS.md" 2>/dev/null)" = "$(abspath $(CODEX_AGENTS))" ]; then /bin/rm -v "$(HOME)/.codex/AGENTS.md"; fi
 
 purge: clean ## Remove the dot files and this repo
 	-/bin/rm -rf $(DOTPATH)

@@ -1,0 +1,68 @@
+#!/bin/bash
+
+branch=$(git branch --show-current) || {
+    printf '%s\n' 'git topic-push: unable to determine the current branch' >&2
+    exit 2
+}
+if test -z "$branch"; then
+    printf '%s\n' 'git topic-push: refusing to push from a detached HEAD' >&2
+    exit 2
+fi
+
+default_branch=$(git config --local --get codex.defaultBranch 2>/dev/null || true)
+if test -z "$default_branch"; then
+    remote_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD || true)
+    default_branch=${remote_head#origin/}
+fi
+if test -z "$default_branch"; then
+    default_branch=$(
+        git ls-remote --symref origin HEAD 2>/dev/null |
+            sed -n 's#^ref: refs/heads/\(.*\)[[:space:]]HEAD$#\1#p' |
+            sed -n '1p'
+    )
+fi
+if test -z "$default_branch"; then
+    printf '%s\n' 'git topic-push: cannot determine the default branch from codex.defaultBranch, origin/HEAD, or the remote origin HEAD' >&2
+    exit 2
+fi
+
+if test "$branch" = "$default_branch"; then
+    printf 'git topic-push: refusing to push default branch %s; use git push and approve it\n' "$branch" >&2
+    exit 2
+fi
+
+options=()
+remote_seen=false
+for argument in "$@"; do
+    case "$argument" in
+        origin)
+            if "$remote_seen"; then
+                printf '%s\n' 'git topic-push: origin may be specified only once' >&2
+                exit 2
+            fi
+            remote_seen=true
+            ;;
+        -u|--set-upstream|-f|--force|--force-with-lease|--force-with-lease=*|--force-if-includes|--dry-run|-n|--porcelain|--verbose|-v|--quiet|-q|--no-verify|--atomic|--follow-tags|--ipv4|-4|--ipv6|-6|--progress|--signed|--signed=*)
+            options+=("$argument")
+            ;;
+        *)
+            printf 'git topic-push: unsupported argument %s; use git push and approve it\n' "$argument" >&2
+            exit 2
+            ;;
+    esac
+done
+
+branch_before_push=$(git branch --show-current) || {
+    printf '%s\n' 'git topic-push: unable to verify the current branch before pushing' >&2
+    exit 2
+}
+if test "$branch_before_push" != "$branch"; then
+    printf '%s\n' 'git topic-push: current branch changed before push; refusing to continue' >&2
+    exit 2
+fi
+if test "$branch_before_push" = "$default_branch"; then
+    printf 'git topic-push: refusing to push default branch %s; use git push and approve it\n' "$branch_before_push" >&2
+    exit 2
+fi
+
+exec git push "${options[@]}" origin "HEAD:refs/heads/$branch"
