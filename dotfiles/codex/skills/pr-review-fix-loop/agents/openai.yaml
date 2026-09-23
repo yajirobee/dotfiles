@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Review Fix Loop"
+  short_description: "Iterate safely through PR review fixes"
+  default_prompt: "Use $pr-review-fix-loop to fix unresolved PR review findings, publish authorized changes, request @codex review, and continue only within the authorized boundary until the latest head has a verified review outcome."

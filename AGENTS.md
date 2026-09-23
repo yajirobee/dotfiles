@@ -29,7 +29,10 @@ No redeploy needed after changing an already-deployed file.
   - `aliases` (sourced by shell rc)
   - `bin/` (on PATH via `.zshenv`)
     - `bin/rm` is a wrapper that moves files to `~/trash` instead of deleting
+    - `git-topic-commit` and `git-topic-push` enforce the protected-branch workflow
   - `lib/python/`.
+- `dotfiles/AGENTS.md` — shared agent instructions, linked to `~/.codex/AGENTS.md`
+- `dotfiles/codex/` — Codex-specific settings and skills; `make deploy` links each skill directory into `~/.codex/skills/`
 - `etc/init.sh` — dispatches `depend`/`init` to OS-specific scripts in `etc/init/` selected by `$OSTYPE` (`depend_darwin.sh`, `init_linux-gnu.sh`, etc.).
   - Requires `GITPATH` env var (set by the Makefile)
   - OS-specific setup changes go in the matching pair of these scripts
