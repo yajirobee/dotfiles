@@ -19,11 +19,11 @@ No redeploy needed after changing an already-deployed file.
 - `make install` — run `update`, `deploy`, and `init`, then replace the shell
 - `make clean` — remove deployed home entries and shared Codex links; preserve `local.rules`
 - `make purge` — run `clean`, then remove this repository
-- `make test` — inactive (no-op)
+- `make test` — run deploy and clean regression tests
 - `make help` — list available targets; also the default `make` target
 
 ## Structure
 
 - `dotfiles/` — home-directory configurations.
 - `common/` — shared shell utilities.
-- `etc/` — setup scripts.
+- `etc/` — setup and regression-test scripts.

@@ -22,9 +22,8 @@ init: ## Setup environment settings
 	@echo '==> Start to initialize configurations.'
 	@GITPATH=$(GITPATH) $(DOTPATH)/etc/init.sh init
 
-test: ## Test dotfiles and init scripts
-	@#DOTPATH=$(DOTPATH) bash $(DOTPATH)/etc/test/test.sh
-	@echo "test is inactive temporarily"
+test: ## Run deploy and clean regression tests
+	@"$(DOTPATH)/etc/test/deploy_clean_test.sh"
 
 update: ## Fetch changes for this repo
 	@git pull origin master
