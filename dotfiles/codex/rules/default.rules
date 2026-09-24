@@ -1,0 +1,48 @@
+prefix_rule(pattern=["awk"], decision="allow")
+prefix_rule(pattern=["sleep"], decision="allow")
+
+prefix_rule(
+    pattern=["git", "commit"],
+    decision="prompt",
+    justification="Commits on the default branch require approval; use `git topic-commit` on topic branches",
+)
+prefix_rule(
+    pattern=["git", "topic-commit"],
+    decision="allow",
+    justification="The git-topic-commit wrapper refuses to commit on the repository's default branch",
+)
+prefix_rule(
+    pattern=["git", "push"],
+    decision="prompt",
+    justification="Pushes that may update the default branch require approval; use `git topic-push` for the current topic branch",
+)
+prefix_rule(
+    pattern=["git", "topic-push"],
+    decision="allow",
+    justification="The git-topic-push wrapper only pushes the current non-default branch to its same name on origin",
+)
+prefix_rule(pattern=["git", "ls-remote"], decision="allow")
+prefix_rule(pattern=["git", "add"], decision="allow")
+prefix_rule(pattern=["git", "remote"], decision="allow")
+prefix_rule(pattern=["git", "branch"], decision="allow")
+prefix_rule(pattern=["git", "diff"], decision="allow")
+prefix_rule(pattern=["git", "status"], decision="allow")
+prefix_rule(pattern=["git", "log"], decision="allow")
+prefix_rule(pattern=["git", "switch"], decision="allow")
+prefix_rule(pattern=["git", "fetch"], decision="allow")
+prefix_rule(pattern=["git", "merge"], decision="allow")
+prefix_rule(pattern=["git", "rebase"], decision="allow")
+prefix_rule(pattern=["git", "rev-parse"], decision="allow")
+prefix_rule(pattern=["git", "worktree"], decision="allow")
+
+prefix_rule(pattern=["gh", "auth", "status"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "list"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "view"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "comment"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "checks"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "diff"], decision="allow")
+prefix_rule(pattern=["gh", "api"], decision="allow")
+
+prefix_rule(pattern=["uv", "lock"], decision="allow")
+prefix_rule(pattern=["uv", "run"], decision="allow")
+prefix_rule(pattern=["uv", "build"], decision="allow")

@@ -4,6 +4,9 @@ CODEX_AGENTS := dotfiles/AGENTS.md
 CODEX_SKILL := dotfiles/codex/skills/pr-review-fix-loop
 CODEX_SKILL_SOURCE := $(abspath $(CODEX_SKILL))
 CODEX_SKILL_DEST := $(HOME)/.codex/skills/pr-review-fix-loop
+CODEX_RULES := dotfiles/codex/rules/default.rules
+CODEX_RULES_SOURCE := $(abspath $(CODEX_RULES))
+CODEX_RULES_DEST := $(HOME)/.codex/rules/default.rules
 CANDIDATES := $(wildcard dotfiles/.??*) common
 EXCLUSIONS := .DS_Store .git .gitmodules .gitignore dotfiles/.emacs.d dotfiles/.keyhac
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
@@ -21,10 +24,20 @@ depend: ## install dependent packages
 
 deploy: ## Create symlink to home directory
 	@echo '==> Start to deploy dotfiles to home directory.'
+	@set -e; \
+	if [ -L "$(CODEX_RULES_DEST)" ]; then \
+		if [ "$$(readlink "$(CODEX_RULES_DEST)")" != "$(CODEX_RULES_SOURCE)" ]; then \
+			echo "Refusing to replace unrelated Codex rules link: $(CODEX_RULES_DEST)" >&2; exit 1; \
+		fi; \
+	elif [ -e "$(CODEX_RULES_DEST)" ]; then \
+		echo "Refusing to replace existing Codex rules file: $(CODEX_RULES_DEST); move machine-specific rules to local.rules first" >&2; exit 1; \
+	fi
 	@$(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) \
 $(HOME)/$(notdir $(val));)
 	@mkdir -p "$(HOME)/.codex"
 	@ln -sfnv "$(abspath $(CODEX_AGENTS))" "$(HOME)/.codex/AGENTS.md"
+	@mkdir -p "$(HOME)/.codex/rules"
+	@ln -sfnv "$(CODEX_RULES_SOURCE)" "$(CODEX_RULES_DEST)"
 	@mkdir -p "$(HOME)/.codex/skills"
 	@set -e; \
 	if [ -L "$(CODEX_SKILL_DEST)" ]; then \
@@ -63,6 +76,7 @@ clean: ## Remove the dot files
 	@echo 'Remove dot files in your home directory...'
 	@-$(foreach val, $(DOTFILES), /bin/rm -vrf $(HOME)/$(notdir $(val));)
 	@if [ "$$(readlink "$(HOME)/.codex/AGENTS.md" 2>/dev/null)" = "$(abspath $(CODEX_AGENTS))" ]; then /bin/rm -v "$(HOME)/.codex/AGENTS.md"; fi
+	@if [ -L "$(CODEX_RULES_DEST)" ] && [ "$$(readlink "$(CODEX_RULES_DEST)")" = "$(CODEX_RULES_SOURCE)" ]; then /bin/rm -v "$(CODEX_RULES_DEST)"; fi
 	@if [ -L "$(CODEX_SKILL_DEST)" ] && [ "$$(readlink "$(CODEX_SKILL_DEST)")" = "$(CODEX_SKILL_SOURCE)" ]; then \
 		/bin/rm -v "$(CODEX_SKILL_DEST)"; \
 	elif [ -d "$(CODEX_SKILL_DEST)" ] && [ ! -L "$(CODEX_SKILL_DEST)" ]; then \
