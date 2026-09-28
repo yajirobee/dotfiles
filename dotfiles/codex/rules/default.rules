@@ -36,11 +36,13 @@ prefix_rule(pattern=["git", "rev-parse"], decision="allow")
 prefix_rule(pattern=["git", "worktree"], decision="allow")
 
 prefix_rule(pattern=["gh", "auth", "status"], decision="allow")
+prefix_rule(pattern=["gh", "repo", "view"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "list"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "view"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "comment"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "checks"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "diff"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "create"], decision="prompt")
 prefix_rule(pattern=["gh", "api"], decision="allow")
 
 prefix_rule(pattern=["uv", "lock"], decision="allow")
