@@ -6,6 +6,7 @@ codex_dir="$HOME/.codex"
 agents_source="$dotpath/dotfiles/AGENTS.md"
 rules_source="$dotpath/dotfiles/codex/rules/default.rules"
 rules_dest="$codex_dir/rules/default.rules"
+rules_snapshot="$codex_dir/.dotfiles-default.rules"
 skills_source_dir="$dotpath/dotfiles/codex/skills"
 skills_dest_dir="$codex_dir/skills"
 
@@ -20,6 +21,13 @@ if [[ "$(readlink "$codex_dir/AGENTS.md" 2>/dev/null || true)" == "$agents_sourc
 fi
 if [[ -L "$rules_dest" && "$(readlink "$rules_dest")" == "$rules_source" ]]; then
 	/bin/rm -v "$rules_dest"
+elif [[ ! -L "$rules_dest" && -f "$rules_dest" && ! -L "$rules_snapshot" && -f "$rules_snapshot" ]] && cmp -s "$rules_dest" "$rules_snapshot"; then
+	/bin/rm -v "$rules_dest"
+elif [[ -e "$rules_dest" || -L "$rules_dest" ]]; then
+	printf 'Preserving untracked or modified Codex rules: %s\n' "$rules_dest" >&2
+fi
+if [[ ! -e "$rules_dest" && ! -L "$rules_dest" && ! -L "$rules_snapshot" && -f "$rules_snapshot" ]]; then
+	/bin/rm -v "$rules_snapshot"
 fi
 
 if [[ -d "$skills_dest_dir" ]]; then

@@ -5,22 +5,20 @@ This file provides guidance to coding agents when working with code in this repo
 ## Overview
 
 Personal dotfiles managed via Makefile symlink deployment.
-Files under `dotfiles/` (hidden files) and the `common/` directory are symlinked into `$HOME` with `ln -sfn`,
-so **edits to files in this repo take effect immediately in the live environment**.
-No redeploy needed after changing an already-deployed file.
+Hidden files under `dotfiles/` and the `common/` directory are symlinked into `$HOME` with `ln -sfn`.
+Edits to deployed symlink targets take effect immediately.
+
+Codex rules are copied as symbolic links don't work; run `make deploy` after editing them.
 
 ## Commands
 
-- `make list` — list home-level dotfiles and `common/` entries selected by the Makefile
-- `make deploy` — link home-level dotfiles, `common/`, and shared Codex settings
+Covers only major commands. Read `Makefile` for the details.
+
+- `make deploy` — link dotfiles and common files
 - `make depend` — install system packages with Homebrew (macOS) or apt (Debian)
 - `make init` — run OS-specific editor and language-tool setup
-- `make update` — pull `origin/master` into the current branch
 - `make install` — run `update`, `deploy`, and `init`, then replace the shell
-- `make clean` — remove deployed home entries and shared Codex links; preserve `local.rules`
-- `make purge` — run `clean`, then remove this repository
-- `make test` — run deploy and clean regression tests
-- `make help` — list available targets; also the default `make` target
+- `make clean` — remove deployed linked entries
 
 ## Structure
 

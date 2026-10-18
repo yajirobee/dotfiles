@@ -15,7 +15,7 @@ depend: ## install dependent packages
 	@echo '==> Start to install dependent packages.'
 	@GITPATH=$(GITPATH) $(DOTPATH)/etc/init.sh depend
 
-deploy: ## Create symlink to home directory
+deploy: ## Link dotfiles and copy Codex rules to home directory
 	@"$(DOTPATH)/etc/deploy.sh" $(foreach val,$(DOTFILES),"$(abspath $(val))")
 
 init: ## Setup environment settings

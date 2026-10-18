@@ -5,10 +5,16 @@ dotpath="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 codex_dir="$HOME/.codex"
 rules_source="$dotpath/dotfiles/codex/rules/default.rules"
 rules_dest="$codex_dir/rules/default.rules"
+rules_snapshot="$codex_dir/.dotfiles-default.rules"
 skills_source_dir="$dotpath/dotfiles/codex/skills"
 skills_dest_dir="$codex_dir/skills"
 
 printf '%s\n' '==> Start to deploy dotfiles to home directory.'
+
+if [[ -L "$rules_snapshot" || ( -e "$rules_snapshot" && ! -f "$rules_snapshot" ) ]]; then
+	printf 'Refusing to replace invalid Codex rules snapshot: %s\n' "$rules_snapshot" >&2
+	exit 1
+fi
 
 if [[ -L "$rules_dest" ]]; then
 	if [[ "$(readlink "$rules_dest")" != "$rules_source" ]]; then
@@ -16,8 +22,10 @@ if [[ -L "$rules_dest" ]]; then
 		exit 1
 	fi
 elif [[ -e "$rules_dest" ]]; then
-	printf 'Refusing to replace existing Codex rules file: %s; move machine-specific rules to local.rules first\n' "$rules_dest" >&2
-	exit 1
+	if [[ ! -f "$rules_dest" || ! -f "$rules_snapshot" ]] || ! cmp -s "$rules_dest" "$rules_snapshot"; then
+		printf 'Refusing to replace untracked or modified Codex rules: %s; move machine-specific rules to local.rules first\n' "$rules_dest" >&2
+		exit 1
+	fi
 fi
 
 while IFS= read -r -d '' skill_source; do
@@ -34,7 +42,12 @@ done
 mkdir -p "$codex_dir"
 ln -sfnv "$dotpath/dotfiles/AGENTS.md" "$codex_dir/AGENTS.md"
 mkdir -p "$codex_dir/rules"
-ln -sfnv "$rules_source" "$rules_dest"
+# Codex ignores symlinked rules files: https://github.com/openai/codex/issues/16452
+rules_temp="$(mktemp "$codex_dir/rules/.default.rules.XXXXXX")"
+trap '/bin/rm -f -- "$rules_temp"' EXIT
+cp "$rules_source" "$rules_temp"
+mv -f "$rules_temp" "$rules_dest"
+cp "$rules_dest" "$rules_snapshot"
 mkdir -p "$skills_dest_dir"
 
 while IFS= read -r -d '' skill_source; do
