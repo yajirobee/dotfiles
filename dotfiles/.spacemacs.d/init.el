@@ -36,14 +36,13 @@ values."
      ;; programming and markup languages
      lsp
      (python :variables
-             python-backend 'lsp python-lsp-server 'pyls
+             python-backend 'lsp python-lsp-server 'pylsp
              python-formatter 'black)
      c-c++
      (java :variables java-backend 'lsp)
      (scala :variables
             scala-backend 'scala-metals
-            scala-auto-insert-asterisk-in-comments t
-            ensime-startup-notification nil)
+            scala-auto-insert-asterisk-in-comments t)
      kotlin
      go
      ruby
@@ -123,13 +122,6 @@ values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
-   ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
-   ;; possible. Set it to nil if you have no way to use HTTPS in your
-   ;; environment, otherwise it is strongly recommended to let it set to t.
-   ;; This variable has no effect if Emacs is launched with the parameter
-   ;; `--insecure' which forces the value of this variable to nil.
-   ;; (default t)
-   dotspacemacs-elpa-https t
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    dotspacemacs-elpa-timeout 5
    ;; If non nil then spacemacs will check for updates at startup
@@ -140,7 +132,7 @@ values."
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
-   dotspacemacs-elpa-subdirectory nil
+   dotspacemacs-elpa-subdirectory 'emacs-version
    ;; One of `vim', `emacs' or `hybrid'.
    ;; `hybrid' is like `vim' except that `insert state' is replaced by the
    ;; `hybrid state' with `emacs' key bindings. The value can also be a list
@@ -148,8 +140,6 @@ values."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style 'emacs
-   ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -274,7 +264,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -318,10 +308,6 @@ values."
    ;; tool of the list. Supported tools are `rg', `ag', `ack' and `grep'.
    ;; (default '("rg" "ag" "ack" "grep"))
    dotspacemacs-search-tools '("rg" "ag" "ack" "grep")
-   ;; The default package repository used if no explicit repository has been
-   ;; specified with an installed package.
-   ;; Not used for now. (default nil)
-   dotspacemacs-default-package-repository nil
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
@@ -378,8 +364,6 @@ you should place your code here."
 
   ;; dumb-jump
   (setq dumb-jump-force-searcher 'rg)
-  ;; use dumb jump via xref interface
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
   ;; use ripgrep on helm-ag
   (setq helm-ag-base-command "rg --smart-case --no-heading --line-number")
@@ -387,8 +371,6 @@ you should place your code here."
   ;; lsp
   ;; optimize performance https://emacs-lsp.github.io/lsp-mode/page/performance/
   (setq lsp-enable-file-watchers nil)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (setq lsp-completion-provider :capf)
 
   ;; scala
   (setq-default flycheck-scalastylerc "~/scalastyle_config.xml")
@@ -396,7 +378,7 @@ you should place your code here."
   ;; java
   (setq lsp-java-java-path
         (string-trim (shell-command-to-string "jenv which java")))
-  (setq lsp-java-vmargs "-noverify -Xmx4G -Xms100m -XX:+UseStringDeduplication")
+  (setq lsp-java-vmargs '("-noverify" "-Xmx4G" "-Xms100m" "-XX:+UseStringDeduplication"))
   (setq lsp-java-format-settings-url
         "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
   (setq lsp-java-format-settings-profile "GoogleStyle")
@@ -405,9 +387,6 @@ you should place your code here."
   (defun java-indent-setup ()
     (c-set-offset 'arglist-intro '+))
   (add-hook 'java-mode-hook 'java-indent-setup)
-
-  ;; python
-  (setq-default python-indent-offset 4)
 
   ;; web mode indent
   (setq web-mode-markup-indent-offset 2) ; web-mode, html tag in html file
