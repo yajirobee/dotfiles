@@ -37,7 +37,7 @@ values."
      lsp
      (python :variables
              python-backend 'lsp python-lsp-server 'pylsp
-             python-formatter 'black)
+             python-formatter 'ruff)
      c-c++
      (java :variables java-backend 'lsp)
      (scala :variables
