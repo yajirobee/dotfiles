@@ -5,7 +5,6 @@ from keyhac import *
 
 # Process names are compared without a trailing ".exe".
 EXCLUDED_APPS = {
-    "emacs",
     "windowsterminal",
 }
 
@@ -26,8 +25,15 @@ def configure(keymap):
         name = (focus.app_name or "").casefold()
         return name[:-4] if name.endswith(".exe") else name
 
+    def is_emacs(focus):
+        # WSLg exposes Emacs through msrdc rather than an Emacs process.
+        path = (focus.path or "").casefold()
+        return normalized_app_name(focus) == "emacs" or path.startswith(
+            "/application(msrdc)/pane(emacs@"
+        )
+
     kt_global = keymap.define_keytable(
-        custom_condition_func=lambda focus: normalized_app_name(focus) != "emacs"
+        custom_condition_func=lambda focus: not is_emacs(focus)
     )
 
     def toggle_ime():
@@ -45,7 +51,11 @@ def configure(keymap):
     def use_emacs_bindings(focus):
         app_name = normalized_app_name(focus)
         class_name = (focus.class_name or "").casefold()
-        return app_name not in EXCLUDED_APPS and class_name not in EXCLUDED_CLASSES
+        return (
+            not is_emacs(focus)
+            and app_name not in EXCLUDED_APPS
+            and class_name not in EXCLUDED_CLASSES
+        )
 
     kt = keymap.define_keytable(custom_condition_func=use_emacs_bindings)
 
