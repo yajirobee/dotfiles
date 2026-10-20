@@ -5,6 +5,7 @@ from keyhac import *
 
 # Process names are compared without a trailing ".exe".
 EXCLUDED_APPS = {
+    "emacs",
     "windowsterminal",
 }
 
@@ -21,7 +22,13 @@ def configure(keymap):
     keymap.clipboard_history.max_items = 500
     state = {"mark": False}
 
-    kt_global = keymap.define_keytable(focus_path_pattern="*")
+    def normalized_app_name(focus):
+        name = (focus.app_name or "").casefold()
+        return name[:-4] if name.endswith(".exe") else name
+
+    kt_global = keymap.define_keytable(
+        custom_condition_func=lambda focus: normalized_app_name(focus) != "emacs"
+    )
 
     def toggle_ime():
         status = keymap.get_ime_status()
@@ -32,12 +39,8 @@ def configure(keymap):
     kt_global["Ctrl-Space"] = toggle_ime        
 
     #
-    # Key bind except terminal apps
+    # Key bindings except in excluded apps
     #
-
-    def normalized_app_name(focus):
-        name = (focus.app_name or "").casefold()
-        return name[:-4] if name.endswith(".exe") else name
 
     def use_emacs_bindings(focus):
         app_name = normalized_app_name(focus)
