@@ -37,7 +37,8 @@ values."
      lsp
      (python :variables
              python-backend 'lsp python-lsp-server 'pylsp
-             python-formatter 'ruff)
+             python-formatter 'ruff
+             python-enable-tools nil)
      c-c++
      (java :variables java-backend 'lsp)
      (scala :variables
@@ -83,12 +84,8 @@ values."
 
      ;; tools
      org
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
 
      ;; checkers
-     (spell-checking :variables spell-checking-enable-by-default nil)
      syntax-checking
 
      ;; tags
@@ -98,11 +95,11 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(sqlite3)
+   dotspacemacs-additional-packages '()
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(code-review)
+   dotspacemacs-excluded-packages '(code-review org-pomodoro org-present org-mime)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
