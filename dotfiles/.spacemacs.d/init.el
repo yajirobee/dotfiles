@@ -50,7 +50,6 @@ values."
      rust
      javascript
      typescript
-     perl5
      (shell-scripts :variables shell-scripts-backend 'none)
      emacs-lisp
      html
