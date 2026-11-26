@@ -42,19 +42,22 @@
 
 # Git protected-branch approvals
 
-Before committing, check the current branch with `git branch --show-current`.
+- Before committing and pushing, check the current branch with `git branch --show-current`.
+- Do not commit changes and push commits to the repository's default branch unless the user asks it.
+- In `git topic-{commit,push}` commands, the default branch comes from local `origin/HEAD`, then the remote origin's advertised `HEAD`.
+  - If the default branch cannot be determined or HEAD is detached, do not commit or push without asking the user.
 
-- On the repository's default branch, use `git commit`; it requires user approval.
-- On any topic branch, use `git topic-commit`; it is pre-approved and verifies the branch again before committing.
-- The default branch comes from local `origin/HEAD`, then the remote origin's advertised `HEAD`.
-- If the default branch cannot be determined or HEAD is detached, do not commit without asking the user.
+## Commit
 
-Before pushing, check the current branch with `git branch --show-current`.
+- On any topic branch, use `git topic-commit`
+- On the default branch, use `git commit`; it requires user approval.
 
-- On the repository's default branch, use `git push`; it requires user approval.
-- On any topic branch, use `git topic-push`; it is pre-approved and pushes only the current branch to its same name on `origin`.
-- `git topic-push` accepts an optional `origin` plus safe push flags. Use ordinary `git push` and request approval for another remote, an explicit refspec, deletion, `--all`, `--mirror`, or `--tags`.
-- If the default branch cannot be determined or HEAD is detached, do not push without asking the user.
+## Push commits
+
+- On any topic branch, use `git topic-push`; it pushes only the current branch to its same name on `origin`.
+- On the default branch, use `git push`; it requires user approval.
+- `git topic-push` accepts an optional `origin` plus safe push flags.
+  - Use ordinary `git push` and request approval for another remote, an explicit refspec, deletion, `--all`, `--mirror`, or `--tags`.
 
 # Guide to work on tasks
 
